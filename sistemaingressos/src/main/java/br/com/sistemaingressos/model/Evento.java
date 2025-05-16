@@ -15,6 +15,7 @@ public class Evento {
     @NotBlank
     private String nome;
 
+    @NotBlank
     private LocalDate data;
 
     @NotBlank
