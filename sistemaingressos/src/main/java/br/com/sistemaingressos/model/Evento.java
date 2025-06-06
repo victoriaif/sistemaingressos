@@ -2,6 +2,7 @@ package br.com.sistemaingressos.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class Evento {
     @NotBlank
     private String nome;
 
-    @NotBlank
+    @NotNull
     private LocalDate data;
 
     @NotBlank
@@ -28,6 +29,18 @@ public class Evento {
     private List<Ingresso> ingressos;
 
     //Getters e Setters
+
+    // 🔧 Construtor vazio
+    public Evento() {
+    }
+
+    // 🔧 Construtor com campos principais
+    public Evento(String nome, LocalDate data, String local, String descricao) {
+        this.nome = nome;
+        this.data = data;
+        this.local = local;
+        this.descricao = descricao;
+    }
 
     public Long getId() {
         return id;

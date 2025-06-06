@@ -1,19 +1,13 @@
 package br.com.sistemaingressos.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import groovyjarjarantlr4.v4.runtime.misc.NotNull;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
-
 @Entity
-public class Transacao {
+public class Transacao<Usuario> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +19,7 @@ public class Transacao {
     @NotNull
     private BigDecimal valor;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "ingresso_id")
     private Ingresso ingresso;
 
@@ -37,7 +31,21 @@ public class Transacao {
     @JoinColumn(name = "vendedor_id")
     private Usuario vendedor;
 
-    // Getters e Setters
+    // 🔧 Construtor vazio
+    public Transacao() {
+    }
+
+    // 🔧 Construtor com campos principais
+    public Transacao(LocalDateTime dataHora, BigDecimal valor, Ingresso ingresso, Usuario comprador, Usuario vendedor) {
+        this.dataHora = dataHora;
+        this.valor = valor;
+        this.ingresso = ingresso;
+        this.comprador = comprador;
+        this.vendedor = vendedor;
+    }
+
+    // ✅ Getters e Setters
+
     public Long getId() {
         return id;
     }
@@ -86,6 +94,7 @@ public class Transacao {
         this.vendedor = vendedor;
     }
 }
+
 
 /*
 RASCUNHO METODOS

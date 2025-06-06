@@ -8,18 +8,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-public class Ingresso {
+public class Ingresso<Usuario> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "evento_id")
-    private Evento evento;
-
     @NotNull
-    private LocalDate dataDoEvento;
+    private LocalDate data;
 
     @NotBlank
     private String local;
@@ -31,10 +27,30 @@ public class Ingresso {
     private StatusIngresso status;
 
     @ManyToOne
+    @JoinColumn(name = "evento_id")
+    private Evento evento;
+
+    @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuarioAnunciante;
 
-    // Getters e Setters
+    @OneToOne(mappedBy = "ingresso", cascade = CascadeType.ALL)
+    private Transacao transacao;
+
+    // 🔧 Construtor vazio (JPA)
+    public Ingresso() {
+    }
+
+    // 🔧 Construtor com campos principais (sem evento/usuario/transação)
+    public Ingresso(LocalDate data, String local, BigDecimal preco, StatusIngresso status) {
+        this.data = data;
+        this.local = local;
+        this.preco = preco;
+        this.status = status;
+    }
+
+    // ✅ Getters e Setters
+
     public Long getId() {
         return id;
     }
@@ -43,20 +59,12 @@ public class Ingresso {
         this.id = id;
     }
 
-    public Evento getEvento() {
-        return evento;
+    public LocalDate getData() {
+        return data;
     }
 
-    public void setEvento(Evento evento) {
-        this.evento = evento;
-    }
-
-    public LocalDate getDataDoEvento() {
-        return dataDoEvento;
-    }
-
-    public void setDataDoEvento(LocalDate dataDoEvento) {
-        this.dataDoEvento = dataDoEvento;
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
     public String getLocal() {
@@ -83,6 +91,14 @@ public class Ingresso {
         this.status = status;
     }
 
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
     public Usuario getUsuarioAnunciante() {
         return usuarioAnunciante;
     }
@@ -90,7 +106,16 @@ public class Ingresso {
     public void setUsuarioAnunciante(Usuario usuarioAnunciante) {
         this.usuarioAnunciante = usuarioAnunciante;
     }
+
+    public Transacao getTransacao() {
+        return transacao;
+    }
+
+    public void setTransacao(Transacao transacao) {
+        this.transacao = transacao;
+    }
 }
+
 
 
 /*
