@@ -1,10 +1,10 @@
-import java.util.List;
+package br.com.sistemaingressos.model;
 
 import jakarta.validation.constraints.NotBlank;
-
 import jakarta.persistence.*;
-import java.time.LocalDate;
 import jakarta.validation.constraints.Email;
+// import java.util.List;
+// import java.time.LocalDate;
 
 @Entity
 public class Usuario {
