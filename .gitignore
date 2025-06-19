@@ -24,3 +24,9 @@ Thumbs.db
 *.jar
 *.war
 *.ear
+
+echo target/ >> .gitignore
+git rm -r --cached target/
+git add .gitignore
+git commit -m "Remove arquivos compilados e adiciona target/ ao .gitignore"
+git push origin main

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-public class Transacao<Usuario> {
+public class Transacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

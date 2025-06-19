@@ -78,9 +78,17 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <dependency>
+        <!-- PRA RODAR COM COM O SQL -->
+        <!-- <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency> -->
+
+        <!-- PRA RODAR SO COM O H2, SEM O BANCO -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
 

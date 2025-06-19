@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-public class Ingresso<Usuario> {
+public class Ingresso { // ou public class Ingresso<Usuario> {  ??
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

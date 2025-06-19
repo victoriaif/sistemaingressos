@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastrar Ingresso</title>
+</head>
+<body>
+<h1>Novo Ingresso</h1>
+
+<form th:action="@{/ingressos/salvar}" th:object="${ingresso}" method="post">
+    <label>Data:</label>
+    <input type="date" th:field="*{data}" required/><br/>
+
+    <label>Local:</label>
+    <input type="text" th:field="*{local}" required/><br/>
+
+    <label>Preço:</label>
+    <input type="number" step="0.01" th:field="*{preco}" required/><br/>
+
+    <label>Status:</label>
+    <select th:field="*{status}">
+        <option th:value="DISPONIVEL">Disponível</option>
+        <option th:value="REVENDA">Revenda</option>
+        <option th:value="VENDIDO">Vendido</option>
+        <option th:value="EXPIRADO">Expirado</option>
+    </select><br/>
+
+    <label>Evento:</label>
+    <select th:field="*{evento}" required>
+        <option th:each="evento : ${eventos}" th:value="${evento.id}" th:text="${evento.nome}">Evento</option>
+    </select><br/>
+
+    <button type="submit">Salvar</button>
+</form>
+</body>
+</html>
