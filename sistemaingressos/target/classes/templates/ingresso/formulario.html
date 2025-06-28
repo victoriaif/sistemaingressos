@@ -4,9 +4,13 @@
     <title>Cadastrar Ingresso</title>
 </head>
 <body>
-<h1>Novo Ingresso</h1>
+<!-- <h1>Novo Ingresso</h1> -->
+<h1 th:text="${#fields.hasErrors()} ? 'Editar Ingresso' : 'Cadastrar Ingresso'">Novo Ingresso</h1>
 
 <form th:action="@{/ingressos/salvar}" th:object="${ingresso}" method="post">
+    <!-- Campo oculto para edição -->
+    <input type="hidden" th:field="*{id}" />
+    
     <label>Data:</label>
     <input type="date" th:field="*{data}" required/><br/>
 
@@ -19,7 +23,6 @@
     <label>Status:</label>
     <select th:field="*{status}">
         <option th:value="DISPONIVEL">Disponível</option>
-        <option th:value="REVENDA">Revenda</option>
         <option th:value="VENDIDO">Vendido</option>
         <option th:value="EXPIRADO">Expirado</option>
     </select><br/>

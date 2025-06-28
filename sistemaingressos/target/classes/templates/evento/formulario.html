@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cadastro de Evento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 p-8">
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+        <h1 class="text-2xl font-semibold mb-4" th:text="${#strings.isEmpty(evento.id) ? 'Novo Evento' : 'Editar Evento'}"></h1>
+
+        <form th:action="@{/eventos}" th:object="${evento}" method="post" class="space-y-4">
+            <input type="hidden" th:field="*{id}" />
+
+            <div>
+                <label class="block font-medium">Nome</label>
+                <input type="text" th:field="*{nome}" class="w-full border rounded p-2" required />
+                <p th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="text-red-500 text-sm"></p>
+            </div>
+
+            <div>
+                <label class="block font-medium">Data</label>
+                <input type="date" th:field="*{data}" class="w-full border rounded p-2" required />
+                <p th:if="${#fields.hasErrors('data')}" th:errors="*{data}" class="text-red-500 text-sm"></p>
+            </div>
+
+            <div>
+                <label class="block font-medium">Local</label>
+                <input type="text" th:field="*{local}" class="w-full border rounded p-2" required />
+                <p th:if="${#fields.hasErrors('local')}" th:errors="*{local}" class="text-red-500 text-sm"></p>
+            </div>
+
+            <div>
+                <label class="block font-medium">Descrição</label>
+                <textarea th:field="*{descricao}" class="w-full border rounded p-2" rows="4"></textarea>
+                <p th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}" class="text-red-500 text-sm"></p>
+            </div>
+
+            <div class="flex justify-between">
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Salvar</button>
+                <a th:href="@{/eventos}" class="text-blue-600 hover:underline">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

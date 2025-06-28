@@ -1,6 +1,7 @@
 package br.com.sistemaingressos.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -21,6 +22,7 @@ public class Ingresso { // ou public class Ingresso<Usuario> {  ??
     private String local;
 
     @NotNull
+    @DecimalMin(value = "0.0", inclusive = false)
     private BigDecimal preco;
 
     @Enumerated(EnumType.STRING)
