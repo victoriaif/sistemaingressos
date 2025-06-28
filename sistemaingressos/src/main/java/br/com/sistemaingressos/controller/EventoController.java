@@ -2,6 +2,7 @@ package br.com.sistemaingressos.controller;
 
 import br.com.sistemaingressos.model.Evento;
 import br.com.sistemaingressos.repository.EventoRepository;
+import br.com.sistemaingressos.service.EventoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/eventos")
 public class EventoController {
 
-      @Autowired
-    private EventoRepository eventoRepository;
+    @Autowired
+    private EventoService eventoService;
 
     // LISTAR EVENTOS
     @GetMapping
     public String listar(Model model) {
-        model.addAttribute("eventos", eventoRepository.findAll());
+        model.addAttribute("eventos", eventoService.listarTodos());
         return "evento/listar";
     }
 
@@ -30,24 +31,24 @@ public class EventoController {
     }
 
     // SALVAR EVENTO
-    @PostMapping
+    @PostMapping("/salvar")
     public String salvar(@Valid Evento evento) {
-        eventoRepository.save(evento);
+        eventoService.salvar(evento);
         return "redirect:/eventos";
     }
 
     // EDITAR EVENTO
-    @GetMapping("/{id}/editar")
+    @GetMapping("/editar/{id}") // ou? @GetMapping("/{id}/editar")
     public String editar(@PathVariable Long id, Model model) {
-        Evento evento = eventoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Evento inválido: " + id));
+        Evento evento = eventoService.buscarPorId(id);
         model.addAttribute("evento", evento);
         return "evento/formulario";
     }
 
     // DELETAR EVENTO
-    @GetMapping("/{id}/deletar")
-    public String deletar(@PathVariable Long id) {
-        eventoRepository.deleteById(id);
+    @GetMapping("/excluir/{id}") // ou?  @GetMapping("/{id}/deletar")
+    public String excluir(@PathVariable Long id) {
+        eventoService.excluir(id);
         return "redirect:/eventos";
     }
 

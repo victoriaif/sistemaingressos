@@ -1,0 +1,40 @@
+<!-- testar em http://localhost:8080/transacoes -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transações</title>
+</head>
+<body>
+    <h1>Lista de Transações</h1>
+
+    <a th:href="@{/transacoes/nova}">Nova Transação</a>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Data e Hora</th>
+                <th>Valor</th>
+                <th>Ingresso</th>
+                <th>Comprador</th>
+                <th>Vendedor</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="transacao : ${transacoes}">
+                <td th:text="${transacao.id}"></td>
+                <td th:text="${#temporals.format(transacao.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${transacao.valor}"></td>
+                <td th:text="${transacao.ingresso.id}"></td>
+                <td th:text="${transacao.comprador.nome}"></td>
+                <td th:text="${transacao.vendedor.nome}"></td>
+                <td>
+                    <a th:href="@{'/transacoes/editar/' + ${transacao.id}}">Editar</a> |
+                    <a th:href="@{'/transacoes/excluir/' + ${transacao.id}}" onclick="return confirm('Tem certeza?')">Excluir</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

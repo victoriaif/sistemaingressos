@@ -5,7 +5,7 @@ import br.com.sistemaingressos.repository.IngressoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -25,16 +25,19 @@ public class IngressoService {
         ingressoRepository.save(ingresso);
     }
 
-    public void remover(Long id) {
-        Optional<Ingresso> ingressoOptional = ingressoRepository.findById(id);
-        if (ingressoOptional.isPresent()) {
-            ingressoRepository.deleteById(id);
-        } else {
+    public void excluir(Long id) {
+        if (!ingressoRepository.existsById(id)) {
             throw new RuntimeException("Ingresso com ID inválido");
         }
+        ingressoRepository.deleteById(id);
     }
 
-    public Optional<Ingresso> buscarPorId(Long id) {
-        return ingressoRepository.findById(id);
+    public Ingresso buscarPorId(Long id) {
+        return ingressoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Ingresso com ID inválido"));
+    }
+
+    public List<Ingresso> listarTodos() {
+        return ingressoRepository.findAll();
     }
 }
