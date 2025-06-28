@@ -2,6 +2,7 @@ package br.com.sistemaingressos.controller;
 
 import br.com.sistemaingressos.model.Ingresso;
 import br.com.sistemaingressos.repository.IngressoRepository;
+import br.com.sistemaingressos.service.IngressoService;
 import br.com.sistemaingressos.repository.EventoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,10 @@ public class IngressoController {
 
     @Autowired
     private IngressoRepository ingressoRepository;
+    //private IngressoService ingressoService;
+
+    //Dúvida: nos Controller: quando eu devo chamar o “classeRepository” e/ou o “classeService”?
+    //Dúvida: Como eu identifico pra quais classes eu devo criar um Service?
 
     @Autowired
     private EventoRepository eventoRepository;
