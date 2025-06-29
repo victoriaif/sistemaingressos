@@ -1,5 +1,8 @@
 package br.com.sistemaingressos.repository;
 
-public interface UsuarioRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import br.com.sistemaingressos.model.Usuario;
 
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+   
 }
