@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR" 
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Sistema de Ingressos</title>
+  <link rel="shortcut icon" th:href="@{/images/favicon.ico}" />
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container flex h-screen flex-col min-w-full">
+    
+    <!-- Header -->
+    <header th:replace="layout/fragments/header :: header"></header>
+    
+    <!-- Main -->
+    <main class="flex flex-1">
+      <!-- Sidebar -->
+      <aside th:replace="layout/fragments/sidebar :: sidebar"></aside>
+      
+    
+      <section class="flex-1" layout:fragment="conteudo">
+        <!-- Conteúdo das páginas -->
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer th:replace="layout/fragments/rodape :: rodape"></footer>
+  </div>
+
+  <div layout:fragment="scripts"></div>
+</body>
+
+</html>

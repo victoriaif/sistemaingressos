@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <div th:fragment="sidebar">
+      <!-- Menu lateral -->
+      <nav>
+        <ul>
+          <li><a href="/" th:href="@{/}">Home</a></li>
+          <li><a href="/eventos" th:href="@{/eventos}">Eventos</a></li>
+          <li><a href="/contato" th:href="@{/contato}">Contato</a></li>
+        </ul>
+      </nav>
+    </div>
+  </body>
+</html>
