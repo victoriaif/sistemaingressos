@@ -1,5 +1,6 @@
 br/com/sistemaingressos/model/Usuario.class
 br/com/sistemaingressos/model/TipoUsuario.class
+br/com/sistemaingressos/controller/IndexController.class
 br/com/sistemaingressos/controller/TransacaoController.class
 br/com/sistemaingressos/repository/UsuarioRepository.class
 br/com/sistemaingressos/SistemaIngressosApplication.class

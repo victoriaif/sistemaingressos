@@ -1,5 +1,6 @@
 /home/maria/Documentos/DAW/sistemaingressos/sistemaingressos/src/main/java/br/com/sistemaingressos/SistemaIngressosApplication.java
 /home/maria/Documentos/DAW/sistemaingressos/sistemaingressos/src/main/java/br/com/sistemaingressos/controller/EventoController.java
+/home/maria/Documentos/DAW/sistemaingressos/sistemaingressos/src/main/java/br/com/sistemaingressos/controller/IndexController.java
 /home/maria/Documentos/DAW/sistemaingressos/sistemaingressos/src/main/java/br/com/sistemaingressos/controller/IngressoController.java
 /home/maria/Documentos/DAW/sistemaingressos/sistemaingressos/src/main/java/br/com/sistemaingressos/controller/TransacaoController.java
 /home/maria/Documentos/DAW/sistemaingressos/sistemaingressos/src/main/java/br/com/sistemaingressos/controller/UsuarioController.java
