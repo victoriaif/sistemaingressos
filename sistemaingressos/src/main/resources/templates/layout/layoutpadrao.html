@@ -1,40 +1,26 @@
 <!DOCTYPE html>
-<html lang="pt-BR" 
-      xmlns:th="http://www.thymeleaf.org" 
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Sistema de Ingressos</title>
-  <link rel="shortcut icon" th:href="@{/images/favicon.ico}" />
-  <link rel="stylesheet" th:href="@{/css/style.css}" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+  <title>ShowGo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-  <div class="container flex h-screen flex-col min-w-full">
-    
-    <!-- Header -->
-    <header th:replace="layout/fragments/header :: header"></header>
-    
-    <!-- Main -->
-    <main class="flex flex-1">
-      <!-- Sidebar -->
-      <aside th:replace="layout/fragments/sidebar :: sidebar"></aside>
-      
-    
-      <section class="flex-1" layout:fragment="conteudo">
-        <!-- Conteúdo das páginas -->
-      </section>
-    </main>
+<body class="bg-gray-50 text-gray-900">
 
-    <!-- Footer -->
-    <footer th:replace="layout/fragments/rodape :: rodape"></footer>
-  </div>
+  <div th:replace="~{layout/fragments/header :: header}"></div>
+  <div th:replace="~{layout/fragments/sidebar :: sidebar}"></div>
+  <div th:replace="~{layout/fragments/rodape :: rodape}"></div>
 
-  <div layout:fragment="scripts"></div>
+
+  <main class="pt-6 px-4 md:pl-72">
+    <div th:insert="~{::main}"></div>
+  </main>
+
+  <div th:replace="fragments/rodape :: rodape"></div>
+
 </body>
 
 </html>
