@@ -23,14 +23,14 @@ public class UsuarioController {
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("usuarios", usuarioService.getAllUsuarios());
-        return "usuario/listar"; // Crie: templates/usuario/listar.html
+        return "usuario/listar"; 
     }
 
     // FORMULÁRIO novo usuário
     @GetMapping("/novo")
     public String novo(Model model) {
         model.addAttribute("usuario", new Usuario());
-        return "usuario/formulario"; // Crie: templates/usuario/formulario.html
+        return "usuario/formulario";
     }
 
     // SALVAR usuário
