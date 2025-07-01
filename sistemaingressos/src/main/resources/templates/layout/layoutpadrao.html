@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShowGo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+
+  <div th:replace="~{layout/fragments/header :: header}"></div>
+  <div th:replace="~{layout/fragments/sidebar :: sidebar}"></div>
+  <div th:replace="~{layout/fragments/rodape :: rodape}"></div>
+
+
+  <main class="pt-6 px-4 md:pl-72">
+    <div th:insert="~{::main}"></div>
+  </main>
+
+  <div th:replace="fragments/rodape :: rodape"></div>
+
+</body>
+
+</html>

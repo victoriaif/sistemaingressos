@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layoutpadrao :: layout}">
+  <main>
+    <section class="bg-purple-700 text-white py-20 px-6 text-center rounded-xl shadow-lg">
+      <h1 class="text-4xl font-bold mb-4">Revenda segura de ingressos</h1>
+      <p class="text-lg">De fã para fã!</p>
+    </section>
+
+    <section class="mt-10">
+      <h2 class="text-2xl font-bold mb-6">Eventos em destaque</h2>
+      <div th:fragment="layout" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- Cards de evento -->
+        <div class="bg-white rounded-lg shadow p-4">
+          <img src="/img/evento1.jpg" alt="Evento" class="rounded mb-2" />
+          <h3 class="font-semibold">Lady Gaga</h3>
+        </div>
+        <!-- Repetir para outros eventos -->
+      </div>
+    </section>
+  </main>
+</html>
