@@ -1,56 +1,58 @@
 package br.com.sistemaingressos.controller;
 
 import br.com.sistemaingressos.model.Usuario;
+import br.com.sistemaingressos.repository.UsuarioRepository;
 import br.com.sistemaingressos.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
-@RequestMapping("/usuario")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
-    // 1) Mostrar perfil
-    @GetMapping("/perfil")
-    public String mostrarPerfil(Model model) {
-        Usuario usuario = usuarioService.getUsuarioById(1L).orElse(new Usuario());
-        model.addAttribute("usuario", usuario);
-        return "usuario/perfil";
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    // LISTAR usuários
+    @GetMapping
+    public String listar(Model model) {
+        model.addAttribute("usuarios", usuarioService.getAllUsuarios());
+        return "usuario/listar"; // Crie: templates/usuario/listar.html
     }
 
-    // 2) Atualizar perfil
-    @PostMapping("/perfil")
-    public String salvarPerfil(@ModelAttribute Usuario usuario, Model model) {
-        usuarioService.atualizarUsuario(usuario);
-        model.addAttribute("sucesso", "Perfil atualizado com sucesso!");
-        model.addAttribute("usuario", usuario);
-        return "usuario/perfil";
-    }
-
-    // 3) Novo cadastro
+    // FORMULÁRIO novo usuário
     @GetMapping("/novo")
-    public String novoUsuarioForm(Model model) {
+    public String novo(Model model) {
         model.addAttribute("usuario", new Usuario());
-        return "novo-usuario";
+        return "usuario/formulario"; // Crie: templates/usuario/formulario.html
     }
 
-    @PostMapping("/novo")
-    public String salvarNovoUsuario(@ModelAttribute Usuario usuario, Model model) {
-        usuarioService.salvarUsuario(usuario);
-        model.addAttribute("sucesso", "Usuário cadastrado com sucesso!");
-        return "login"; // Redireciona pra login ou outra página
+    // SALVAR usuário
+    @PostMapping("/salvar")
+    public String salvar(@Valid @ModelAttribute Usuario usuario) {
+        usuarioService.createUsuario(usuario);
+        return "redirect:/usuarios";
     }
 
-    // 4) Deletar conta
-    @PostMapping("/deletar")
-    public String deletarUsuario(@RequestParam Long id) {
-        usuarioService.deletarUsuario(id);
-        return "redirect:/logout"; // Por exemplo, desloga depois de deletar
+    // EDITAR usuário
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        Usuario usuario = usuarioService.getUsuarioById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        model.addAttribute("usuario", usuario);
+        return "usuario/formulario";
+    }
+
+    // EXCLUIR usuário
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
+        usuarioService.deleteUsuario(id);
+        return "redirect:/usuarios";
     }
 }

@@ -1,35 +1,51 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
-    <title>Lista de Eventos</title>
+  <meta charset="UTF-8">
+  <title>Lista de Eventos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Eventos Cadastrados</h1>
+<body class="bg-gray-100 flex">
 
-    <a th:href="@{/eventos/novo}">Novo Evento</a>
+  <!-- Sidebar -->
+  <div th:fragment="sidebar"></div>
 
-    <table border="1" cellpadding="8" cellspacing="0">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Data</th>
-                <th>Local</th>
-                <th>Descrição</th>
-                <th>Ações</th>
-            </tr>
+  <!-- Conteúdo -->
+  <div class="flex-1 ml-64 p-10">
+    <div class="bg-white rounded-2xl shadow p-8">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-blue-900">Eventos</h1>
+        <a href="/eventos/novo" class="bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800 transition">Adicionar Evento</a>
+      </div>
+
+      <table class="w-full text-left border border-blue-300 rounded overflow-hidden shadow">
+        <thead class="bg-blue-900 text-white">
+          <tr>
+            <th class="px-4 py-2">Nome</th>
+            <th class="px-4 py-2">Data</th>
+            <th class="px-4 py-2">Local</th>
+            <th class="px-4 py-2">Ações</th>
+          </tr>
         </thead>
-        <tbody>
-            <tr th:each="evento : ${eventos}">
-                <td th:text="${evento.nome}"></td>
-                <td th:text="${evento.data}"></td>
-                <td th:text="${evento.local}"></td>
-                <td th:text="${evento.descricao}"></td>
-                <td>
-                    <a th:href="@{|/eventos/${evento.id}/editar|}">Editar</a> |
-                    <a th:href="@{|/eventos/${evento.id}/deletar|}" onclick="return confirm('Deseja deletar este evento?')">Deletar</a>
-                </td>
-            </tr>
+        <tbody class="bg-white text-blue-900" th:if="${eventos.size() > 0}">
+          <tr th:each="evento : ${eventos}" class="border-t">
+            <td class="px-4 py-2" th:text="${evento.nome}">Nome</td>
+            <td class="px-4 py-2" th:text="${#dates.format(evento.data, 'dd/MM/yyyy')}">Data</td>
+            <td class="px-4 py-2" th:text="${evento.local}">Local</td>
+            <td class="px-4 py-2 space-x-2">
+              <a th:href="@{'/eventos/editar/' + ${evento.id}}" class="text-blue-600 hover:underline">Editar</a>
+              <a th:href="@{'/eventos/excluir/' + ${evento.id}}" class="text-red-600 hover:underline" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+            </td>
+          </tr>
         </tbody>
-    </table>
+        <tbody th:if="${eventos.size() == 0}">
+          <tr>
+            <td colspan="4" class="px-4 py-4 text-center text-gray-500">Nenhum evento cadastrado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </body>
 </html>
