@@ -30,7 +30,7 @@
         <tbody class="bg-white text-blue-900" th:if="${eventos.size() > 0}">
           <tr th:each="evento : ${eventos}" class="border-t">
             <td class="px-4 py-2" th:text="${evento.nome}">Nome</td>
-            <td class="px-4 py-2" th:text="${#dates.format(evento.data, 'dd/MM/yyyy')}">Data</td>
+            <td class="px-4 py-2" th:text="${#temporals.format(evento.data, 'dd/MM/yyyy')}">Data</td>
             <td class="px-4 py-2" th:text="${evento.local}">Local</td>
             <td class="px-4 py-2 space-x-2">
               <a th:href="@{'/eventos/editar/' + ${evento.id}}" class="text-blue-600 hover:underline">Editar</a>
