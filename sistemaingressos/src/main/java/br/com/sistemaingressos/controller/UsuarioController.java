@@ -3,39 +3,54 @@ package br.com.sistemaingressos.controller;
 import br.com.sistemaingressos.model.Usuario;
 import br.com.sistemaingressos.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/usuarios")
+@Controller
+@RequestMapping("/usuario")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping
-    public List<Usuario> getAllUsuarios() {
-        return usuarioService.getAllUsuarios();
+    // 1) Mostrar perfil
+    @GetMapping("/perfil")
+    public String mostrarPerfil(Model model) {
+        Usuario usuario = usuarioService.getUsuarioById(1L).orElse(new Usuario());
+        model.addAttribute("usuario", usuario);
+        return "usuario/perfil";
     }
 
-    @GetMapping("/{id}")
-    public Usuario getUsuarioById(@PathVariable Long id) {
-        return usuarioService.getUsuarioById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    // 2) Atualizar perfil
+    @PostMapping("/perfil")
+    public String salvarPerfil(@ModelAttribute Usuario usuario, Model model) {
+        usuarioService.atualizarUsuario(usuario);
+        model.addAttribute("sucesso", "Perfil atualizado com sucesso!");
+        model.addAttribute("usuario", usuario);
+        return "usuario/perfil";
     }
 
-    @PostMapping
-    public Usuario createUsuario(@RequestBody Usuario usuario) {
-        return usuarioService.createUsuario(usuario);
+    // 3) Novo cadastro
+    @GetMapping("/novo")
+    public String novoUsuarioForm(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "novo-usuario";
     }
 
-    @PutMapping("/{id}")
-    public Usuario updateUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
-        return usuarioService.updateUsuario(id, usuario);
+    @PostMapping("/novo")
+    public String salvarNovoUsuario(@ModelAttribute Usuario usuario, Model model) {
+        usuarioService.salvarUsuario(usuario);
+        model.addAttribute("sucesso", "Usuário cadastrado com sucesso!");
+        return "login"; // Redireciona pra login ou outra página
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteUsuario(@PathVariable Long id) {
-        usuarioService.deleteUsuario(id);
+    // 4) Deletar conta
+    @PostMapping("/deletar")
+    public String deletarUsuario(@RequestParam Long id) {
+        usuarioService.deletarUsuario(id);
+        return "redirect:/logout"; // Por exemplo, desloga depois de deletar
     }
 }
