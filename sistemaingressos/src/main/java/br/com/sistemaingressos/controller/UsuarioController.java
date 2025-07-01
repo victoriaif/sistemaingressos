@@ -1,41 +1,58 @@
 package br.com.sistemaingressos.controller;
 
 import br.com.sistemaingressos.model.Usuario;
+import br.com.sistemaingressos.repository.UsuarioRepository;
 import br.com.sistemaingressos.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@RestController
+@Controller
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    // LISTAR usuários
     @GetMapping
-    public List<Usuario> getAllUsuarios() {
-        return usuarioService.getAllUsuarios();
+    public String listar(Model model) {
+        model.addAttribute("usuarios", usuarioService.getAllUsuarios());
+        return "usuario/listar"; // Crie: templates/usuario/listar.html
     }
 
-    @GetMapping("/{id}")
-    public Usuario getUsuarioById(@PathVariable Long id) {
-        return usuarioService.getUsuarioById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    // FORMULÁRIO novo usuário
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "usuario/formulario"; // Crie: templates/usuario/formulario.html
     }
 
-    @PostMapping
-    public Usuario createUsuario(@RequestBody Usuario usuario) {
-        return usuarioService.createUsuario(usuario);
+    // SALVAR usuário
+    @PostMapping("/salvar")
+    public String salvar(@Valid @ModelAttribute Usuario usuario) {
+        usuarioService.createUsuario(usuario);
+        return "redirect:/usuarios";
     }
 
-    @PutMapping("/{id}")
-    public Usuario updateUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
-        return usuarioService.updateUsuario(id, usuario);
+    // EDITAR usuário
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        Usuario usuario = usuarioService.getUsuarioById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        model.addAttribute("usuario", usuario);
+        return "usuario/formulario";
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteUsuario(@PathVariable Long id) {
+    // EXCLUIR usuário
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
         usuarioService.deleteUsuario(id);
+        return "redirect:/usuarios";
     }
 }
