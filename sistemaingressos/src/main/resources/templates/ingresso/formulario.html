@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title th:text="*{id} != null ? 'Editar Ingresso' : 'Cadastrar Ingresso'">Cadastrar Ingresso</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/js/script.js"></script>
 </head>
 <body class="bg-white text-black min-h-screen flex font-sans">
 
@@ -37,10 +38,10 @@
           </select>
         </div>
 
-        <!-- Cidade -->
+      <!-- Cidade (salva em "local") -->
         <div>
           <label for="cidade" class="block font-medium mb-2">Cidade</label>
-          <select id="cidade" required
+          <select th:field="*{local}" id="cidade" required
             class="w-full p-4 bg-white text-black border border-yellow-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 text-lg">
             <option value="">-- Selecione uma Cidade --</option>
           </select>
