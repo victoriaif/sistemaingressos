@@ -1,57 +1,55 @@
 <!DOCTYPE html>
-<html lang="pt-BR"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layoutpadrao}">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <title>ShowGo | Lista de Usuários</title>
+  <meta charset="UTF-8">
+  <title>Lista de Usuários</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 flex">
 
-  <!-- Substituir o menu lateral se quiser -->
-  <div layout:fragment="sidebar">
-    <a href="/usuarios" class="block text-white hover:text-blue-300 transition pl-2">Listar usuários</a>
-    <a href="/usuarios/novo" class="block text-white hover:text-blue-300 transition pl-2">Adicionar usuário</a>
+  <!-- Sidebar -->
+  <div th:fragment="sidebar"></div>
+
+  <!-- Conteúdo -->
+  <div class="flex-1 ml-64 p-10">
+    <div class="bg-white rounded-2xl shadow p-8">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-blue-900">Usuários</h1>
+        <a href="/usuarios/novo" class="bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800 transition">Adicionar Usuário</a>
+      </div>
+
+      <table class="w-full text-left border border-blue-300 rounded overflow-hidden shadow">
+        <thead class="bg-blue-900 text-white">
+          <tr>
+            <th class="px-4 py-2">ID</th>
+            <th class="px-4 py-2">Nome</th>
+            <th class="px-4 py-2">CPF</th>
+            <th class="px-4 py-2">Email</th>
+            <th class="px-4 py-2">Tipo</th>
+            <th class="px-4 py-2">Ações</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white text-blue-900" th:if="${usuarios.size() > 0}">
+          <tr th:each="usuario : ${usuarios}" class="border-t hover:bg-gray-50">
+            <td class="px-4 py-2" th:text="${usuario.id}">1</td>
+            <td class="px-4 py-2" th:text="${usuario.nome}">Nome</td>
+            <td class="px-4 py-2" th:text="${usuario.cpf}">CPF</td>
+            <td class="px-4 py-2" th:text="${usuario.email}">Email</td>
+            <td class="px-4 py-2" th:text="${usuario.tipoUsuario}">Tipo</td>
+            <td class="px-4 py-2 space-x-2">
+              <a th:href="@{'/usuarios/editar/' + ${usuario.id}}" class="text-blue-600 hover:underline">Editar</a>
+              <a th:href="@{'/usuarios/excluir/' + ${usuario.id}}" class="text-red-600 hover:underline" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+            </td>
+          </tr>
+        </tbody>
+        <tbody th:if="${usuarios.size() == 0}">
+          <tr>
+            <td colspan="6" class="px-4 py-4 text-center text-gray-500">Nenhum usuário cadastrado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-
-  <!-- Conteúdo da página -->
-  <main layout:fragment="conteudo" class="p-10">
-    <h2 class="text-2xl font-bold text-gray-700 mb-6">Usuários Cadastrados</h2>
-
-    <a href="/usuarios/novo" class="mb-6 inline-block px-5 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-      Novo Usuário
-    </a>
-
-    <table class="min-w-full bg-white border border-gray-200 rounded shadow">
-      <thead class="bg-gray-100 text-gray-700">
-        <tr>
-          <th class="px-4 py-2 border">ID</th>
-          <th class="px-4 py-2 border">Nome</th>
-          <th class="px-4 py-2 border">CPF</th>
-          <th class="px-4 py-2 border">Email</th>
-          <th class="px-4 py-2 border">Tipo de Usuário</th>
-          <th class="px-4 py-2 border">Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="usuario : ${usuarios}" class="hover:bg-gray-50">
-          <td class="px-4 py-2 border" th:text="${usuario.id}">1</td>
-          <td class="px-4 py-2 border" th:text="${usuario.nome}">Nome</td>
-          <td class="px-4 py-2 border" th:text="${usuario.cpf}">CPF</td>
-          <td class="px-4 py-2 border" th:text="${usuario.email}">Email</td>
-          <td class="px-4 py-2 border" th:text="${usuario.tipoUsuario}">Tipo</td>
-          <td class="px-4 py-2 border space-x-2">
-            <a th:href="@{'/usuarios/editar/' + ${usuario.id}}" class="text-blue-600 hover:underline">Editar</a> |
-            <a th:href="@{'/usuarios/excluir/' + ${usuario.id}}" onclick="return confirm('Tem certeza que deseja excluir?')" class="text-red-600 hover:underline">Excluir</a>
-          </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(usuarios)}">
-          <td colspan="6" class="text-center py-4 text-gray-500">Nenhum usuário encontrado.</td>
-        </tr>
-      </tbody>
-    </table>
-  </main>
 
 </body>
 </html>

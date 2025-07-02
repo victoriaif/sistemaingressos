@@ -1,28 +1,29 @@
-<aside th:fragment="sidebar" class="hidden md:block w-64 bg-blue-900 shadow h-full fixed top-0 left-0 pt-20 px-6">
+<aside th:fragment="sidebar"
+  class="hidden md:block w-64 h-full fixed top-0 left-0 pt-20 px-6 shadow-lg border-r border-blue-700 bg-[#0D1A4D] transition-transform duration-300 ease-in-out">
+
   <nav class="space-y-6">
 
+    <!-- Eventos -->
     <div>
-      <h2 class="text-white font-semibold mb-2">Eventos</h2>
-      <a href="/eventos" class="block text-white hover:text-blue-300 transition pl-2">Listar eventos</a>
-      <a href="/eventos/novo" class="block text-white hover:text-blue-300 transition pl-2">Adicionar evento</a>
+      <h2 class="text-blue-100 font-semibold mb-2 uppercase text-xs tracking-widest">Eventos</h2>
+      <a href="/eventos"
+        class="block text-white hover:bg-blue-800 hover:text-blue-200 transition rounded px-2 py-1">Procurar eventos</a>
     </div>
 
+    <!-- Meus ingressos -->
     <div>
-      <h2 class="text-white font-semibold mb-2">Ingressos</h2>
-      <a href="/ingressos" class="block text-white hover:text-blue-300 transition pl-2">Listar ingressos</a>
-      <a href="/ingressos/novo" class="block text-white hover:text-blue-300 transition pl-2">Adicionar ingresso</a>
+      <h2 class="text-blue-100 font-semibold mb-2 uppercase text-xs tracking-widest">Meus Ingressos</h2>
+      <a href="/ingressos"
+        class="block text-white hover:bg-blue-800 hover:text-blue-200 transition rounded px-2 py-1">Ver meus ingressos</a>
     </div>
 
+    <!-- Conta -->
     <div>
-      <h2 class="text-white font-semibold mb-2">Transações</h2>
-      <a href="/transacoes" class="block text-white hover:text-blue-300 transition pl-2">Histórico</a>
-    </div>
-
-    <div>
-      <h2 class="text-white font-semibold mb-2">Usuário</h2>
-      <a href="/usuarios" class="block text-white hover:text-blue-300 transition pl-2">Listar usuários</a>
-      <a href="/usuarios/novo" class="block text-white hover:text-blue-300 transition pl-2">Adicionar usuário</a>
-      <a href="#" class="block text-white hover:text-blue-300 transition pl-2">Sair</a>
+      <h2 class="text-blue-100 font-semibold mb-2 uppercase text-xs tracking-widest">Conta</h2>
+      <a href="/"
+        class="block text-white hover:bg-blue-800 hover:text-blue-200 transition rounded px-2 py-1">Meu perfil</a>
+      <a href="/logout"
+        class="block text-white hover:bg-red-700 hover:text-white transition rounded px-2 py-1">Sair</a>
     </div>
 
   </nav>

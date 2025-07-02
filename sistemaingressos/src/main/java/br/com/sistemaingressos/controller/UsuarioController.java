@@ -19,6 +19,21 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    //Cadastrar usuários
+     @GetMapping("/registrar")
+    public String registrarForm(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "registrar";
+    }
+
+
+    @PostMapping("/registrar")
+    public String registrarSubmit(@ModelAttribute Usuario usuario) {
+        usuarioRepository.save(usuario);
+        return "redirect:/login";
+    }
+
+
     // LISTAR usuários
     @GetMapping
     public String listar(Model model) {

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>ShowGo | Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#0D1A4D] text-blue-100 min-h-screen flex items-center justify-center">
+
+  <div class="bg-blue-900 p-10 rounded-2xl shadow-lg w-full max-w-md">
+
+    <h1 class="text-2xl font-bold text-center mb-6">Entrar na conta</h1>
+
+    <form th:action="@{/login}" method="post" class="space-y-6">
+
+      <div>
+        <label class="block mb-1 font-semibold">Email</label>
+        <input type="email" name="username" class="w-full p-3 rounded bg-blue-800 border border-blue-600 text-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400" required />
+      </div>
+
+      <div>
+        <label class="block mb-1 font-semibold">Senha</label>
+        <input type="password" name="password" class="w-full p-3 rounded bg-blue-800 border border-blue-600 text-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400" required />
+      </div>
+
+      <button type="submit" class="w-full bg-blue-700 hover:bg-blue-600 text-white font-semibold py-3 rounded transition">
+        Entrar
+      </button>
+    </form>
+
+    <p class="text-sm text-blue-300 mt-6 text-center">
+      Ainda não tem conta? <a href="/usuarios/registrar" class="hover:underline text-blue-200">Registrar agora</a>
+    </p>
+
+  </div>
+</body>
+</html>
