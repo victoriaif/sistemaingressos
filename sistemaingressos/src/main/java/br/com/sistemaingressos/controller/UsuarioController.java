@@ -18,6 +18,7 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+<<<<<<< HEAD
 
     //Cadastrar usuários
      @GetMapping("/registrar")
@@ -39,6 +40,44 @@ public class UsuarioController {
     public String listar(Model model) {
         model.addAttribute("usuarios", usuarioService.getAllUsuarios());
         return "usuario/listar"; 
+=======
+
+    // LISTAR usuários
+    @GetMapping
+    public String listar(Model model) {
+        model.addAttribute("usuarios", usuarioService.getAllUsuarios());
+        return "usuario/listar"; // Crie: templates/usuario/listar.html
+    }
+
+    // FORMULÁRIO novo usuário
+    @GetMapping("/novo")
+    public String novo(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "usuario/formulario"; // Crie: templates/usuario/formulario.html
+    }
+
+    // SALVAR usuário
+    @PostMapping("/salvar")
+    public String salvar(@Valid @ModelAttribute Usuario usuario) {
+        usuarioService.createUsuario(usuario);
+        return "redirect:/usuarios";
+    }
+
+    // EDITAR usuário
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        Usuario usuario = usuarioService.getUsuarioById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        model.addAttribute("usuario", usuario);
+        return "usuario/formulario";
+    }
+
+    // EXCLUIR usuário
+    @GetMapping("/excluir/{id}")
+    public String excluir(@PathVariable Long id) {
+        usuarioService.deleteUsuario(id);
+        return "redirect:/usuarios";
+>>>>>>> main
     }
 
     // FORMULÁRIO novo usuário
