@@ -1,47 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Histórico de Transações</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 flex">
+<body class="bg-white text-black min-h-screen flex font-sans">
 
   <!-- Sidebar -->
   <div th:fragment="sidebar"></div>
 
   <!-- Conteúdo -->
   <div class="flex-1 ml-64 p-10">
-    <div class="bg-white rounded-2xl shadow p-8">
-      <h1 class="text-2xl font-bold text-blue-900 mb-6">Histórico de Transações</h1>
+    <div class="border border-yellow-500 rounded-2xl p-8 shadow-lg">
 
-      <table class="w-full text-left border border-blue-300 rounded overflow-hidden shadow">
-        <thead class="bg-blue-900 text-white">
+      <!-- Cabeçalho -->
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">Histórico de Transações</h1>
+        <!-- Se quiser, pode adicionar um botão aqui, ex: Exportar -->
+      </div>
+
+      <!-- Tabela -->
+      <table class="w-full text-left border border-yellow-500 rounded overflow-hidden shadow">
+        <thead class="bg-yellow-500 text-black text-md uppercase">
           <tr>
-            <th class="px-4 py-2">ID</th>
-            <th class="px-4 py-2">Tipo</th>
-            <th class="px-4 py-2">Data</th>
-            <th class="px-4 py-2">Usuário</th>
-            <th class="px-4 py-2">Ingresso</th>
-            <th class="px-4 py-2">Valor</th>
+            <th class="px-4 py-3">ID</th>
+            <th class="px-4 py-3">Tipo</th>
+            <th class="px-4 py-3">Data</th>
+            <th class="px-4 py-3">Usuário</th>
+            <th class="px-4 py-3">Ingresso</th>
+            <th class="px-4 py-3">Valor</th>
           </tr>
         </thead>
-        <tbody class="bg-white text-blue-900" th:if="${transacoes.size() > 0}">
-          <tr th:each="transacao : ${transacoes}" class="border-t">
-            <td class="px-4 py-2" th:text="${transacao.id}">1</td>
-            <td class="px-4 py-2" th:text="${transacao.tipo}">COMPRA</td>
-            <td class="px-4 py-2" th:text="${#temporals.format(transacao.data, 'dd/MM/yyyy HH:mm')}">01/07/2025 10:00</td>
-            <td class="px-4 py-2" th:text="${transacao.usuario.nome}">Victoria Santos</td>
-            <td class="px-4 py-2" th:text="${transacao.ingresso.evento.nome}">Show da Lady Gaga - Mayhem Ball Tour</td>
-            <td class="px-4 py-2" th:text="${#numbers.formatDecimal(transacao.valor, 2, 'COMMA', 2, 'POINT')}">2000,00</td>
+        <tbody th:if="${transacoes.size() > 0}">
+          <tr th:each="transacao : ${transacoes}" class="border-t border-yellow-500 hover:bg-black/10 transition">
+            <td class="px-4 py-3" th:text="${transacao.id}">1</td>
+            <td class="px-4 py-3" th:text="${transacao.tipo}">COMPRA</td>
+            <td class="px-4 py-3" th:text="${#temporals.format(transacao.data, 'dd/MM/yyyy HH:mm')}">01/07/2025 10:00</td>
+            <td class="px-4 py-3" th:text="${transacao.usuario.nome}">Victoria Santos</td>
+            <td class="px-4 py-3" th:text="${transacao.ingresso.evento.nome}">Show da Lady Gaga - Mayhem Ball Tour</td>
+            <td class="px-4 py-3" th:text="${#numbers.formatDecimal(transacao.valor, 2, 'COMMA', 2, 'POINT')}">2000,00</td>
           </tr>
         </tbody>
         <tbody th:if="${transacoes.size() == 0}">
           <tr>
-            <td colspan="6" class="px-4 py-4 text-center text-gray-500">Nenhuma transação registrada.</td>
+            <td colspan="6" class="px-4 py-6 text-center text-gray-300">Nenhuma transação registrada.</td>
           </tr>
         </tbody>
       </table>
+
     </div>
   </div>
 

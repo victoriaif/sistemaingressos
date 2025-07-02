@@ -1,44 +1,55 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title th:text="${evento.id} != null ? 'Editar Evento' : 'ShowGo | Novo Evento'">Evento</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 flex">
+<body class="bg-gray-100 flex font-sans min-h-screen">
 
-  <!-- Sidebar -->
-  <div th:fragment="sidebar"></div>
+  <!-- Conteúdo principal -->
+  <main class="px-8 py-10 ml-64 flex-1 max-w-3xl mx-auto">
 
-  <!-- Conteúdo -->
-  <div class="flex-1 ml-64 p-10">
-    <div class="bg-white rounded-2xl shadow p-8 max-w-2xl mx-auto">
-      <h1 class="text-2xl font-bold text-blue-900 mb-6" th:text="${evento.id} != null ? 'Editar Evento' : 'Novo Evento'"></h1>
+    <h1 class="text-2xl font-bold mb-8" th:text="${evento.id} != null ? 'Editar Evento' : 'Novo Evento'"></h1>
 
-      <form th:action="@{/eventos/salvar}" th:object="${evento}" method="post" class="space-y-4">
-        <input type="hidden" th:field="*{id}" />
+    <form th:action="@{/eventos/salvar}" th:object="${evento}" method="post" class="space-y-6 w-full">
+      <input type="hidden" th:field="*{id}" />
 
-        <div>
-          <label class="block text-blue-900 font-semibold mb-1">Nome:</label>
-          <input type="text" th:field="*{nome}" class="w-full border border-blue-300 rounded p-2" required />
-        </div>
+      <!-- Nome do Evento -->
+      <div>
+        <label for="nome" class="block font-medium mb-2 text-black">Nome do Evento</label>
+        <input type="text" th:field="*{nome}" id="nome"
+               class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+               required />
+      </div>
 
-        <div>
-          <label class="block text-blue-900 font-semibold mb-1">Data:</label>
-          <input type="date" th:field="*{data}" class="w-full border border-blue-300 rounded p-2" required />
-        </div>
+      <!-- Data -->
+      <div>
+        <label for="data" class="block font-medium mb-2 text-black">Data</label>
+        <input type="date" th:field="*{data}" id="data"
+               class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+               required />
+      </div>
 
-        <div>
-          <label class="block text-blue-900 font-semibold mb-1">Local:</label>
-          <input type="text" th:field="*{local}" class="w-full border border-blue-300 rounded p-2" required />
-        </div>
+      <!-- Local -->
+      <div>
+        <label for="local" class="block font-medium mb-2 text-black">Local</label>
+        <input type="text" th:field="*{local}" id="local"
+               class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+               required />
+      </div>
 
-        <div class="flex justify-between mt-6">
-          <a href="/eventos" class="text-blue-700 hover:underline">← Voltar</a>
-          <button type="submit" class="bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800 transition">Salvar</button>
-        </div>
-      </form>
-    </div>
-  </div>
+      <!-- Botões -->
+      <div class="flex justify-between items-center mt-8">
+        <a href="/eventos" class="text-yellow-500 hover:underline text-sm">← Voltar</a>
+        <button type="submit"
+                class="py-3 px-6 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400 transition">
+          Salvar
+        </button>
+      </div>
+    </form>
+
+  </main>
+
 </body>
 </html>

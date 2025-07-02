@@ -5,31 +5,41 @@
   <title>ShowGo | Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-white text-blue-100 min-h-screen flex items-center justify-center">
+<body class="bg-white text-black min-h-screen flex items-center justify-center font-sans">
 
-  <div class="bg-[#0D1A4D] p-10 rounded-2xl shadow-lg w-full max-w-md">
+  <div class="bg-white border border-yellow-500 p-10 shadow-lg w-full max-w-md">
 
-    <h1 class="text-2xl font-bold text-center mb-6">Entrar na conta</h1>
+    <h1 class="text-3xl font-bold text-center mb-8">Entrar na Conta</h1>
 
     <form th:action="@{/login}" method="post" class="space-y-6">
 
+      <!-- Email -->
       <div>
-        <label class="block mb-1 font-semibold">Email</label>
-        <input type="email" name="username" class="w-full p-3 rounded bg-white border border-blue-600 text-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400" required />
+        <label for="username" class="block mb-2 font-medium text-lg">Email</label>
+        <input type="email" id="username" name="username"
+               class="w-full p-4 bg-white text-black rounded-lg border border-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-lg"
+               required />
       </div>
 
+      <!-- Senha -->
       <div>
-        <label class="block mb-1 font-semibold">Senha</label>
-        <input type="password" name="password" class="w-full p-3 rounded bg-white border border-blue-600 text-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400" required />
+        <label for="password" class="block mb-2 font-medium text-lg">Senha</label>
+        <input type="password" id="password" name="password"
+               class="w-full p-4 bg-white text-black rounded-lg border border-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-lg"
+               required />
       </div>
 
-      <button type="submit" class="w-full bg-blue-900 hover:bg-blue-600 text-white font-semibold py-3 rounded transition">
+      <!-- Botão -->
+      <button type="submit"
+              class="w-full bg-yellow-500 text-black font-semibold py-4 rounded-lg hover:bg-yellow-400 transition text-lg">
         Entrar
       </button>
     </form>
 
-    <p class="text-sm text-blue-300 mt-6 text-center">
-      Ainda não tem conta? <a href="/usuarios/registrar" class="hover:underline text-blue-200">Registrar agora</a>
+    <!-- Link para registrar -->
+    <p class="text-sm text-yellow-400 mt-6 text-center">
+      Ainda não tem conta?
+      <a href="/usuarios/registrar" class="hover:underline text-yellow-300">Registrar agora</a>
     </p>
 
   </div>

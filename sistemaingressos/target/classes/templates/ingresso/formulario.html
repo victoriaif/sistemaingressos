@@ -5,52 +5,59 @@
   <title th:text="*{id} != null ? 'Editar Ingresso' : 'Cadastrar Ingresso'">Cadastrar Ingresso</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 flex">
+<body class="bg-white text-black min-h-screen flex font-sans">
 
   <!-- Sidebar -->
   <div th:fragment="sidebar"></div>
 
   <!-- Conteúdo principal -->
   <div class="flex-1 ml-64 p-10">
-    <div class="bg-[#0D1A4D] rounded-2xl shadow p-8 max-w-2xl mx-auto">
-      <h1 class="text-2xl font-bold text-white mb-6" th:text="*{id} != null ? 'Editar Ingresso' : 'Cadastrar Ingresso'">Cadastrar Ingresso</h1>
+    <div class="max-w-2xl mx-auto border border-yellow-500 p-10 shadow-lg">
 
-      <form th:action="@{/ingressos/salvar}" th:object="${ingresso}" method="post" class="space-y-4">
+      <h1 class="text-3xl font-bold mb-8" th:text="*{id} != null ? 'Editar Ingresso' : 'Cadastrar Ingresso'">
+        Cadastrar Ingresso
+      </h1>
 
+      <form th:action="@{/ingressos/salvar}" th:object="${ingresso}" method="post" class="space-y-6">
         <input type="hidden" th:field="*{id}" />
 
+        <!-- Data -->
         <div>
-          <label class="block text-white font-semibold mb-1">Data</label>
-          <input type="date" th:field="*{data}" required
-                 class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+          <label for="data" class="block font-medium mb-2">Data</label>
+          <input type="date" th:field="*{data}" id="data" required
+                 class="w-full p-4 bg-white text-black border border-yellow-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 text-lg" />
         </div>
 
+        <!-- Local -->
         <div>
-          <label class="block text-white font-semibold mb-1">Local</label>
-          <input type="text" th:field="*{local}" required
-                 class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+          <label for="local" class="block font-medium mb-2">Local</label>
+          <input type="text" th:field="*{local}" id="local" required
+                 class="w-full p-4 bg-white text-black border border-yellow-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 text-lg" />
         </div>
 
+        <!-- Preço -->
         <div>
-          <label class="block text-white font-semibold mb-1">Preço</label>
-          <input type="number" step="0.01" th:field="*{preco}" required
-                 class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+          <label for="preco" class="block font-medium mb-2">Preço</label>
+          <input type="number" step="0.01" th:field="*{preco}" id="preco" required
+                 class="w-full p-4 bg-white text-black border border-yellow-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 text-lg" />
         </div>
 
+        <!-- Status -->
         <div>
-          <label class="block text-white font-semibold mb-1">Status</label>
-          <select th:field="*{status}"
-                  class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <label for="status" class="block font-medium mb-2">Status</label>
+          <select th:field="*{status}" id="status"
+                  class="w-full p-4 bg-white text-black border border-yellow-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 text-lg">
             <option th:value="DISPONIVEL">Disponível</option>
             <option th:value="VENDIDO">Vendido</option>
             <option th:value="EXPIRADO">Expirado</option>
           </select>
         </div>
 
+        <!-- Evento -->
         <div>
-          <label class="block text-white font-semibold mb-1">Evento</label>
-          <select th:field="*{evento}" required
-                  class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <label for="evento" class="block font-medium mb-2">Evento</label>
+          <select th:field="*{evento}" id="evento" required
+                  class="w-full p-4 bg-white text-black border border-yellow-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 text-lg">
             <option value="">-- Selecione um Evento --</option>
             <option th:each="evento : ${eventos}" 
                     th:value="${evento.id}" 
@@ -59,9 +66,10 @@
           </select>
         </div>
 
-        <div class="pt-4">
+        <!-- Botão -->
+        <div class="pt-6">
           <button type="submit"
-                  class="bg-blue-900 text-white px-6 py-2 rounded hover:bg-blue-800 transition">
+                  class="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 transition text-lg">
             Salvar
           </button>
         </div>
@@ -69,6 +77,5 @@
       </form>
     </div>
   </div>
-
 </body>
 </html>
