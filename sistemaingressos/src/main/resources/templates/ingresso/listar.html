@@ -7,11 +7,13 @@
 </head>
 <body class="bg-white text-black min-h-screen flex font-sans">
 
-  <!-- Sidebar -->
-  <div th:fragment="sidebar"></div>
+  <!-- Header -->
+  <div th:replace="~{layout/fragments/header :: header}"></div>
+<!-- Sidebar -->
+  <div th:replace="~{layout/fragments/sidebar :: sidebar}"></div>
 
   <!-- Conteúdo -->
-  <div class="flex-1 ml-64 p-10">
+  <div class="flex-1 ml-64 p-20 mt-10">
     <div class="border border-yellow-500 p-10 shadow-lg">
 
       <!-- Cabeçalho -->
