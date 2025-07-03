@@ -5,11 +5,17 @@
   <title>ShowGo | Criar sua Conta</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-white text-black min-h-screen flex items-center justify-center font-sans">
+<body class="bg-white text-black min-h-screen font-sans pt-24 pb-24 overflow-y-auto">
 
-  <div class="bg-white border border-yellow-500 p-10 shadow-lg w-full max-w-md">
+  <!-- Header -->
+  <div th:replace="~{layout/fragments/header :: header}"></div>
 
-    <h1 class="text-3xl font-bold text-center mb-8">Cadastrar Conta</h1>
+  <!-- Sidebar -->
+  <div th:replace="~{layout/fragments/sidebar :: sidebar}"></div>
+
+  <!-- Conteúdo -->
+  <div class="bg-white border border-yellow-500 p-5 shadow-lg w-full max-w-md mx-auto my-10">
+    <h1 class="text-3xl font-bold text-center mb-8 mt-10">Cadastrar Conta</h1>
 
     <form th:action="@{/usuarios/registrar}" th:object="${usuario}" method="post" class="space-y-6">
 
