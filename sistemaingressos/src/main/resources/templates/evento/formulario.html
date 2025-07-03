@@ -7,6 +7,12 @@
 </head>
 <body class="bg-gray-100 flex font-sans min-h-screen">
 
+   <!-- Header -->
+  <div th:replace="~{layout/fragments/header :: header}"></div>
+
+  <!-- Sidebar -->
+  <div th:replace="~{layout/fragments/sidebar :: sidebar}"></div>
+
   <!-- Conteúdo principal -->
   <main class="px-8 py-10 ml-64 flex-1 max-w-3xl mx-auto">
 
