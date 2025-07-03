@@ -18,8 +18,22 @@ public class EventoService {
     }
 
     public void salvar(Evento evento) {
+        boolean duplicado = eventoRepository.existsByNomeAndData(evento.getNome(), evento.getData());
+
+        // Regra de negócio: data não pode ser no passado
+        if (evento.getData() != null && evento.getData().isBefore(java.time.LocalDate.now())) {
+            throw new IllegalArgumentException("A data do evento não pode ser no passado.");
+        }
+
+        // Regra de negócio: evento não pode ser duplicado (mesmo nome e mesma data)
+        // Se for novo (sem ID ainda) e duplicado, rejeita
+        if (evento.getId() == null && duplicado) {
+            throw new IllegalArgumentException("Já existe um evento com esse nome e data.");
+        }
+
         eventoRepository.save(evento);
     }
+
 
     public List<Evento> listarTodos() {
         return eventoRepository.findAll();

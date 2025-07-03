@@ -8,8 +8,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 
 @Controller
 @RequestMapping("/ingressos")
@@ -19,14 +19,14 @@ public class IngressoController {
     // private IngressoRepository ingressoRepository;
     private IngressoService ingressoService;
 
-    //Dúvida: nos Controller: quando eu devo chamar o “classeRepository” e/ou o “classeService”?
-    //Dúvida: Como eu identifico pra quais classes eu devo criar um Service?
+    // Dúvida: nos Controller: quando eu devo chamar o “classeRepository” e/ou o
+    // “classeService”?
+    // Dúvida: Como eu identifico pra quais classes eu devo criar um Service?
 
     @Autowired
     private EventoRepository eventoRepository;
 
-
-   // LISTAR todos os ingressos
+    // LISTAR todos os ingressos
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("ingressos", ingressoService.listarTodos());
@@ -42,9 +42,20 @@ public class IngressoController {
     }
 
     // SALVAR novo ingresso ou atualizar existente
-    @PostMapping("/salvar")
-    public String salvar(@Valid Ingresso ingresso) {
-        ingressoService.salvar(ingresso);
+    public String salvar(@Valid Ingresso ingresso, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("eventos", eventoRepository.findAll());
+            return "ingresso/formulario";
+        }
+
+        try {
+            ingressoService.salvar(ingresso);
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("erro", ex.getMessage());
+            model.addAttribute("eventos", eventoRepository.findAll());
+            return "ingresso/formulario";
+        }
+
         return "redirect:/ingressos";
     }
 

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lista de Usuários</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-black min-h-screen flex font-sans">
+
+  <!-- Header -->
+  <div th:replace="~{layout/fragments/header :: header}"></div>
+<!-- Sidebar -->
+  <div th:replace="~{layout/fragments/sidebar :: sidebar}"></div>
+
+  <!-- Conteúdo -->
+  <div class="flex-1 ml-64 p-20 mt-10">
+    <div class="border border-yellow-500 p-10 shadow-lg">
+
+      <!-- Cabeçalho -->
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">Usuários</h1>
+        <a href="/usuarios/novo"
+           class="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 transition text-lg">
+          Adicionar Usuário
+        </a>
+      </div>
+
+      <!-- Tabela -->
+      <table class="w-full text-left border border-yellow-500 rounded overflow-hidden shadow">
+        <thead class="bg-yellow-500 text-black text-sm uppercase">
+          <tr>
+            <th class="px-4 py-3">ID</th>
+            <th class="px-4 py-3">Nome</th>
+            <th class="px-4 py-3">CPF</th>
+            <th class="px-4 py-3">Email</th>
+            <th class="px-4 py-3">Tipo</th>
+            <th class="px-4 py-3">Ações</th>
+          </tr>
+        </thead>
+        <tbody th:if="${usuarios.size() > 0}">
+          <tr th:each="usuario : ${usuarios}" class="border-t border-yellow-500 hover:bg-black/10 transition">
+            <td class="px-4 py-3" th:text="${usuario.id}">1</td>
+            <td class="px-4 py-3" th:text="${usuario.nome}">Nome</td>
+            <td class="px-4 py-3" th:text="${usuario.cpf}">CPF</td>
+            <td class="px-4 py-3" th:text="${usuario.email}">Email</td>
+            <td class="px-4 py-3" th:text="${usuario.tipoUsuario}">Tipo</td>
+            <td class="px-4 py-3 space-x-3">
+              <a th:href="@{'/usuarios/editar/' + ${usuario.id}}" class="text-yellow-400 hover:underline">Editar</a>
+              <a th:href="@{'/usuarios/excluir/' + ${usuario.id}}"
+                 class="text-red-500 hover:underline"
+                 onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
+            </td>
+          </tr>
+        </tbody>
+        <tbody th:if="${usuarios.size() == 0}">
+          <tr>
+            <td colspan="6" class="px-4 py-6 text-center text-gray-300">Nenhum usuário cadastrado.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</body>
+</html>

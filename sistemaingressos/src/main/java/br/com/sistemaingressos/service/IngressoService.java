@@ -1,10 +1,12 @@
 package br.com.sistemaingressos.service;
 
 import br.com.sistemaingressos.model.Ingresso;
+import br.com.sistemaingressos.model.StatusIngresso;
 import br.com.sistemaingressos.repository.IngressoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -18,6 +20,14 @@ public class IngressoService {
     }
 
     public void salvar(Ingresso ingresso) {
+        //Regra de negócio: o preço nao pode ser <= 0 
+        if (ingresso.getPreco() == null || ingresso.getPreco().compareTo(BigDecimal.ZERO) <= 0) {
+        throw new IllegalArgumentException("O preço do ingresso deve ser maior que zero.");
+        }
+
+        //Regra de negócio: o ingresso já é setado como disponível
+        ingresso.setStatus(StatusIngresso.DISPONIVEL);
+        
         ingressoRepository.save(ingresso);
     }
 

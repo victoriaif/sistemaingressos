@@ -5,6 +5,7 @@ import br.com.sistemaingressos.repository.EventoRepository;
 import br.com.sistemaingressos.service.EventoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +33,18 @@ public class EventoController {
 
     // SALVAR EVENTO
     @PostMapping("/salvar")
-    public String salvar(@Valid Evento evento) {
-        eventoService.salvar(evento);
+    public String salvar(@Valid Evento evento, org.springframework.validation.BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "evento/formulario";
+        }
+
+        try {
+            eventoService.salvar(evento);
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("erro", ex.getMessage());
+            return "evento/formulario";
+        }
+
         return "redirect:/eventos";
     }
 
@@ -46,10 +57,25 @@ public class EventoController {
     }
 
     // DELETAR EVENTO
-    @GetMapping("/excluir/{id}") // ou?  @GetMapping("/{id}/deletar")
+    @GetMapping("/excluir/{id}") // ou? @GetMapping("/{id}/deletar")
     public String excluir(@PathVariable Long id) {
         eventoService.excluir(id);
         return "redirect:/eventos";
     }
+
+    //Regre de negócio - Ingresso: puxa data e local do evento selecionado
+    @GetMapping("/detalhes/{id}")
+    @ResponseBody
+    public Evento buscarDetalhesEvento(@PathVariable Long id) {
+        return eventoService.buscarPorId(id);
+    }
+    //ou 
+    // @GetMapping("/detalhes/{id}")
+    // @ResponseBody
+    // public ResponseEntity<Evento> detalhes(@PathVariable Long id) {
+    //     Evento evento = eventoService.buscarPorId(id);
+    //     return ResponseEntity.ok(evento);
+    // }
+
 
 }
