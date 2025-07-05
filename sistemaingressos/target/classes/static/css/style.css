@@ -1,0 +1,36 @@
+/* Estilos do hamburguer */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.hamburger div {
+  background-color: white;
+  height: 4px;
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Sidebar */
+.sidebar {
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.-translate-x-full {
+  transform: translateX(-100%);
+}
+
+/* Modificação para garantir que o botão hambúrguer e a sidebar se comportem corretamente em dispositivos móveis */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
