@@ -1,31 +1,31 @@
 <header th:fragment="header" class="bg-black border-b border-black shadow-lg fixed top-0 left-0 w-full z-30">
   <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
 
+    <div class="relative w-1/2 max-w-md">
     <!-- Campo de busca -->
-    <input
-      type="search"
-      placeholder="Pesquisar eventos..."
-      class="rounded-full px-3 py-2 text-black w-1/2 max-w-md border border-gray-600 bg-white"
-    />
-
+    <input type="search" id="search-eventos" placeholder="Pesquisar eventos..."
+      th:value="${query}" class="rounded-full px-3 py-2 text-black w-1/2 max-w-md border border-gray-600 bg-white" />
+    
+      <ul id="eventos-list"
+      class="absolute z-50 left-0 right-0 bg-white border border-gray-300 rounded shadow mt-1 max-h-64 overflow-auto"
+  ></ul>
+</div>
     <!-- Botões -->
     <div class="flex items-center space-x-3">
       <!-- Botão de login -->
-      <a
-        href="/login"
-        class="bg-yellow-500 text-white border border-yellow-500 rounded-full px-6 py-3 hover:bg-yellow-600 transition"
-      >
+      <a href="/login"
+        class="bg-yellow-500 text-white border border-yellow-500 rounded-full px-6 py-3 hover:bg-yellow-600 transition">
         Entrar
       </a>
 
       <!-- Botão de anunciar -->
-      <a
-        href="/ingressos/anunciar"
-        class="bg-yellow-500 text-white border border-yellow-500 rounded-full px-6 py-3 hover:bg-yellow-600 transition"
-      >
+      <a href="/ingressos/anunciar"
+        class="bg-yellow-500 text-white border border-yellow-500 rounded-full px-6 py-3 hover:bg-yellow-600 transition">
         Anunciar
       </a>
     </div>
 
   </div>
 </header>
+
+

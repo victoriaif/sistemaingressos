@@ -39,6 +39,11 @@ public class EventoService {
         return eventoRepository.findAll();
     }
 
+    public List<Evento> buscarPorNome(String nome) {
+    return eventoRepository.findByNomeContainingIgnoreCase(nome);
+}
+
+
     public Evento buscarPorId(Long id) {
         return eventoRepository.findById(id).orElseThrow(
             () -> new RuntimeException("Evento não encontrado com ID: " + id)

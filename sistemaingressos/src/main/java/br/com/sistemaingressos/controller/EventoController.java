@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @Controller
 @RequestMapping("/eventos")
@@ -17,59 +18,71 @@ public class EventoController {
     @Autowired
     private EventoService eventoService;
 
-    // LISTAR EVENTOS
+    //LISTAR EVENTOS COM FILTRO OPCIONAL (barra de pesquisa)
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("eventos", eventoService.listarTodos());
+    public String listar(@RequestParam(name = "q", required = false) String query, Model model) {
+        List<Evento> eventos;
+        if (query != null && !query.isEmpty()) {
+            eventos = eventoService.buscarPorNome(query);
+        } else {
+            eventos = eventoService.listarTodos();
+        }
+        model.addAttribute("eventos", eventos);
+        model.addAttribute("query", query);
         return "evento/listar";
     }
 
-    // FORMULÁRIO PARA NOVO EVENTO
+    // AUTOCOMPLETE JSON (busca rápida para a lista suspensa)
+    @GetMapping("/autocomplete")
+    @ResponseBody
+    public List<Evento> buscarPorNomeJson(@RequestParam("q") String query) {
+        return eventoService.buscarPorNome(query);
+    }
+
+    //FORMULÁRIO PARA NOVO EVENTO
     @GetMapping("/novo")
     public String novo(Model model) {
         model.addAttribute("evento", new Evento());
         return "evento/formulario";
     }
 
-    // SALVAR EVENTO
+    //SALVAR EVENTO
     @PostMapping("/salvar")
     public String salvar(@Valid Evento evento, org.springframework.validation.BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "evento/formulario";
         }
-
         try {
             eventoService.salvar(evento);
         } catch (IllegalArgumentException ex) {
             model.addAttribute("erro", ex.getMessage());
             return "evento/formulario";
         }
-
         return "redirect:/eventos";
     }
 
-    // EDITAR EVENTO
-    @GetMapping("/editar/{id}") // ou? @GetMapping("/{id}/editar")
+    //EDITAR EVENTO
+    @GetMapping("/editar/{id}")
     public String editar(@PathVariable Long id, Model model) {
         Evento evento = eventoService.buscarPorId(id);
         model.addAttribute("evento", evento);
         return "evento/formulario";
     }
 
-    // DELETAR EVENTO
-    @GetMapping("/excluir/{id}") // ou? @GetMapping("/{id}/deletar")
+    //EXCLUIR EVENTO
+    @GetMapping("/excluir/{id}")
     public String excluir(@PathVariable Long id) {
         eventoService.excluir(id);
         return "redirect:/eventos";
     }
 
-    //Regre de negócio - Ingresso: puxa data e local do evento selecionado
+    //BUSCAR DETALHES DO EVENTO (JSON)
     @GetMapping("/detalhes/{id}")
     @ResponseBody
     public Evento buscarDetalhesEvento(@PathVariable Long id) {
         return eventoService.buscarPorId(id);
     }
-    //ou 
+       //ou 
     // @GetMapping("/detalhes/{id}")
     // @ResponseBody
     // public ResponseEntity<Evento> detalhes(@PathVariable Long id) {
@@ -77,5 +90,5 @@ public class EventoController {
     //     return ResponseEntity.ok(evento);
     // }
 
-
 }
+

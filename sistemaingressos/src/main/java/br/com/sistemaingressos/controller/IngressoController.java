@@ -8,7 +8,6 @@ import br.com.sistemaingressos.service.IngressoService;
 import br.com.sistemaingressos.service.EventoService;
 import br.com.sistemaingressos.repository.EventoRepository;
 import jakarta.validation.Valid;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
