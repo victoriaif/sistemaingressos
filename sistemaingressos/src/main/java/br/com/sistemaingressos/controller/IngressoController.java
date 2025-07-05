@@ -42,6 +42,7 @@ public class IngressoController {
     }
 
     // SALVAR novo ingresso ou atualizar existente
+    @PostMapping("/salvar")
     public String salvar(@Valid Ingresso ingresso, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("eventos", eventoRepository.findAll());
