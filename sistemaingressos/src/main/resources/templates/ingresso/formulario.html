@@ -63,6 +63,16 @@
       </div>
 
 
+    <!-- Status -->
+      <!-- Campo visível só para exibir, mas não editável -->
+      <div>
+        <label class="block font-medium mb-2 text-black">Status</label>
+        <input type="text" value="Disponível" readonly
+              class="w-full py-3 px-4 bg-gray-200 text-black rounded-lg" />
+      </div>
+      <!-- Campo oculto para enviar o valor real -->
+      <input type="hidden" th:field="*{status}" value="DISPONIVEL" />
+
       <!-- Preço -->
       <div>
         <label for="preco" class="block font-medium mb-2 text-black">Preço</label>

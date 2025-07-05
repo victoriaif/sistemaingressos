@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Evento {
 
@@ -25,6 +27,7 @@ public class Evento {
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ingresso> ingressos;
 

@@ -2,6 +2,7 @@ package br.com.sistemaingressos.controller;
 
 import br.com.sistemaingressos.model.Evento;
 import br.com.sistemaingressos.model.Ingresso;
+import br.com.sistemaingressos.model.StatusIngresso;
 import br.com.sistemaingressos.repository.IngressoRepository;
 import br.com.sistemaingressos.service.IngressoService;
 import br.com.sistemaingressos.service.EventoService;
@@ -49,7 +50,9 @@ public class IngressoController {
     // Formulário para novo ingresso
     @GetMapping("/novo")
     public String novo(Model model) {
-        model.addAttribute("ingresso", new Ingresso());
+        Ingresso ingresso = new Ingresso();
+        ingresso.setStatus(StatusIngresso.DISPONIVEL); //Aqui seta o valor inicial
+        model.addAttribute("ingresso", ingresso);
         model.addAttribute("eventos", eventoRepository.findAll());
         return "ingresso/formulario";
     }

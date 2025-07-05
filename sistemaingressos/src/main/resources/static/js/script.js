@@ -1,4 +1,4 @@
-//Script para carregar estados e cidades dinamicamente
+//Evento : Script para carregar estados e cidades dinamicamente
 
 document.addEventListener("DOMContentLoaded", function () {
   const estadoSelect = document.getElementById('estado');
@@ -69,3 +69,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+//Ingresso: formata preço para sempre ter 2 casas decimais (ex: 00.00)
+document.addEventListener("DOMContentLoaded", () => {
+    const precoInput = document.getElementById("preco");
+
+    if (precoInput) {
+      precoInput.addEventListener("blur", () => {
+        const valor = parseFloat(precoInput.value);
+        if (!isNaN(valor)) {
+          precoInput.value = valor.toFixed(2);
+        }
+      });
+    }
+  });

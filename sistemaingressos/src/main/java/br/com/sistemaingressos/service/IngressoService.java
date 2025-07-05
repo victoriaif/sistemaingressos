@@ -25,6 +25,11 @@ public class IngressoService {
         throw new IllegalArgumentException("O preço do ingresso deve ser maior que zero.");
         }
 
+         // Regra: o preço deve ter exatamente 2 casas decimais
+        if (ingresso.getPreco().scale() != 2) {
+            throw new IllegalArgumentException("O preço deve conter exatamente duas casas decimais (ex: 10.00).");
+        }
+
         //Regra de negócio: o ingresso já é setado como disponível
         ingresso.setStatus(StatusIngresso.DISPONIVEL);
         
