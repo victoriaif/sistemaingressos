@@ -1,45 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layoutpadrao}"
+      lang="pt-br">
+
 <head>
-  <meta charset="UTF-8" />
   <title>Criar anúncio</title>
-  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-white text-black min-h-screen flex font-sans items-center justify-center px-4">
-  <!-- Header -->
-  <div th:replace="~{layout/fragments/header :: header}"></div>
 
-  <!-- Sidebar -->
-  <div th:replace="~{layout/fragments/sidebar :: sidebar}"></div>
+<body>
 
-  <div class="w-full max-w-md border border-yellow-500 shadow-lg p-8 bg-white space-y-6">
-    <h1 class="text-3xl font-bold mb-6">Criar anúncio</h1>
-    <p class="text-sm font-semibold text-yellow-600">Escolha o tipo de anúncio</p>
+  <main layout:fragment="main" class="flex items-center justify-center min-h-screen px-4">
 
-    <!-- Opção: Comprar -->
-    <a href="/ingressos/novo" 
-       class="flex items-center gap-5 p-5 border border-yellow-500 rounded-lg hover:bg-yellow-50 transition">
-      <div class="bg-yellow-200 p-3 rounded-full text-2xl">
-        🛒
-      </div>
-      <div>
-        <p class="font-bold text-lg text-black">Comprar</p>
-        <p class="text-sm text-yellow-700">Eu quero comprar um ingresso</p>
-      </div>
-    </a>
+    <div class="w-full max-w-md border border-yellow-500 shadow-lg p-8 bg-white space-y-6">
 
-    <!-- Opção: Vender -->
-    <a href="/ingressos/novo" 
-       class="flex items-center gap-5 p-5 border border-yellow-500 rounded-lg hover:bg-yellow-50 transition">
-      <div class="bg-yellow-200 p-3 rounded-full text-2xl">
-        💸
-      </div>
-      <div>
-        <p class="font-bold text-lg text-black">Vender</p>
-        <p class="text-sm text-yellow-700">Eu quero vender um ingresso</p>
-      </div>
-    </a>
-  </div>
+      <h1 class="text-3xl font-bold mb-6">Criar anúncio</h1>
+      <p class="text-sm font-semibold text-yellow-600">Escolha o tipo de anúncio</p>
+
+      <a href="/ingressos/novo" 
+         class="flex items-center gap-5 p-5 border border-yellow-500 rounded-lg hover:bg-yellow-50 transition">
+        <div class="bg-yellow-200 p-3 rounded-full text-2xl">🛒</div>
+        <div>
+          <p class="font-bold text-lg text-black">Comprar</p>
+          <p class="text-sm text-yellow-700">Eu quero comprar um ingresso</p>
+        </div>
+      </a>
+
+      <a href="/ingressos/novo" 
+         class="flex items-center gap-5 p-5 border border-yellow-500 rounded-lg hover:bg-yellow-50 transition">
+        <div class="bg-yellow-200 p-3 rounded-full text-2xl">💸</div>
+        <div>
+          <p class="font-bold text-lg text-black">Vender</p>
+          <p class="text-sm text-yellow-700">Eu quero vender um ingresso</p>
+        </div>
+      </a>
+
+    </div>
+
+  </main>
 
 </body>
 </html>

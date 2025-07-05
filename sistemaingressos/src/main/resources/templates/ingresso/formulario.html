@@ -1,23 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layoutpadrao}"
+      lang="pt-br">
 
 <head>
-  <meta charset="UTF-8">
   <title th:text="*{id} != null ? 'Editar Ingresso' : 'Cadastrar Ingresso'">Ingresso</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="/js/script.js"></script>
 </head>
 
-<body class="bg-gray-100 flex font-sans min-h-screen">
+<body>
 
-  <!-- Header -->
-  <div th:replace="~{layout/fragments/header :: header}"></div>
-
-  <!-- Sidebar -->
-  <div th:replace="~{layout/fragments/sidebar :: sidebar}"></div>
-
-  <!-- Conteúdo principal -->
-  <main class="px-8 py-10 ml-64 mt-20 flex-1 max-w-3xl mx-auto">
+  <main layout:fragment="main" class="px-8 py-10 ml-64 mt-20 flex-1 max-w-3xl mx-auto">
 
     <h1 class="text-2xl font-bold mb-8" th:text="*{id} != null ? 'Editar Ingresso' : 'Cadastrar Ingresso'"></h1>
 
@@ -57,28 +50,8 @@
       <!-- Tipo do Ingresso -->
       <div>
         <label for="tipo" class="block font-medium mb-2 text-black">Tipo do Ingresso</label>
-        <input type="text" th:field="*{tipo}" id="tipo"
-          class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
-          required />
-      </div>
-
-
-    <!-- Status -->
-      <!-- Campo visível só para exibir, mas não editável -->
-      <div>
-        <label class="block font-medium mb-2 text-black">Status</label>
-        <input type="text" value="Disponível" readonly
-              class="w-full py-3 px-4 bg-gray-200 text-black rounded-lg" />
-      </div>
-      <!-- Campo oculto para enviar o valor real -->
-      <input type="hidden" th:field="*{status}" value="DISPONIVEL" />
-
-      <!-- Preço -->
-      <div>
-        <label for="preco" class="block font-medium mb-2 text-black">Preço</label>
-        <input type="number" step="0.01" th:field="*{preco}" id="preco"
-          class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
-          required />
+        <input type="text" th:field="*{tipo}" id="tipo" required
+          class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" />
       </div>
 
       <!-- Status -->
@@ -90,6 +63,13 @@
           <option th:value="VENDIDO">Vendido</option>
           <option th:value="EXPIRADO">Expirado</option>
         </select>
+      </div>
+
+      <!-- Preço -->
+      <div>
+        <label for="preco" class="block font-medium mb-2 text-black">Preço</label>
+        <input type="number" step="0.01" th:field="*{preco}" id="preco" required
+          class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" />
       </div>
 
       <!-- Botões -->
@@ -105,5 +85,4 @@
   </main>
 
 </body>
-
 </html>
