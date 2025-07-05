@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,9 +26,14 @@ public class IngressoService {
         throw new IllegalArgumentException("O preço do ingresso deve ser maior que zero.");
         }
 
-         // Regra: o preço deve ter exatamente 2 casas decimais
+         // Regra de negocio: o preço deve ter exatamente 2 casas decimais
         if (ingresso.getPreco().scale() != 2) {
             throw new IllegalArgumentException("O preço deve conter exatamente duas casas decimais (ex: 10.00).");
+        }
+
+        //Regra de negocio: a data do evento vinculado nao pode ser anterior à 'hoje'
+        if (ingresso.getData() == null || ingresso.getData().isBefore(LocalDate.now())) {
+         throw new IllegalArgumentException("A data deste evento já passou. Não é possível anunciar o ingresso.");
         }
 
         //Regra de negócio: o ingresso já é setado como disponível
@@ -47,12 +53,36 @@ public class IngressoService {
         ingressoRepository.deleteById(id);
     }
 
+    //Regra de negócio: atualiza Status pra 'expirado' quando a data do Evento estiver no passado
     public Ingresso buscarPorId(Long id) {
-        return ingressoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Ingresso com ID inválido"));
+        Ingresso ingresso = ingressoRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Ingresso com ID inválido"));
+
+        // Atualiza status se necessário
+        if (ingresso.getData().isBefore(LocalDate.now()) && ingresso.getStatus() != StatusIngresso.EXPIRADO) {
+            ingresso.setStatus(StatusIngresso.EXPIRADO);
+            ingressoRepository.save(ingresso);
+        }
+
+        return ingresso;
     }
 
     public List<Ingresso> listarTodos() {
-        return ingressoRepository.findAll();
+    List<Ingresso> ingressos = ingressoRepository.findAll();
+    atualizarIngressosExpirados(ingressos);
+    return ingressos;
+}
+
+    //Regra de negócio: atualiza Status pra 'expirado' quando a data do Evento estiver no passado
+    private void atualizarIngressosExpirados(List<Ingresso> ingressos) {
+    LocalDate hoje = LocalDate.now();
+    for (Ingresso ingresso : ingressos) {
+        if (ingresso.getData().isBefore(hoje) && ingresso.getStatus() != StatusIngresso.EXPIRADO) {
+            ingresso.setStatus(StatusIngresso.EXPIRADO);
+            ingressoRepository.save(ingresso);
+        }
     }
+}
+
+
 }
