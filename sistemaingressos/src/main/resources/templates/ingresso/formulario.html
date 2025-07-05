@@ -28,6 +28,16 @@
     <form th:action="@{/ingressos/salvar}" th:object="${ingresso}" method="post" class="space-y-6 w-full">
       <input type="hidden" th:field="*{id}" />
 
+    <!-- Evento -->
+      <div>
+        <label for="evento" class="block font-medium mb-2 text-black">Evento</label>
+        <select th:field="*{evento}" id="evento" required
+                class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500">
+          <option value="">-- Selecione um Evento --</option>
+          <option th:each="evento : ${eventos}" th:value="${evento.id}" th:text="${evento.nome}"></option>
+        </select>
+      </div>
+
     <!-- Data (preenchida automaticamente puxando do evento) -->
     <div>
       <label for="data" class="block font-medium mb-2 text-black">Data</label>
@@ -42,34 +52,28 @@
             class="w-full py-3 px-4 bg-gray-200 text-black rounded-lg" />
     </div>
 
+    <!-- Status -->
+      <!-- Campo visível só para exibir, mas não editável -->
+      <div>
+        <label class="block font-medium mb-2 text-black">Status</label>
+        <input type="text" value="Disponível" readonly
+              class="w-full py-3 px-4 bg-gray-200 text-black rounded-lg" />
+      </div>
+      <!-- Campo oculto para enviar o valor real -->
+      <input type="hidden" th:field="*{status}" value="DISPONIVEL" />
+
       <!-- Preço -->
       <div>
         <label for="preco" class="block font-medium mb-2 text-black">Preço</label>
-        <input type="number" step="0.01" th:field="*{preco}" id="preco"
-               class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
-               required />
-      </div>
-
-      <!-- Status -->
-      <div>
-        <label for="status" class="block font-medium mb-2 text-black">Status</label>
-        <select th:field="*{status}" id="status"
-                class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500">
-          <option th:value="DISPONIVEL">Disponível</option>
-          <option th:value="VENDIDO">Vendido</option>
-          <option th:value="EXPIRADO">Expirado</option>
-        </select>
-      </div>
-
-      <!-- Evento -->
-      <div>
-        <label for="evento" class="block font-medium mb-2 text-black">Evento</label>
-        <select th:field="*{evento}" id="evento" required
-                class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500">
-          <option value="">-- Selecione um Evento --</option>
-          <option th:each="evento : ${eventos}" th:value="${evento.id}" th:text="${evento.nome}"></option>
-        </select>
-      </div>
+        <input type="number"
+         step="0.01"
+         min="0.01"
+         th:field="*{preco}"
+         id="preco"
+         required
+         class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" 
+         />
+      </div>      
 
       <!-- Botões -->
       <div class="flex justify-between items-center mt-8">
