@@ -45,11 +45,25 @@
             <td class="px-4 py-3" th:text="${#temporals.format(evento.data, 'dd/MM/yyyy')}">Data</td>
             <td class="px-4 py-3" th:text="${evento.local}">Local</td>
             <td class="px-4 py-3" th:text="${evento.descricao}">Descrição</td>
-            <td class="px-4 py-3 space-x-3">
-              <a th:href="@{'/eventos/editar/' + ${evento.id}}" class="text-yellow-400 hover:underline">Editar</a>
+            <td class="px-4 py-3 space-y-2 flex flex-col">
+
+              <!-- Ver ingressos do evento -->
+              <a th:href="@{'/ingressos/evento/' + ${evento.id}}"
+                 class="text-green-600 hover:underline">Comprar Ingresso</a>
+
+              <!-- Anunciar venda de ingresso para o evento -->
+              <a th:href="@{'/ingressos/novo?evento=' + ${evento.id}}"
+                 class="text-blue-500 hover:underline">Vender Ingresso</a>
+
+              <!-- Editar evento -->
+              <a th:href="@{'/eventos/editar/' + ${evento.id}}"
+                 class="text-yellow-400 hover:underline">Editar</a>
+
+              <!-- Excluir evento -->
               <a th:href="@{'/eventos/excluir/' + ${evento.id}}"
                  class="text-red-500 hover:underline"
                  onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
+
             </td>
           </tr>
         </tbody>

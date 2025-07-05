@@ -47,6 +47,11 @@ public class IngressoService {
             .orElseThrow(() -> new RuntimeException("Ingresso com ID inválido"));
     }
 
+    //Listar ingressos por evento
+    public List<Ingresso> listarPorEvento(Long idEvento) {
+    return ingressoRepository.findByEventoId(idEvento);
+}
+
     public List<Ingresso> listarTodos() {
         return ingressoRepository.findAll();
     }

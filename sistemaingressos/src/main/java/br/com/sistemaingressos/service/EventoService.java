@@ -12,7 +12,7 @@ import java.util.List;
 public class EventoService {
 
     private final EventoRepository eventoRepository;
-
+    //Listar ingressos por evento
     public EventoService(EventoRepository eventoRepository) {
         this.eventoRepository = eventoRepository;
     }

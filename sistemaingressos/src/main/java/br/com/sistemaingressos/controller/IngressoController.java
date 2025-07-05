@@ -1,10 +1,14 @@
 package br.com.sistemaingressos.controller;
 
+import br.com.sistemaingressos.model.Evento;
 import br.com.sistemaingressos.model.Ingresso;
 import br.com.sistemaingressos.repository.IngressoRepository;
 import br.com.sistemaingressos.service.IngressoService;
+import br.com.sistemaingressos.service.EventoService;
 import br.com.sistemaingressos.repository.EventoRepository;
 import jakarta.validation.Valid;
+
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +30,9 @@ public class IngressoController {
     @Autowired
     private EventoRepository eventoRepository;
 
+    @Autowired
+    private EventoService eventoService;
+
     // LISTAR todos os ingressos
     @GetMapping
     public String listar(Model model) {
@@ -33,7 +40,7 @@ public class IngressoController {
         return "ingresso/listar";
     }
 
-    //Página para escolher se o ingresso é compra ou venda
+    // Página para escolher se o ingresso é compra ou venda
     @GetMapping("/anunciar")
     public String anunciar() {
         return "ingresso/anunciar";
@@ -45,6 +52,17 @@ public class IngressoController {
         model.addAttribute("ingresso", new Ingresso());
         model.addAttribute("eventos", eventoRepository.findAll());
         return "ingresso/formulario";
+    }
+
+    // Listar ingressos por evento
+   @GetMapping("/evento/{idEvento}")
+    public String listarPorEvento(@PathVariable Long idEvento, Model model) {
+        List<Ingresso> ingressos = ingressoService.listarPorEvento(idEvento);
+        Evento evento = eventoService.buscarPorId(idEvento);
+
+        model.addAttribute("ingressos", ingressos);
+        model.addAttribute("evento", evento);
+        return "ingresso/listar-por-evento";
     }
 
     // SALVAR novo ingresso ou atualizar existente

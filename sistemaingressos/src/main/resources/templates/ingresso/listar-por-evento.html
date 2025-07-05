@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ingressos do Evento</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-black min-h-screen flex font-sans">
+
+  <!-- Header -->
+  <div th:replace="~{layout/fragments/header :: header}"></div>
+
+  <!-- Sidebar -->
+  <div th:replace="~{layout/fragments/sidebar :: sidebar}"></div>
+
+  <!-- Conteúdo -->
+  <div class="flex-1 ml-64 p-20 mt-10">
+    <div class="border border-yellow-500 p-10 shadow-lg">
+
+      <!-- Título -->
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">
+          Ingressos - <span th:text="${evento.nome}">Nome do Evento</span>
+        </h1>
+      </div>
+
+      <!-- Tabela -->
+      <table class="w-full text-left border border-yellow-500 rounded overflow-hidden shadow">
+        <thead class="bg-yellow-500 text-black text-sm uppercase">
+          <tr>
+            <th class="px-4 py-3">ID</th>
+            <th class="px-4 py-3">Tipo</th>
+            <th class="px-4 py-3">Preço</th>
+            <th class="px-4 py-3">Status</th>
+            <th class="px-4 py-3">Ações</th>
+          </tr>
+        </thead>
+        <tbody th:if="${ingressos.size() > 0}">
+          <tr th:each="ingresso : ${ingressos}" class="border-t border-yellow-500 hover:bg-black/10 transition">
+            <td class="px-4 py-3" th:text="${ingresso.id}">1</td>
+            <td class="px-4 py-3" th:text="${ingresso.tipo}">VIP</td>
+            <td class="px-4 py-3" th:text="${#numbers.formatDecimal(ingresso.preco, 2, 'COMMA', 2, 'POINT')}">100,00</td>
+            <td class="px-4 py-3" th:text="${ingresso.status}">DISPONIVEL</td>
+            <td class="px-4 py-3">
+              <a th:href="@{'/ingressos/comprar/' + ${ingresso.id}}"
+                 class="text-green-600 hover:underline"
+                 th:if="${ingresso.status == 'DISPONIVEL'}">Comprar</a>
+              <span th:if="${ingresso.status != 'DISPONIVEL'}" class="text-gray-400 italic">Indisponível</span>
+            </td>
+          </tr>
+        </tbody>
+        <tbody th:if="${ingressos.size() == 0}">
+          <tr>
+            <td colspan="5" class="px-4 py-6 text-center text-gray-300">Nenhum ingresso disponível para este evento.</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</body>
+</html>
