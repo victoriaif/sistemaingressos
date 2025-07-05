@@ -12,10 +12,11 @@
       letter-spacing: 1px;
       text-transform: uppercase;
     }
+
     .swiper-button-next::after,
     .swiper-button-prev::after {
-    color: rgba(255, 196, 0, 0.952) !important;
-    font-size: 28px !important;
+      color: rgba(255, 196, 0, 0.952) !important;
+      font-size: 28px !important;
     }
 
     .card {
@@ -65,7 +66,8 @@
     </section>
 
     <section class="mt-10">
-      <h2 class="text-2xl mb-6 text-gray-900 text-center">Eventos em destaque</h2>
+      <h2 class="text-2xl mb-6 text-gray-900 text-center">EVENTOS EM DESTAQUE
+      </h2>
 
       <div class="swiper max-w-6xl mx-auto">
         <div class="swiper-wrapper">
@@ -127,7 +129,13 @@
       const swiper = new Swiper('.swiper', {
         slidesPerView: 3,
         spaceBetween: 30,
-        loop: true,
+        loop: false, 
+        autoplay: {
+          delay: 3000,
+          reverseDirection: false, 
+          stopOnLastSlide: false, 
+          disableOnInteraction: false,
+        },
         pagination: {
           el: '.swiper-pagination',
           clickable: true,
