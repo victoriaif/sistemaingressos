@@ -33,6 +33,12 @@ public class IngressoController {
         return "ingresso/listar";
     }
 
+    //Página para escolher se o ingresso é compra ou venda
+    @GetMapping("/anunciar")
+    public String anunciar() {
+        return "ingresso/anunciar";
+    }
+
     // Formulário para novo ingresso
     @GetMapping("/novo")
     public String novo(Model model) {
