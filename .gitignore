@@ -3,6 +3,7 @@
 
 # Maven
 /target/
+**/target/
 /.mvn/
 !.mvn/wrapper/maven-wrapper.jar
 
