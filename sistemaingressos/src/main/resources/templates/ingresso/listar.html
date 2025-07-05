@@ -9,7 +9,8 @@
 
   <!-- Header -->
   <div th:replace="~{layout/fragments/header :: header}"></div>
-<!-- Sidebar -->
+
+  <!-- Sidebar -->
   <div th:replace="~{layout/fragments/sidebar :: sidebar}"></div>
 
   <!-- Conteúdo -->
@@ -30,22 +31,24 @@
         <thead class="bg-yellow-500 text-black text-sm uppercase">
           <tr>
             <th class="px-4 py-3">ID</th>
+            <th class="px-4 py-3">Evento</th>
             <th class="px-4 py-3">Data</th>
             <th class="px-4 py-3">Local</th>
+            <th class="px-4 py-3">Tipo</th>
             <th class="px-4 py-3">Preço</th>
             <th class="px-4 py-3">Status</th>
-            <th class="px-4 py-3">Evento</th>
             <th class="px-4 py-3">Ações</th>
           </tr>
         </thead>
         <tbody th:if="${ingressos.size() > 0}">
           <tr th:each="ingresso : ${ingressos}" class="border-t border-yellow-500 hover:bg-black/10 transition">
             <td class="px-4 py-3" th:text="${ingresso.id}">1</td>
+            <td class="px-4 py-3" th:text="${ingresso.evento.nome}">Show</td>
             <td class="px-4 py-3" th:text="${#temporals.format(ingresso.data, 'dd/MM/yyyy')}">01/07/2025</td>
             <td class="px-4 py-3" th:text="${ingresso.local}">Local</td>
+            <td class="px-4 py-3" th:text="${ingresso.tipo}">VIP</td>
             <td class="px-4 py-3" th:text="${#numbers.formatDecimal(ingresso.preco, 2, 'COMMA', 2, 'POINT')}">100,00</td>
             <td class="px-4 py-3" th:text="${ingresso.status}">DISPONIVEL</td>
-            <td class="px-4 py-3" th:text="${ingresso.evento.nome}">Show</td>
             <td class="px-4 py-3 space-x-3">
               <a th:href="@{'/ingressos/editar/' + ${ingresso.id}}" class="text-yellow-400 hover:underline">Editar</a>
               <a th:href="@{'/ingressos/excluir/' + ${ingresso.id}}"
@@ -56,7 +59,7 @@
         </tbody>
         <tbody th:if="${ingressos.size() == 0}">
           <tr>
-            <td colspan="7" class="px-4 py-6 text-center text-gray-300">Nenhum ingresso cadastrado.</td>
+            <td colspan="8" class="px-4 py-6 text-center text-gray-300">Nenhum ingresso cadastrado.</td>
           </tr>
         </tbody>
       </table>
