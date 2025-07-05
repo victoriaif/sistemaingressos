@@ -52,9 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   const eventoSelect = document.getElementById("evento");
   const dataInput = document.getElementById("data");
-  const cidadeSelect = document.getElementById("cidade");
+  const localInput = document.getElementById("local");
 
-  if (eventoSelect && dataInput && cidadeSelect) {
+  if (eventoSelect && dataInput && localInput) {
     eventoSelect.addEventListener("change", function () {
       const eventoId = this.value;
       if (!eventoId) return;
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
       fetch(`/eventos/detalhes/${eventoId}`)
         .then(response => response.json())
         .then(evento => {
-          dataInput.value = evento.data;
+          dataInput.value = evento.data;   // deve vir em yyyy-MM-dd
           localInput.value = evento.local;
         })
         .catch(error => console.error("Erro ao buscar evento:", error));
