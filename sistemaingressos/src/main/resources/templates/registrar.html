@@ -34,7 +34,14 @@
                class="w-full p-4 bg-white text-black border border-yellow-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 text-lg"
                required />
       </div>
-
+      
+      <!-- CPF -->
+        <div>
+          <label for="cpf" class="block font-medium mb-2">CPF</label>
+          <input th:field="*{cpf}" type="text" id="cpf"
+                 class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+        </div>
+        
       <!-- Tipo de Cadastro -->
       <div>
         <label for="tipoUsuario" class="block font-medium mb-2">Tipo de Cadastro</label>
