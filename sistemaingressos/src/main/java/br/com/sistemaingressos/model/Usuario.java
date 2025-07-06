@@ -6,6 +6,10 @@ import jakarta.validation.constraints.Email;
 // import java.util.List;
 // import java.time.LocalDate;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 public class Usuario {
 
@@ -26,8 +30,13 @@ public class Usuario {
     @NotBlank
     private String senha;
 
-    @Enumerated(EnumType.STRING)
-    private TipoUsuario tipoUsuario;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "usuario_papel",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "papel_id")
+    )
+    private Set<Papel> papeis = new HashSet<>();
 
     // 🔗 Se você quiser, pode manter apenas esta relação de dono de ingresso
     @OneToMany(mappedBy = "usuarioAnunciante")
@@ -38,12 +47,11 @@ public class Usuario {
     }
 
     // 🔧 Construtor com campos principais
-    public Usuario(String cpf, String nome, String email, String senha, TipoUsuario tipoUsuario) {
+    public Usuario(String cpf, String nome, String email, String senha) {
         this.cpf = cpf;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-        this.tipoUsuario = tipoUsuario;
     }
 
     // ✅ Getters e Setters
@@ -87,12 +95,12 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public TipoUsuario getTipoUsuario() {
-        return tipoUsuario;
+    public Set<Papel> getPapeis() {
+        return papeis;
     }
 
-    public void setTipoUsuario(TipoUsuario tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
+    public void setPapeis(Set<Papel> papeis) {
+        this.papeis = papeis;
     }
 
     public java.util.List<Ingresso> getIngressos() {
