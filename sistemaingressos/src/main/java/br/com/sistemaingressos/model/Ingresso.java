@@ -9,11 +9,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-public class Ingresso { // ou public class Ingresso<Usuario> {  ??
+public class Ingresso { // ou public class Ingresso<Usuario> { ??
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
+    private String tipo;
 
     @NotNull
     private LocalDate data;
@@ -59,6 +62,14 @@ public class Ingresso { // ou public class Ingresso<Usuario> {  ??
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public LocalDate getData() {
@@ -118,23 +129,22 @@ public class Ingresso { // ou public class Ingresso<Usuario> {  ??
     }
 }
 
-
-
 /*
-RASCUNHO METODOS
-
-    public void disponibilizarParaVenda() {
-        this.status = StatusIngresso.DISPONIVEL;
-    }
-
-    public void atualizarStatus(StatusIngresso novoStatus) {
-        this.status = novoStatus;
-    }
-
-    public boolean ehValidoParaVenda() {
-        return status == StatusIngresso.DISPONIVEL || status == StatusIngresso.REVENDA;
-    }
-
-}
-
+ * RASCUNHO METODOS
+ * 
+ * public void disponibilizarParaVenda() {
+ * this.status = StatusIngresso.DISPONIVEL;
+ * }
+ * 
+ * public void atualizarStatus(StatusIngresso novoStatus) {
+ * this.status = novoStatus;
+ * }
+ * 
+ * public boolean ehValidoParaVenda() {
+ * return status == StatusIngresso.DISPONIVEL || status ==
+ * StatusIngresso.REVENDA;
+ * }
+ * 
+ * }
+ * 
  */

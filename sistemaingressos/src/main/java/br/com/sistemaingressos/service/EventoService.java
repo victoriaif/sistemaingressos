@@ -12,7 +12,7 @@ import java.util.List;
 public class EventoService {
 
     private final EventoRepository eventoRepository;
-
+    //Listar ingressos por evento
     public EventoService(EventoRepository eventoRepository) {
         this.eventoRepository = eventoRepository;
     }
@@ -38,6 +38,11 @@ public class EventoService {
     public List<Evento> listarTodos() {
         return eventoRepository.findAll();
     }
+
+    public List<Evento> buscarPorNome(String nome) {
+    return eventoRepository.findByNomeContainingIgnoreCase(nome);
+}
+
 
     public Evento buscarPorId(Long id) {
         return eventoRepository.findById(id).orElseThrow(

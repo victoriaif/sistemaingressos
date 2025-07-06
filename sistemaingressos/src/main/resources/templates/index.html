@@ -12,10 +12,11 @@
       letter-spacing: 1px;
       text-transform: uppercase;
     }
+
     .swiper-button-next::after,
     .swiper-button-prev::after {
-    color: rgba(255, 196, 0, 0.952) !important;
-    font-size: 28px !important;
+      color: rgba(255, 196, 0, 0.952) !important;
+      font-size: 28px !important;
     }
 
     .card {
@@ -65,7 +66,8 @@
     </section>
 
     <section class="mt-10">
-      <h2 class="text-2xl mb-6 text-gray-900 text-center">Eventos em destaque</h2>
+      <h2 class="text-2xl mb-6 text-gray-900 text-center">EVENTOS EM DESTAQUE
+      </h2>
 
       <div class="swiper max-w-6xl mx-auto">
         <div class="swiper-wrapper">
@@ -86,7 +88,7 @@
               <img src="https://rollingstone.com.br/media/uploads/logo_the_town_foto_divulgacao.jpg" alt="The Town"
                 class="card-image" />
             </div>
-            <h3 class="font-semibold text-center text-lg mt-4 font-inter">THE TOWN</h3>
+            <h3 class="font-semibold text-center text-lg mt-4 font-inter">THE TOWN 2025</h3>
           </div>
 
           <!-- Evento 3 -->
@@ -95,7 +97,7 @@
               <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Rock_in_Rio_-_Madrid_2012.jpg"
                 alt="Rock in Rio" class="card-image" />
             </div>
-            <h3 class="font-semibold text-center text-lg mt-4 font-inter">ROCK IN RIO</h3>
+            <h3 class="font-semibold text-center text-lg mt-4 font-inter">ROCK IN RIO 2026</h3>
           </div>
 
           <!-- Evento 4 -->
@@ -107,6 +109,24 @@
             <h3 class="font-semibold text-center text-lg mt-4 font-inter">LOLLAPALOOZA</h3>
           </div>
 
+          <!-- Evento 5 -->
+          <div class="swiper-slide card">
+            <div class="card-image-wrapper">
+              <img
+                src="https://img.oticket.com.br/unsafe/filters:format(webp):quality(80)/event/lVmyY9v6xnpcfkZSlEHOcTkEW.png"
+                alt="Festival Vira Copos" class="card-image" />
+            </div>
+            <h3 class="font-semibold text-center text-lg mt-4 font-inter">FESTIVAL VIRA COPOS</h3>
+          </div>
+
+          <!-- Evento 6 -->
+          <div class="swiper-slide card">
+            <div class="card-image-wrapper">
+              <img src="https://pbs.twimg.com/media/GcOWlLdXEAA3C5M.jpg" alt="Katy Perry The Lifetimes Tour – Curitiba"
+                class="card-image" />
+            </div>
+            <h3 class="font-semibold text-center text-lg mt-4 font-inter">KATY PERRY | THE LIFETIMES TOUR</h3>
+          </div>
         </div>
 
         <!-- Navegação -->
@@ -127,7 +147,13 @@
       const swiper = new Swiper('.swiper', {
         slidesPerView: 3,
         spaceBetween: 30,
-        loop: true,
+        loop: false,
+        autoplay: {
+          delay: 3000,
+          reverseDirection: false,
+          stopOnLastSlide: false,
+          disableOnInteraction: false,
+        },
         pagination: {
           el: '.swiper-pagination',
           clickable: true,

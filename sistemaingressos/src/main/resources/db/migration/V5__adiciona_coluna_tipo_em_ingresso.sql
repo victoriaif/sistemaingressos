@@ -1,0 +1,1 @@
+ALTER TABLE ingresso ADD COLUMN tipo VARCHAR(255);

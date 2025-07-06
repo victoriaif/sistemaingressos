@@ -67,6 +67,11 @@ public class IngressoService {
         return ingresso;
     }
 
+    //Listar ingressos por evento
+    public List<Ingresso> listarPorEvento(Long idEvento) {
+    return ingressoRepository.findByEventoId(idEvento);
+}
+
     public List<Ingresso> listarTodos() {
     List<Ingresso> ingressos = ingressoRepository.findAll();
     atualizarIngressosExpirados(ingressos);

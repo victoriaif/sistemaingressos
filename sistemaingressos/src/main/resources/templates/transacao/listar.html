@@ -1,25 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layoutpadrao}"
+      lang="pt-br">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Histórico de Transações</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>ShowGo | Histórico de Transações</title>
 </head>
-<body class="bg-white text-black min-h-screen flex font-sans">
 
-  <!-- Header -->
-  <div th:replace="~{layout/fragments/header :: header}"></div>
-<!-- Sidebar -->
-  <div th:replace="~{layout/fragments/sidebar :: sidebar}"></div>
+<body>
 
-  <!-- Conteúdo -->
-  <div class="flex-1 ml-64 p-20 mt-10">
-    <div class="border border-yellow-500 p-8 shadow-lg">
+  <main layout:fragment="main" class="px-8 py-10 ml-64 mt-20 flex-1 max-w-5xl mx-auto">
+
+    <div class="border border-yellow-500 p-8 shadow-lg rounded-lg">
 
       <!-- Cabeçalho -->
       <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold">Histórico de Transações</h1>
-        <!-- Se quiser, pode adicionar um botão aqui, ex: Exportar -->
+    
       </div>
 
       <!-- Tabela -->
@@ -52,7 +50,7 @@
       </table>
 
     </div>
-  </div>
+  </main>
 
 </body>
 </html>
