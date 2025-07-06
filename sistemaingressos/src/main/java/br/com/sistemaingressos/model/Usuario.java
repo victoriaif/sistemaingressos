@@ -30,6 +30,9 @@ public class Usuario {
     @NotBlank
     private String senha;
 
+    @Column(nullable = false)
+    private boolean ativo;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "usuario_papel",
@@ -109,5 +112,13 @@ public class Usuario {
 
     public void setIngressos(java.util.List<Ingresso> ingressos) {
         this.ingressos = ingressos;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

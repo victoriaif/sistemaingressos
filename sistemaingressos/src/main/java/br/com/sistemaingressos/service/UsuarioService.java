@@ -2,6 +2,8 @@ package br.com.sistemaingressos.service;
 
 import br.com.sistemaingressos.model.Usuario;
 import br.com.sistemaingressos.repository.UsuarioRepository;
+import br.com.sistemaingressos.repository.PapelRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +13,15 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PapelRepository papelRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository,
+                          PapelRepository papelRepository,
+                          PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.papelRepository = papelRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Usuario> getAllUsuarios() {
@@ -24,7 +32,14 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
+    /**
+     * Cria um novo usuário (ou atualiza existente), codifica a senha e ativa o registro.
+     */
     public Usuario createUsuario(Usuario usuario) {
+        // Codifica senha
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        // Marca ativo
+        usuario.setAtivo(true);
         return usuarioRepository.save(usuario);
     }
 

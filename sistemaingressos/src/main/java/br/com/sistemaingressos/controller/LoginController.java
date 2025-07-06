@@ -1,13 +1,15 @@
-package br.com.sistemaingressos.controller;
+//TODO :deletar metodo depois se aplicacao rodar normalmente
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+// package br.com.sistemaingressos.controller;
 
-@Controller
-public class LoginController {
+// import org.springframework.stereotype.Controller;
+// import org.springframework.web.bind.annotation.GetMapping;
 
-    @GetMapping("/login")
-    public String login() {
-        return "login"; 
-    }
-}
+// @Controller
+// public class LoginController {
+
+//     @GetMapping("/login")
+//     public String login() {
+//         return "login"; 
+//     }
+// }

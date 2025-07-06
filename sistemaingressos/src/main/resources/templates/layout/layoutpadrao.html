@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"></html>
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
       lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ShowGo | Revenda Segura de</title>
+  <title>ShowGo | Revenda Segura de Ingressos</title>
+
+  <!-- Tailwind e suas fontes -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css">
-</head>
 
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- CSRF para HTMX -->
+  <script src="/js/csrf.js" defer></script>
+</head>
 <body class="bg-gray-50 text-gray-900">
 
-
+  <!-- Header e Sidebar comuns -->
   <div th:replace="~{layout/fragments/header :: header}"></div>
   <div th:replace="~{layout/fragments/sidebar :: sidebar}"></div>
 
-<main class="pt-6 px-4 md:pl-72" layout:fragment="main">
-  <section class="text-center text-gray-500 py-10">
-    <p>Conteúdo principal não definido.</p>
-  </section>
-</main>
+  <!-- Aqui irá o conteúdo de cada página -->
+  <main layout:fragment="main" class="pt-6 px-4 md:pl-72">
+    <section class="text-center text-gray-500 py-10">
+      <p>Conteúdo principal não definido.</p>
+    </section>
+  </main>
 
+  <!-- Rodapé -->
   <div th:replace="~{layout/fragments/rodape :: rodape}"></div>
+
+  <!-- Seu JS adicional -->
   <script src="/js/script.js" defer></script>
 </body>
-
 </html>

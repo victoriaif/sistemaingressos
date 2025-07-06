@@ -1,0 +1,5 @@
+<!-- layout/fragments/csrf.html -->
+<div th:fragment="csrf">
+  <input type="hidden" name="_csrf_header" th:value="${_csrf.headerName}" />
+  <input type="hidden" name="_csrf"        th:value="${_csrf.token}" />
+</div>

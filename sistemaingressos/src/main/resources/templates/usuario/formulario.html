@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layoutpadrao}"
-      lang="pt-br">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layoutpadrao}" lang="pt-br">
 
 <head>
   <title th:text="*{id} != null ? 'Editar Usuário' : 'Novo Usuário'">Usuário</title>
@@ -15,57 +13,58 @@
     <h1 class="text-2xl font-bold mb-8" th:text="*{id} != null ? 'Editar Usuário' : 'Novo Usuário'"></h1>
 
     <form th:action="@{/usuarios/salvar}" th:object="${usuario}" method="post" class="space-y-6 w-full">
+      
+       <!-- === CSRF Fragment === -->
+      <div th:replace="~{layout/fragments/csrf :: csrf}"></div>
+
+      <!-- Id oculto (para edição) -->
       <input type="hidden" th:field="*{id}" />
 
       <!-- Nome -->
       <div>
         <label for="nome" class="block font-medium mb-2 text-black">Nome</label>
-        <input th:field="*{nome}" type="text" id="nome" required
-               class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg
+        <input th:field="*{nome}" type="text" id="nome" required class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg
                       focus:outline-none focus:ring-2 focus:ring-yellow-500" />
       </div>
 
       <!-- CPF -->
       <div>
         <label for="cpf" class="block font-medium mb-2 text-black">CPF</label>
-        <input th:field="*{cpf}" type="text" id="cpf" required
-               class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg
+        <input th:field="*{cpf}" type="text" id="cpf" required class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg
                       focus:outline-none focus:ring-2 focus:ring-yellow-500" />
       </div>
 
       <!-- Email -->
       <div>
         <label for="email" class="block font-medium mb-2 text-black">Email</label>
-        <input th:field="*{email}" type="email" id="email" required
-               class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg
+        <input th:field="*{email}" type="email" id="email" required class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg
                       focus:outline-none focus:ring-2 focus:ring-yellow-500" />
       </div>
 
       <!-- Senha -->
       <div>
         <label for="senha" class="block font-medium mb-2 text-black">Senha</label>
-        <input th:field="*{senha}" type="password" id="senha" required
-               class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg
+        <input th:field="*{senha}" type="password" id="senha" required class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg
                       focus:outline-none focus:ring-2 focus:ring-yellow-500" />
       </div>
 
-      <!-- Tipo de Usuário -->
+      <!-- Papéis de Usuário -->
       <div>
-        <label for="tipoUsuario" class="block font-medium mb-2 text-black">Tipo de Usuário</label>
-        <select th:field="*{tipoUsuario}" id="tipoUsuario" required
-                class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg
-                       focus:outline-none focus:ring-2 focus:ring-yellow-500">
-          <option th:value="COMPRADOR" th:text="'Comprador'"></option>
-          <option th:value="VENDEDOR" th:text="'Vendedor'"></option>
-          <option th:value="ADMINISTRADOR" th:text="'Administrador'"></option>
-        </select>
+        <label class="block font-medium mb-2">Papéis</label>
+        <div th:each="papel : ${todosPapeis}">
+          <label>
+            <input type="checkbox" name="papeisIds" th:value="${papel.id}"
+              th:checked="${#lists.contains(usuario.papeis, papel)}" />
+            <span th:text="${papel.nome}">PAPEL</span>
+          </label>
+        </div>
       </div>
 
       <!-- Botões -->
       <div class="flex justify-between items-center mt-8">
         <a href="/usuarios" class="text-yellow-500 hover:underline text-sm">← Voltar</a>
         <button type="submit"
-                class="py-3 px-6 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400 transition">
+          class="py-3 px-6 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400 transition">
           Salvar
         </button>
       </div>

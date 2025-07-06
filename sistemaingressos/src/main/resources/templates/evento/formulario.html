@@ -20,6 +20,9 @@
     </div>
 
     <form th:action="@{/eventos/salvar}" th:object="${evento}" method="post" class="space-y-6 w-full">
+      <!-- === CSRF Fragment === -->
+      <div th:replace="~{layout/fragments/csrf :: csrf}"></div>
+      
       <input type="hidden" th:field="*{id}" />
 
       <div>
