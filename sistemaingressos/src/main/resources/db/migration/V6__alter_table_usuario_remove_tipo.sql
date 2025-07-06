@@ -1,1 +1,0 @@
-ALTER TABLE usuario DROP COLUMN tipo_usuario;

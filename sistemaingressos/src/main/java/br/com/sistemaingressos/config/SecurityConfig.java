@@ -1,20 +1,20 @@
 package br.com.sistemaingressos.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-
-import javax.sql.DataSource;
 
 // import java.util.HashMap;
 // import java.util.Map;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
@@ -43,21 +43,29 @@ public class SecurityConfig {
         return http.build();
     }
 
+        /**
+     * Configura o JDBC UserDetailsManager para buscar pelo campo `email`.
+     */
     @Bean
     public UserDetailsService userDetailsService(DataSource dataSource) {
         JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
-
+        // consulta para buscar usuário pelo email
         manager.setUsersByUsernameQuery(
-                "SELECT email, senha, true AS enabled FROM usuario WHERE email = ?");
-        
+            "SELECT email, senha, ativo " +
+            "FROM usuario " +
+            "WHERE email = ?"
+        );
+        // consulta para buscar papéis/authorities do usuário
         manager.setAuthoritiesByUsernameQuery(
-                "SELECT u.email, p.nome FROM usuario u " +
-                        "JOIN usuario_papel up ON u.id = up.usuario_id " +
-                        "JOIN papel p ON p.id = up.papel_id " +
-                        "WHERE u.email = ?");
-
+            "SELECT u.email, p.nome " +
+            "FROM usuario u " +
+            "JOIN usuario_papel up ON u.codigo = up.codigo_usuario " +
+            "JOIN papel p ON up.codigo_papel = p.codigo " +
+            "WHERE u.email = ?"
+        );
         return manager;
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
