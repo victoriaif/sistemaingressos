@@ -56,7 +56,7 @@ public class IngressoController {
         return "ingresso/formulario";
     }
 
-    // Listar ingressos por evento
+    //Listar ingressos por evento
    @GetMapping("/evento/{idEvento}")
     public String listarPorEvento(@PathVariable Long idEvento, Model model) {
         List<Ingresso> ingressos = ingressoService.listarPorEvento(idEvento);
