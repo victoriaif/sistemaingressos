@@ -33,11 +33,12 @@ public class SecurityConfig {
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessHandler((req, res, auth) -> res.addHeader("HX-Redirect", "/"))
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/")  //redireciona para página inicial após logout
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
             )
+
             .sessionManagement(sess -> sess
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
             );
