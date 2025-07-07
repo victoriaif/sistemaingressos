@@ -12,26 +12,27 @@
       </ul>
     </div>
 
-    <!-- Botões -->
-    <div class="flex items-center space-x-3">
+<div class="flex items-center space-x-3">
 
-      <!-- Se NÃO estiver autenticado, mostra botão "Entrar" -->
-      <a href="/login"
-        class="bg-yellow-500 text-white border border-yellow-500 rounded-full px-6 py-3 hover:bg-yellow-600 transition">
-        Entrar
-      </a>
+  <!-- Botão Entrar só aparece para quem não está autenticado -->
+  <a href="/login" sec:authorize="isAnonymous()"
+    class="bg-yellow-500 text-white border border-yellow-500 rounded-full px-6 py-3 hover:bg-yellow-600 transition">
+    Entrar
+  </a>
 
-      <!-- Se autenticado, mostra apenas o nome do usuário -->
-      <div sec:authorize="isAuthenticated()" class="text-white mr-4">
-        <span sec:authentication="principal.username"></span>
-      </div>
-
-      <!-- Botão "Negociar" para decidir entre compra ou venda -->
-      <a href="/ingressos/anunciar"
-        class="bg-yellow-500 text-white border border-yellow-500 rounded-full px-6 py-3 hover:bg-yellow-600 transition">
-        Negociar
-      </a>
-    </div>
-
+  <!-- Nome do usuário só aparece se autenticado -->
+  <div sec:authorize="isAuthenticated()" class="text-white mr-4">
+    <span sec:authentication="principal.username"></span>
   </div>
+
+  <!-- Botão Negociar sempre aparece -->
+  <a href="/ingressos/anunciar"
+    class="bg-yellow-500 text-white border border-yellow-500 rounded-full px-6 py-3 hover:bg-yellow-600 transition">
+    Negociar
+  </a>
+
+</div>
+
+</div>
+
 </header>
