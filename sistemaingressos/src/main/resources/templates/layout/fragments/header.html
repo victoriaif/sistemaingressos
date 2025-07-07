@@ -1,4 +1,3 @@
-<!-- src/main/resources/templates/layout/fragments/header.html -->
 <header xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" th:fragment="header"
   class="bg-black border-b border-black shadow-lg fixed top-0 left-0 w-full z-30">
   <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
@@ -12,27 +11,26 @@
       </ul>
     </div>
 
-<div class="flex items-center space-x-3">
+    <div class="flex items-center space-x-3">
 
-  <!-- Botão Entrar só aparece para quem não está autenticado -->
+  <!-- Botão Entrar só para não autenticados -->
   <a href="/login" sec:authorize="isAnonymous()"
     class="bg-yellow-500 text-white border border-yellow-500 rounded-full px-6 py-3 hover:bg-yellow-600 transition">
     Entrar
   </a>
 
-  <!-- Nome do usuário só aparece se autenticado -->
-  <div sec:authorize="isAuthenticated()" class="text-white mr-4">
-    <span sec:authentication="principal.username"></span>
+  <!-- Se estiver autenticado, mostra o email e o botão Comprar/Vender -->
+  <div sec:authorize="isAuthenticated()" class="flex items-center space-x-4">
+
+    <!-- Email do usuário -->
+    <span class="text-white mr-4" sec:authentication="principal.username"></span>
+
+    <!-- Botão Comprar/Vender -->
+    <a href="/ingressos/anunciar"
+      class="bg-yellow-500 text-white border border-yellow-500 rounded-full px-6 py-3 hover:bg-yellow-600 transition">
+      COMPRAR/VENDER
+    </a>
   </div>
 
-  <!-- Botão Negociar sempre aparece -->
-  <a href="/ingressos/anunciar"
-    class="bg-yellow-500 text-white border border-yellow-500 rounded-full px-6 py-3 hover:bg-yellow-600 transition">
-    Negociar
-  </a>
-
 </div>
-
-</div>
-
 </header>
