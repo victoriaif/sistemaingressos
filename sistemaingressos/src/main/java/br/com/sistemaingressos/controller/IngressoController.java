@@ -51,14 +51,14 @@ public class IngressoController {
     @GetMapping("/novo")
     public String novo(Model model) {
         Ingresso ingresso = new Ingresso();
-        ingresso.setStatus(StatusIngresso.DISPONIVEL); //Aqui seta o valor inicial
+        ingresso.setStatus(StatusIngresso.DISPONIVEL); // Aqui seta o valor inicial
         model.addAttribute("ingresso", ingresso);
         model.addAttribute("eventos", eventoRepository.findAll());
         return "ingresso/formulario";
     }
 
-    //Listar ingressos por evento
-   @GetMapping("/evento/{idEvento}")
+    // Listar ingressos por evento
+    @GetMapping("/evento/{idEvento}")
     public String listarPorEvento(@PathVariable Long idEvento, Model model) {
         List<Ingresso> ingressos = ingressoService.listarPorEvento(idEvento);
         Evento evento = eventoService.buscarPorId(idEvento);
@@ -106,4 +106,15 @@ public class IngressoController {
         ingressoService.excluir(id);
         return "redirect:/ingressos";
     }
+
+    // Comprar ingresso
+    @GetMapping("/comprar")
+    public String listarIngressosParaCompra(Model model) {
+        // Filtra ingressos com status DISPONIVEL (ou que façam sentido para comprar)
+        List<Ingresso> ingressosDisponiveis = ingressoService.listarPorStatus(StatusIngresso.DISPONIVEL);
+
+        model.addAttribute("ingressos", ingressosDisponiveis);
+        return "ingresso/comprar"; 
+    }
+
 }

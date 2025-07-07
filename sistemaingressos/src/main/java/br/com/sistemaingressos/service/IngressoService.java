@@ -78,6 +78,11 @@ public class IngressoService {
     return ingressos;
 }
 
+    //Listar ingresso por status
+    public List<Ingresso> listarPorStatus(StatusIngresso status) {
+    return ingressoRepository.findByStatus(status);
+}
+
     //Regra de negócio: atualiza Status pra 'expirado' quando a data do Evento estiver no passado
     private void atualizarIngressosExpirados(List<Ingresso> ingressos) {
     LocalDate hoje = LocalDate.now();
