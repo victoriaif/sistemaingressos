@@ -66,13 +66,14 @@ public class SecurityConfig {
             "SELECT email, senha, ativo FROM usuario WHERE email = ?"
         );
         // busca papéis / authorities do usuário
-        mgr.setAuthoritiesByUsernameQuery(
-            "SELECT u.email, p.nome " +
-            "FROM usuario u " +
-            "JOIN usuario_papel up ON u.id = up.usuario_id " +
-            "JOIN papel p           ON up.papel_id = p.id " +
-            "WHERE u.email = ?"
-        );
+      mgr.setAuthoritiesByUsernameQuery(
+    "SELECT u.email AS username, p.nome AS authority " +
+    "FROM usuario u " +
+    "JOIN usuario_papel up ON u.id = up.usuario_id " +
+    "JOIN papel p ON up.papel_id = p.id " +
+    "WHERE u.email = ?"
+);
+
 
         return mgr;
     }

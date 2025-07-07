@@ -3,8 +3,11 @@ package br.com.sistemaingressos.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.FragmentsRendering;
+
+import org.springframework.security.core.Authentication;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest;
 
@@ -18,14 +21,21 @@ public class IndexController {
         return "index";
     }
 
+    // debugar o papel do usuário
+    @GetMapping("/debug/roles")
+    @ResponseBody
+    public String debugRoles(Authentication auth) {
+        return "Authorities: " + auth.getAuthorities();
+    }
+
     // 2) Fragmento do índice (somente quando for HTMX)
     @HxRequest
     @GetMapping({ "/", "/index.html" })
     public View indexFragment() {
         return FragmentsRendering
-            .with("index :: conteudo")                         // fragmento <main th:fragment="conteudo">
-            .fragment("/layout/fragments/header :: header")    // atualiza também o header
-            .build();
+                .with("index :: conteudo") // fragmento <main th:fragment="conteudo">
+                .fragment("/layout/fragments/header :: header") // atualiza também o header
+                .build();
     }
 
     // 3) Página completa de login (requisição “normal”, sem HTMX)
@@ -38,6 +48,6 @@ public class IndexController {
     @HxRequest
     @GetMapping(path = "/login", headers = "HX-Request")
     public String loginFragment() {
-        return "login :: formulario";  // fragmento <form th:fragment="formulario">
+        return "login :: formulario"; // fragmento <form th:fragment="formulario">
     }
 }

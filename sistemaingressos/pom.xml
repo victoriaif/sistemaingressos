@@ -147,13 +147,20 @@
             <artifactId>bcprov-jdk18on</artifactId>
             <version>1.80</version>
         </dependency>
-   
-
-
     </dependencies>
 
     <build>
         <plugins>
+          <plugin>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-maven-plugin</artifactId>
+            <version>10.20.1</version>
+            <configuration>
+                <url>jdbc:postgresql://localhost:5432/sistemaingressos</url>
+                <user>postgres</user>
+                <password>12345</password>
+            </configuration>
+        </plugin>
             <!-- Empacotar como JAR executável -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
