@@ -51,6 +51,16 @@
           class="w-full py-3 px-4 bg-gray-200 text-black rounded-lg" />
       </div>
 
+       <!-- Status -->
+      <!-- Campo visível só para exibir, mas não editável -->
+      <div>
+        <label class="block font-medium mb-2 text-black">Status</label>
+        <input type="text" value="Disponível" readonly
+              class="w-full py-3 px-4 bg-gray-200 text-black rounded-lg" />
+      </div>
+      <!-- Campo oculto para enviar o valor real -->
+      <input type="hidden" th:field="*{status}" value="DISPONIVEL" />
+
       <!-- Tipo do Ingresso -->
       <div>
         <label for="tipo" class="block font-medium mb-2 text-black">Tipo do Ingresso</label>
@@ -58,23 +68,18 @@
           class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" />
       </div>
 
-      <!-- Status -->
-      <div>
-        <label for="status" class="block font-medium mb-2 text-black">Status</label>
-        <select th:field="*{status}" id="status"
-          class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500">
-          <option th:value="DISPONIVEL">Disponível</option>
-          <option th:value="VENDIDO">Vendido</option>
-          <option th:value="EXPIRADO">Expirado</option>
-        </select>
-      </div>
-
       <!-- Preço -->
       <div>
         <label for="preco" class="block font-medium mb-2 text-black">Preço</label>
-        <input type="number" step="0.01" th:field="*{preco}" id="preco" required
-          class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" />
-      </div>
+        <input type="number"
+         step="0.01"
+         min="0.01"
+         th:field="*{preco}"
+         id="preco"
+         required
+         class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" 
+         />
+      </div> 
 
       <!-- Botões -->
       <div class="flex justify-between items-center mt-8">
