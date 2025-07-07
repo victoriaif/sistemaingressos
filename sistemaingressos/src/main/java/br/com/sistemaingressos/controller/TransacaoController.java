@@ -9,6 +9,7 @@ import br.com.sistemaingressos.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,10 @@ public class TransacaoController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    public TransacaoController(TransacaoService transacaoService) {
+        this.transacaoService = transacaoService;
+    }
 
     // LISTAR transações
     @GetMapping
@@ -64,5 +69,12 @@ public class TransacaoController {
     public String excluir(@PathVariable Long id) {
         transacaoService.excluir(id);
         return "redirect:/transacoes";
+    }
+
+    // COMPRAR ingresso e SALVAR transacao
+    @PostMapping("/comprar/{idIngresso}")
+    public ResponseEntity<Void> comprar(@PathVariable Long idIngresso) {
+        transacaoService.comprarIngresso(idIngresso);
+        return ResponseEntity.ok().build(); // <- necessário pro fetch funcionar!
     }
 }

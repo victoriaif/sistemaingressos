@@ -216,3 +216,55 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+//Regra de negócio - Transação: janela pop de confirmar / cancelar compra
+document.addEventListener("DOMContentLoaded", function () {
+  // Variável global para armazenar o ID do ingresso selecionado
+  let ingressoSelecionadoId = null;
+
+  // Função para abrir o popup de confirmação
+  window.abrirPopupCompra = function (id) {
+    ingressoSelecionadoId = id;
+    const popup = document.getElementById('popupCompra');
+    if (popup) {
+      popup.classList.remove('hidden');
+      popup.classList.add('flex');
+    }
+  };
+
+  // Função para fechar o popup
+  window.fecharPopupCompra = function () {
+    const popup = document.getElementById('popupCompra');
+    if (popup) {
+      popup.classList.add('hidden');
+      popup.classList.remove('flex');
+    }
+    ingressoSelecionadoId = null;
+  };
+
+  // Função para confirmar a compra
+  window.confirmarCompra = function () {
+    if (!ingressoSelecionadoId) return;
+
+    fetch('/transacoes/comprar/' + ingressoSelecionadoId, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
+      .then(response => {
+        if (response.ok) {
+          window.location.href = '/ingressos'; // redireciona após compra
+        } else {
+          alert('Erro ao realizar a compra');
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao conectar com o servidor:', error);
+        alert('Erro ao conectar com o servidor');
+      });
+
+    fecharPopupCompra();
+  };
+});
