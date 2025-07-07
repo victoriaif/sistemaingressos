@@ -8,9 +8,9 @@ import br.com.sistemaingressos.repository.IngressoRepository;
 import br.com.sistemaingressos.repository.TransacaoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -55,24 +55,29 @@ public class TransacaoService {
         return transacaoRepository.findAll();
     }
 
-    // Rega de negocio - Transacao: comprar ingresso
-    public void comprarIngresso(Long idIngresso) {
-        // Aqui você implementa a lógica para:
-        // 1. Buscar o ingresso
-        // 2. Verificar se está disponível
-        // 3. Setar o comprador
-        // 4. Marcar como vendido
-        // 5. Criar e salvar a transação
+    // Rega de negocio - Transacao: comprar ingresso:  
+    //busca ingresso, verifica status disponivel, seta comprador, marca status como vendido, salva no banco
+    public void comprarIngresso(Long idIngresso) {  
 
-        // Exemplo básico (você pode expandir depois):
         Ingresso ingresso = ingressoRepository.findById(idIngresso)
                 .orElseThrow(() -> new RuntimeException("Ingresso não encontrado"));
+        Usuario comprador = usuarioService.getUsuarioLogado();
+        Usuario vendedor = ingresso.getUsuarioAnunciante();
 
+        // Regra de negócio: não é possivel comprar ingresso status diferente de "Disponivel" (ou seja: vendido / expirado)
         if (ingresso.getStatus() != StatusIngresso.DISPONIVEL) {
             throw new RuntimeException("Ingresso não está disponível para compra");
         }
 
-        Usuario comprador = usuarioService.getUsuarioLogado();
+        // Regra de negócio: não é possivel comprar ingresso com data anterior à hoje
+        if (ingresso.getData().isBefore(LocalDate.now())) {
+            throw new RuntimeException("Não é possível comprar ingressos com data passada.");
+        }
+
+        // Regra de negócio: o usuário comprador não pode ser o próprio anunciante       
+        if (comprador.getId().equals(vendedor.getId())) {
+            throw new RuntimeException("Você não pode comprar um ingresso que você mesmo anunciou.");
+        }
 
         Transacao transacao = new Transacao();
         transacao.setDataHora(LocalDateTime.now());

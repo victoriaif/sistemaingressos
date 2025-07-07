@@ -52,11 +52,12 @@
                   onclick="return confirm('Tem certeza que deseja excluir este ingresso?');">Excluir</a>
 
                 <!-- Botão Comprar -->
-               <button type="button"
-                  th:onclick="'abrirPopupCompra(' + ${ingresso.id} + ')'"
-                  class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition text-sm ml-2">
-                  Comprar
-                </button>
+                <form th:action="@{/transacoes/comprar/{id}(id=${ingresso.id})}" method="post" style="display:inline;">
+                  <button type="submit"
+                    class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition text-sm ml-2">
+                    Comprar
+                  </button>
+                </form>
               </td>
             </tr>
           </tbody>
@@ -71,7 +72,9 @@
     </div>
 
   </main>
-<script src="/src/main/resources/static/js/script.js"></script>
+  <!-- script pra janela popup de "confirma / cancela" -->
+  <!-- <script src="/src/main/resources/static/js/script.js"></script> -->
 
 </body>
+
 </html>

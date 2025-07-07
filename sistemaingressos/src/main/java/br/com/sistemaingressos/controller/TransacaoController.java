@@ -1,15 +1,12 @@
 package br.com.sistemaingressos.controller;
 
 import br.com.sistemaingressos.model.Transacao;
-import br.com.sistemaingressos.model.Ingresso;
-import br.com.sistemaingressos.model.Usuario;
 import br.com.sistemaingressos.service.TransacaoService;
 import br.com.sistemaingressos.repository.IngressoRepository;
 import br.com.sistemaingressos.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -73,8 +70,8 @@ public class TransacaoController {
 
     // COMPRAR ingresso e SALVAR transacao
     @PostMapping("/comprar/{idIngresso}")
-    public ResponseEntity<Void> comprar(@PathVariable Long idIngresso) {
+    public String comprar(@PathVariable Long idIngresso) {
         transacaoService.comprarIngresso(idIngresso);
-        return ResponseEntity.ok().build(); // <- necessário pro fetch funcionar!
+        return "redirect:/ingressos";
     }
 }
