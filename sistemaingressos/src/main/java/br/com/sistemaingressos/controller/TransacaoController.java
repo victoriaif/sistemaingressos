@@ -1,12 +1,16 @@
 package br.com.sistemaingressos.controller;
 
-import br.com.sistemaingressos.model.Transacao;
 import br.com.sistemaingressos.model.Ingresso;
+import br.com.sistemaingressos.model.StatusIngresso;
+import br.com.sistemaingressos.model.Transacao;
 import br.com.sistemaingressos.model.Usuario;
 import br.com.sistemaingressos.service.TransacaoService;
+import br.com.sistemaingressos.service.UsuarioService;
 import br.com.sistemaingressos.repository.IngressoRepository;
 import br.com.sistemaingressos.repository.UsuarioRepository;
 import jakarta.validation.Valid;
+
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/transacoes")
 public class TransacaoController {
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Autowired
     private TransacaoService transacaoService;
@@ -64,5 +71,11 @@ public class TransacaoController {
     public String excluir(@PathVariable Long id) {
         transacaoService.excluir(id);
         return "redirect:/transacoes";
+    }
+
+    // Página de confirmação de compra
+    @GetMapping("/compra-concluida")
+    public String compraConcluida() {
+        return "transacao/compra-concluida";
     }
 }
