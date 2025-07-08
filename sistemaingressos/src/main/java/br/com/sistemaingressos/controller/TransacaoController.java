@@ -80,4 +80,10 @@ public class TransacaoController {
 
         return "redirect:/ingressos";
     }
+    
+     //Página de confirmação de compra transacao/compra-concluida.html
+    @GetMapping("/compra-concluida")
+    public String compraConcluida() {
+        return "transacao/compra-concluida";
+    }
 }
