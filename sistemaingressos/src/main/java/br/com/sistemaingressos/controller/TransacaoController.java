@@ -6,6 +6,7 @@ import br.com.sistemaingressos.repository.IngressoRepository;
 import br.com.sistemaingressos.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,7 +82,8 @@ public class TransacaoController {
         return "redirect:/ingressos";
     }
     
-     //Página de confirmação de compra transacao/compra-concluida.html
+    
+    //Página de confirmação de compra transacao/compra-concluida.html
     @GetMapping("/compra-concluida")
     public String compraConcluida() {
         return "transacao/compra-concluida";

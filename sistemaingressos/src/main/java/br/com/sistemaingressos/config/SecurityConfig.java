@@ -29,7 +29,7 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/", true)
+                .defaultSuccessUrl("/ingressos/anunciar", true)
                 .permitAll()
             )
             .logout(logout -> logout

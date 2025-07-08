@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layoutpadrao}" lang="pt-br">
+
+<head>
+  <title>ShowGo | Comprar Ingressos</title>
+</head>
+
+<body>
+
+  <main layout:fragment="main" class="flex flex-col items-center min-h-screen px-4 py-8 space-y-6">
+
+    <h1 class="text-3xl font-bold mb-6">Ingressos Disponíveis para Compra</h1>
+
+    <div class="w-full max-w-4xl space-y-4">
+
+      <div th:each="ingresso : ${ingressos}"
+        class="border border-yellow-500 rounded-lg p-6 bg-white shadow flex justify-between items-center">
+
+        <div>
+          <p class="font-bold text-lg" th:text="${ingresso.evento.nome}">Nome do Evento</p>
+          <p class="text-sm text-gray-600" th:text="${ingresso.local}">Local do evento</p>
+          <p class="text-sm text-yellow-700" th:text="'Data: ' + ${ingresso.data}">Data do evento</p>
+          <p class="text-sm text-gray-700" th:text="'Preço: R$ ' + ${ingresso.preco}">Preço</p>
+        </div>
+
+        <div>
+          <a th:href="@{/transacoes/comprar/{id}(id=${ingresso.id})}"
+            class="bg-yellow-500 text-white px-5 py-2 rounded-full hover:bg-yellow-600 transition">
+            Comprar
+          </a>
+
+        </div>
+
+      </div>
+
+      <p th:if="${#lists.isEmpty(ingressos)}" class="text-center text-gray-500">
+        Nenhum ingresso disponível no momento.
+      </p>
+
+    </div>
+
+  </main>
+
+</body>
+
+</html>
