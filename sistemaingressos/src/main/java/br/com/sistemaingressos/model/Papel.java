@@ -16,7 +16,8 @@ public class Papel {
     @ManyToMany(mappedBy = "papeis")
     private Set<Usuario> usuarios;
 
-    public Papel() {}
+    public Papel() {
+    }
 
     public Papel(String nome) {
         this.nome = nome;
@@ -41,5 +42,10 @@ public class Papel {
 
     public void setUsuarios(Set<Usuario> usuarios) {
         this.usuarios = usuarios;
+    }
+
+    @Override
+    public String toString() {
+        return this.nome;
     }
 }

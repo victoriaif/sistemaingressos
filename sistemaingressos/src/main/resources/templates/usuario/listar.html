@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layoutpadrao}"
-      lang="pt-br">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layoutpadrao}" lang="pt-br">
 
 <head>
   <title>ShowGo | Usuários</title>
@@ -18,7 +16,7 @@
       <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold">Usuários</h1>
         <a href="/usuarios/novo"
-           class="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 transition text-lg">
+          class="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 transition text-lg">
           Adicionar Usuário
         </a>
       </div>
@@ -32,7 +30,9 @@
               <th class="px-4 py-3">Nome</th>
               <th class="px-4 py-3">CPF</th>
               <th class="px-4 py-3">Email</th>
-              <th class="px-4 py-3">Tipo</th>
+              <th class="px-4 py-3">Nascimento</th>
+              <th class="px-4 py-3">Papel</th>
+              <th class="px-4 py-3">Ativo</th>
               <th class="px-4 py-3">Ações</th>
             </tr>
           </thead>
@@ -42,12 +42,15 @@
               <td class="px-4 py-3" th:text="${usuario.nome}">Nome</td>
               <td class="px-4 py-3" th:text="${usuario.cpf}">CPF</td>
               <td class="px-4 py-3" th:text="${usuario.email}">Email</td>
-              <td class="px-4 py-3" th:text="${usuario.tipoUsuario}">Tipo</td>
+              <td class="px-4 py-3" th:text="${#temporals.format(usuario.dataNascimento, 'dd/MM/yyyy')}">Data de Nascimento</td>
+              <td class="px-4 py-3" th:text="${#strings.listJoin(usuario.papeis, ', ')}">Papéis</td>
+              <td class="px-4 py-3">
+                <span th:text="${usuario.ativo} ? 'Sim' : 'Não'">Ativo</span>
+              </td>
               <td class="px-4 py-3 space-x-3">
                 <a th:href="@{'/usuarios/editar/' + ${usuario.id}}" class="text-yellow-400 hover:underline">Editar</a>
-                <a th:href="@{'/usuarios/excluir/' + ${usuario.id}}"
-                   class="text-red-500 hover:underline"
-                   onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
+                <a th:href="@{'/usuarios/excluir/' + ${usuario.id}}" class="text-red-500 hover:underline"
+                  onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
               </td>
             </tr>
           </tbody>
@@ -64,4 +67,5 @@
   </main>
 
 </body>
+
 </html>

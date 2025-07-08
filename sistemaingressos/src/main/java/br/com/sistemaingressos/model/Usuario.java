@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Email;
 // import java.util.List;
 // import java.time.LocalDate;
 
+import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -33,12 +33,11 @@ public class Usuario {
     @Column(nullable = false)
     private boolean ativo;
 
+    @Column(name = "data_nascimento")
+    private LocalDate dataNascimento;
+
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "usuario_papel",
-        joinColumns = @JoinColumn(name = "usuario_id"),
-        inverseJoinColumns = @JoinColumn(name = "papel_id")
-    )
+    @JoinTable(name = "usuario_papel", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "papel_id"))
     private Set<Papel> papeis = new HashSet<>();
 
     // 🔗 Se você quiser, pode manter apenas esta relação de dono de ingresso
@@ -120,5 +119,13 @@ public class Usuario {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 }

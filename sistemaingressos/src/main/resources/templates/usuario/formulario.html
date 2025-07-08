@@ -12,10 +12,16 @@
 
     <h1 class="text-2xl font-bold mb-8" th:text="*{id} != null ? 'Editar Usuário' : 'Novo Usuário'"></h1>
 
+    <!-- Alerta de erro -->
+    <div th:if="${erro}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+      <strong class="font-bold">Erro:</strong>
+      <span th:text="${erro}"></span>
+    </div>
+
     <form th:action="@{/usuarios/salvar}" th:object="${usuario}" method="post" class="space-y-6 w-full">
-      
-       <!-- === CSRF Fragment === -->
-      <div th:replace="~{layout/fragments/csrf :: csrf}"></div>
+
+      <!-- === CSRF Fragment === -->
+      <!-- <div th:replace="~{layout/fragments/csrf :: csrf}"></div> -->
 
       <!-- Id oculto (para edição) -->
       <input type="hidden" th:field="*{id}" />
@@ -48,6 +54,13 @@
                       focus:outline-none focus:ring-2 focus:ring-yellow-500" />
       </div>
 
+      <!-- Data de Nascimento -->
+      <div>
+        <label for="dataNascimento" class="block font-medium mb-2 text-black">Data de Nascimento</label>
+        <input th:field="*{dataNascimento}" type="date" id="dataNascimento"
+          class="w-full py-3 px-4 bg-white border border-yellow-500 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" />
+      </div>
+
       <!-- Papéis de Usuário -->
       <div>
         <label class="block font-medium mb-2">Papéis</label>
@@ -60,6 +73,14 @@
         </div>
       </div>
 
+      <!-- Ativo -->
+      <div>
+        <label class="block font-medium mb-2 text-black">Usuário Ativo</label>
+        <label class="inline-flex items-center">
+          <input type="checkbox" th:field="*{ativo}" class="form-checkbox text-yellow-500 border-yellow-500 rounded">
+          <span class="ml-2 text-black">Ativo</span>
+        </label>
+      </div>
       <!-- Botões -->
       <div class="flex justify-between items-center mt-8">
         <a href="/usuarios" class="text-yellow-500 hover:underline text-sm">← Voltar</a>
