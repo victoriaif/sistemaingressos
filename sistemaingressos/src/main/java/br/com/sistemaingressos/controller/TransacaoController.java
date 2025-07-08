@@ -1,8 +1,6 @@
 package br.com.sistemaingressos.controller;
 
 import br.com.sistemaingressos.model.Transacao;
-import br.com.sistemaingressos.model.Ingresso;
-import br.com.sistemaingressos.model.Usuario;
 import br.com.sistemaingressos.service.TransacaoService;
 import br.com.sistemaingressos.repository.IngressoRepository;
 import br.com.sistemaingressos.repository.UsuarioRepository;
@@ -12,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/transacoes")
@@ -25,6 +24,10 @@ public class TransacaoController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    public TransacaoController(TransacaoService transacaoService) {
+        this.transacaoService = transacaoService;
+    }
 
     // LISTAR transações
     @GetMapping
@@ -64,5 +67,17 @@ public class TransacaoController {
     public String excluir(@PathVariable Long id) {
         transacaoService.excluir(id);
         return "redirect:/transacoes";
+    }
+
+    @PostMapping("/comprar/{idIngresso}")
+    public String comprar(@PathVariable Long idIngresso, RedirectAttributes redirectAttributes) {
+        try {
+            transacaoService.comprarIngresso(idIngresso);
+            redirectAttributes.addFlashAttribute("sucesso", "Compra realizada com sucesso!");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("erro", e.getMessage());
+        }
+
+        return "redirect:/ingressos";
     }
 }

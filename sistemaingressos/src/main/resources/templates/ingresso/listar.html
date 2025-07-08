@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layoutpadrao}"
-      lang="pt-br">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layoutpadrao}" lang="pt-br">
 
 <head>
   <title>ShowGo | Lista de Ingressos</title>
@@ -14,11 +12,20 @@
 
     <div class="border border-yellow-500 p-6 md:p-10 shadow-lg rounded-lg bg-white">
 
+      <!-- Mensagens de erro -->
+        <div th:if="${erro}" class="bg-red-100 text-red-800 px-4 py-3 rounded mb-4">
+          <p th:text="${erro}"></p>
+        </div>
+
+        <div th:if="${sucesso}" class="bg-green-100 text-green-800 px-4 py-3 rounded mb-4">
+          <p th:text="${sucesso}"></p>
+        </div>
+        
       <!-- Cabeçalho -->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <h1 class="text-2xl md:text-3xl font-bold">Ingressos</h1>
         <a href="/ingressos/novo"
-           class="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 transition text-lg">
+          class="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 transition text-lg">
           Adicionar Ingresso
         </a>
       </div>
@@ -45,13 +52,21 @@
               <td class="px-4 py-3" th:text="${#temporals.format(ingresso.data, 'dd/MM/yyyy')}">01/07/2025</td>
               <td class="px-4 py-3" th:text="${ingresso.local}">Local</td>
               <td class="px-4 py-3" th:text="${ingresso.tipo}">VIP</td>
-              <td class="px-4 py-3" th:text="${#numbers.formatDecimal(ingresso.preco, 2, 'COMMA', 2, 'POINT')}">100,00</td>
+              <td class="px-4 py-3" th:text="${#numbers.formatDecimal(ingresso.preco, 2, 'COMMA', 2, 'POINT')}">100,00
+              </td>
               <td class="px-4 py-3" th:text="${ingresso.status}">DISPONIVEL</td>
               <td class="px-4 py-3 space-x-3 whitespace-nowrap">
                 <a th:href="@{'/ingressos/editar/' + ${ingresso.id}}" class="text-yellow-400 hover:underline">Editar</a>
-                <a th:href="@{'/ingressos/excluir/' + ${ingresso.id}}"
-                   class="text-red-500 hover:underline"
-                   onclick="return confirm('Tem certeza que deseja excluir este ingresso?');">Excluir</a>
+                <a th:href="@{'/ingressos/excluir/' + ${ingresso.id}}" class="text-red-500 hover:underline"
+                  onclick="return confirm('Tem certeza que deseja excluir este ingresso?');">Excluir</a>
+
+                <!-- Botão Comprar -->
+                <form th:action="@{/transacoes/comprar/{id}(id=${ingresso.id})}" method="post" style="display:inline;">
+                  <button type="submit"
+                    class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition text-sm ml-2">
+                    Comprar
+                  </button>
+                </form>
               </td>
             </tr>
           </tbody>
@@ -66,6 +81,9 @@
     </div>
 
   </main>
+  <!-- script pra janela popup de "confirma / cancela" -->
+  <!-- <script src="/src/main/resources/static/js/script.js"></script> -->
 
 </body>
+
 </html>
