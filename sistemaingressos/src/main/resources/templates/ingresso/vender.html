@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layoutpadrao}"
+      lang="pt-br">
+
+<head>
+  <title>ShowGo | Meus Ingressos à Venda</title>
+</head>
+
+<body>
+<main layout:fragment="main" class="flex flex-col items-center min-h-screen px-4 py-8 space-y-6">
+
+  <h1 class="text-3xl font-bold mb-4 text-yellow-600">Meus ingressos anunciados</h1>
+
+  <a href="/ingressos/novo" class="mb-4 bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition">
+    + Anunciar Novo Ingresso
+  </a>
+
+  <div class="w-full max-w-4xl space-y-4">
+
+    <div th:each="ingresso : ${ingressos}"
+         class="border border-yellow-500 rounded-lg p-6 bg-white shadow flex justify-between items-center">
+
+      <div>
+        <p class="font-bold text-lg" th:text="${ingresso.evento.nome}">Nome do Evento</p>
+        <p class="text-sm text-gray-600" th:text="${ingresso.local}">Local do evento</p>
+        <p class="text-sm text-yellow-700" th:text="'Data: ' + ${ingresso.data}">Data do evento</p>
+        <p class="text-sm text-gray-700" th:text="'Preço: R$ ' + ${ingresso.preco}">Preço</p>
+      </div>
+
+      <div class="flex gap-3">
+        <a th:href="@{/ingressos/editar/{id}(id=${ingresso.id})}"
+           class="text-sm bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition">Editar</a>
+        <a th:href="@{/ingressos/excluir/{id}(id=${ingresso.id})}"
+           class="text-sm bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition"
+           onclick="return confirm('Tem certeza que deseja excluir este ingresso?');">Excluir</a>
+      </div>
+    </div>
+
+    <p th:if="${#lists.isEmpty(ingressos)}" class="text-center text-gray-500">
+      Você ainda não anunciou nenhum ingresso.
+    </p>
+  </div>
+
+  <a href="/" class="mt-10 inline-block text-yellow-600 hover:underline">← Voltar à página inicial</a>
+
+</main>
+</body>
+</html>

@@ -2,6 +2,7 @@ package br.com.sistemaingressos.service;
 
 import br.com.sistemaingressos.model.Ingresso;
 import br.com.sistemaingressos.model.StatusIngresso;
+import br.com.sistemaingressos.model.Usuario;
 import br.com.sistemaingressos.repository.IngressoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,6 +82,11 @@ public class IngressoService {
     //Listar ingresso por status
     public List<Ingresso> listarPorStatus(StatusIngresso status) {
     return ingressoRepository.findByStatus(status);
+}
+
+//Listar ingresso por vendedor
+public List<Ingresso> listarPorUsuario(Usuario usuario) {
+    return ingressoRepository.findByUsuarioAnunciante(usuario);
 }
 
     //Regra de negócio: atualiza Status pra 'expirado' quando a data do Evento estiver no passado

@@ -88,7 +88,7 @@ public class IngressoController {
             return "ingresso/formulario";
         }
 
-        return "redirect:/ingressos";
+        return "redirect:/ingressos/vender";
     }
 
     // EDITAR ingresso existente
@@ -110,11 +110,21 @@ public class IngressoController {
     // Comprar
     @GetMapping("/comprar")
     public String listarIngressosParaCompra(Model model) {
-        //Filtra ingressos com status DISPONIVEL
+        // Filtra ingressos com status DISPONIVEL
         List<Ingresso> ingressosDisponiveis = ingressoService.listarPorStatus(StatusIngresso.DISPONIVEL);
 
         model.addAttribute("ingressos", ingressosDisponiveis);
         return "ingresso/comprar";
+    }
+
+    // Listar ingressos do vendedor
+    @GetMapping("/vender")
+    public String meusAnuncios(Model model) {
+        Usuario usuario = usuarioService.getUsuarioLogado();
+        List<Ingresso> meusIngressos = ingressoService.listarPorUsuario(usuario);
+
+        model.addAttribute("ingressos", meusIngressos);
+        return "ingresso/vender";
     }
 
 }
