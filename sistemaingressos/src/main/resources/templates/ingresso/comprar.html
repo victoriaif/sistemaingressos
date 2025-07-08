@@ -8,13 +8,13 @@
 
 <body>
 
-  <main layout:fragment="main" class="flex flex-col items-center min-h-screen px-4 py-8 space-y-6">
+  <main layout:fragment="main" class="flex flex-col items-center min-h-screen px-4 py-8 space-y-6 pb-20">
 
     <h1 class="text-3xl font-bold mb-6">Ingressos Disponíveis para Compra</h1>
 
     <div class="w-full max-w-4xl space-y-4">
 
-      <div th:each="ingresso : ${ingressos}"
+      <div th:each="ingresso : ${ingressosPage.content}"
         class="border border-yellow-500 rounded-lg p-6 bg-white shadow flex justify-between items-center">
 
         <div>
@@ -29,14 +29,27 @@
             class="bg-yellow-500 text-white px-5 py-2 rounded-full hover:bg-yellow-600 transition">
             Comprar
           </a>
-
         </div>
 
       </div>
 
-      <p th:if="${#lists.isEmpty(ingressos)}" class="text-center text-gray-500">
+      <p th:if="${#lists.isEmpty(ingressosPage.content)}" class="text-center text-gray-500">
         Nenhum ingresso disponível no momento.
       </p>
+
+      <!-- Controles de paginação -->
+      <div class="flex justify-center space-x-2 mt-6">
+        <a th:if="${ingressosPage.hasPrevious()}" 
+           th:href="@{/ingressos/comprar(page=${ingressosPage.number - 1}, size=${ingressosPage.size})}"
+           class="px-3 py-1 border rounded hover:bg-yellow-300">Anterior</a>
+
+        <span class="px-3 py-1 border rounded bg-yellow-500 text-white" 
+              th:text="${ingressosPage.number + 1}">1</span>
+
+        <a th:if="${ingressosPage.hasNext()}" 
+           th:href="@{/ingressos/comprar(page=${ingressosPage.number + 1}, size=${ingressosPage.size})}"
+           class="px-3 py-1 border rounded hover:bg-yellow-300">Próximo</a>
+      </div>
 
     </div>
 

@@ -12,10 +12,14 @@ import br.com.sistemaingressos.repository.EventoRepository;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Controller
 @RequestMapping("/ingressos")
@@ -107,15 +111,17 @@ public class IngressoController {
         return "redirect:/ingressos";
     }
 
-    // Comprar
+    //Comprar - LISTA DE INGRESSOS PAGINADA
     @GetMapping("/comprar")
-    public String listarIngressosParaCompra(Model model) {
-        // Filtra ingressos com status DISPONIVEL
-        List<Ingresso> ingressosDisponiveis = ingressoService.listarPorStatus(StatusIngresso.DISPONIVEL);
+public String listarIngressosParaCompra(Model model,
+                                       @RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "10") int size) {
+    Pageable pageable = PageRequest.of(page, size);
+    Page<Ingresso> ingressosPage = ingressoService.listarPorStatusPaginado(StatusIngresso.DISPONIVEL, pageable);
+    model.addAttribute("ingressosPage", ingressosPage);
+    return "ingresso/comprar";
+}
 
-        model.addAttribute("ingressos", ingressosDisponiveis);
-        return "ingresso/comprar";
-    }
 
     // Listar ingressos do vendedor
     @GetMapping("/vender")

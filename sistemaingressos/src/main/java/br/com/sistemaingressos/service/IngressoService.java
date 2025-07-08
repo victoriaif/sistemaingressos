@@ -7,6 +7,8 @@ import br.com.sistemaingressos.model.Usuario;
 import br.com.sistemaingressos.repository.IngressoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -83,6 +85,11 @@ public class IngressoService {
     //Listar ingresso por status
     public List<Ingresso> listarPorStatus(StatusIngresso status) {
     return ingressoRepository.findByStatus(status);
+}
+
+//Listar ingresso por status PAGINADO
+public Page<Ingresso> listarPorStatusPaginado(StatusIngresso status, Pageable pageable) {
+    return ingressoRepository.findByStatus(status, pageable);
 }
 
 //Listar ingresso por vendedor
