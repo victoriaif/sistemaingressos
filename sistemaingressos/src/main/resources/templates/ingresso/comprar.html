@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layoutpadrao}"
-      lang="pt-br">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layoutpadrao}" lang="pt-br">
 
 <head>
   <title>ShowGo | Comprar Ingressos</title>
@@ -16,8 +14,8 @@
 
     <div class="w-full max-w-4xl space-y-4">
 
-      <div th:each="ingresso : ${ingressos}" 
-           class="border border-yellow-500 rounded-lg p-6 bg-white shadow flex justify-between items-center">
+      <div th:each="ingresso : ${ingressos}"
+        class="border border-yellow-500 rounded-lg p-6 bg-white shadow flex justify-between items-center">
 
         <div>
           <p class="font-bold text-lg" th:text="${ingresso.evento.nome}">Nome do Evento</p>
@@ -27,10 +25,11 @@
         </div>
 
         <div>
-          <a th:href=""
-             class="bg-yellow-500 text-white px-5 py-2 rounded-full hover:bg-yellow-600 transition">
-             Comprar
+          <a th:href="@{/transacoes/comprar/{id}(id=${ingresso.id})}"
+            class="bg-yellow-500 text-white px-5 py-2 rounded-full hover:bg-yellow-600 transition">
+            Comprar
           </a>
+
         </div>
 
       </div>
@@ -44,4 +43,5 @@
   </main>
 
 </body>
+
 </html>

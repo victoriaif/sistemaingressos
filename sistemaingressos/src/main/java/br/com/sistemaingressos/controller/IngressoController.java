@@ -107,14 +107,14 @@ public class IngressoController {
         return "redirect:/ingressos";
     }
 
-    // Comprar ingresso
+    // Comprar
     @GetMapping("/comprar")
     public String listarIngressosParaCompra(Model model) {
-        // Filtra ingressos com status DISPONIVEL (ou que façam sentido para comprar)
+        //Filtra ingressos com status DISPONIVEL
         List<Ingresso> ingressosDisponiveis = ingressoService.listarPorStatus(StatusIngresso.DISPONIVEL);
 
         model.addAttribute("ingressos", ingressosDisponiveis);
-        return "ingresso/comprar"; 
+        return "ingresso/comprar";
     }
 
 }

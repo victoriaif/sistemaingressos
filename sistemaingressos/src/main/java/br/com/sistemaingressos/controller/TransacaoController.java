@@ -12,10 +12,12 @@ import jakarta.validation.Valid;
 
 import java.time.LocalDateTime;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @Controller
 @RequestMapping("/transacoes")
@@ -72,8 +74,8 @@ public class TransacaoController {
         transacaoService.excluir(id);
         return "redirect:/transacoes";
     }
-
-    // Página de confirmação de compra
+    
+    //Página de confirmação de compra transacao/compra-concluida.html
     @GetMapping("/compra-concluida")
     public String compraConcluida() {
         return "transacao/compra-concluida";
