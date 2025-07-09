@@ -217,6 +217,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+  const cpfInput = document.getElementById("cpf");
+
+  if (cpfInput) {
+    cpfInput.addEventListener("input", function () {
+      let value = cpfInput.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+
+      // Aplica a máscara 000.000.000-00
+      if (value.length > 3) value = value.replace(/^(\d{3})(\d)/, '$1.$2');
+      if (value.length > 6) value = value.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
+      if (value.length > 9) value = value.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
+
+      cpfInput.value = value;
+    });
+  }
+});
+
+
 // //Regra de negócio - Transação: janela pop de confirmar / cancelar compra
 // document.addEventListener("DOMContentLoaded", function () {
 //   // Variável global para armazenar o ID do ingresso selecionado

@@ -1,6 +1,7 @@
 package br.com.sistemaingressos.model;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 // import java.util.List;
@@ -17,6 +18,7 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve estar no formato 000.000.000-00")
     @NotBlank
     private String cpf;
 

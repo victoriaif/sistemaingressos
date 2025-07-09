@@ -1,19 +1,26 @@
 package br.com.sistemaingressos.controller;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import br.com.sistemaingressos.model.Papel;
 import br.com.sistemaingressos.model.Usuario;
 import br.com.sistemaingressos.repository.PapelRepository;
 import br.com.sistemaingressos.repository.UsuarioRepository;
 import br.com.sistemaingressos.service.UsuarioService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/usuarios")
@@ -59,7 +66,10 @@ public class UsuarioController {
     // SALVAR usuário (ADMIN)
     @PostMapping("/salvar")
     public String salvar(@Valid @ModelAttribute Usuario usuario,
-                         @RequestParam(name = "papeisIds", required = false) List<Long> papeisIds) {
+            @RequestParam(name = "papeisIds", required = false) List<Long> papeisIds,
+            RedirectAttributes redirectAttributes,
+            Model model) {
+
         // Carrega papéis do banco
         Set<Papel> papeis = new HashSet<>();
         if (papeisIds != null) {
@@ -67,9 +77,18 @@ public class UsuarioController {
         }
         usuario.setPapeis(papeis);
 
-        // Cria (ou atualiza) com lógica de senha/ativo no service
-        usuarioService.createUsuario(usuario);
-        return "redirect:/usuarios";
+        try {
+            // Cria (ou atualiza) com regras de negócio no service
+            usuarioService.createUsuario(usuario);
+            redirectAttributes.addFlashAttribute("sucesso", "Usuário salvo com sucesso!");
+            return "redirect:/usuarios";
+        } catch (IllegalArgumentException ex) {
+            // Retorna para o formulário com mensagem de erro
+            model.addAttribute("erro", ex.getMessage());
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("todosPapeis", papelRepository.findAll());
+            return "usuario/formulario";
+        }
     }
 
     // EDITAR usuário
