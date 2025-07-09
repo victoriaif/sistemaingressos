@@ -19,29 +19,29 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/", "/index.html").permitAll()
-                        .requestMatchers("/eventos/novo", "/eventos/salvar").hasRole("ADMIN")
-                        .requestMatchers("/usuarios/**").hasRole("ADMIN")
-                        .anyRequest().authenticated())
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/ingressos/anunciar", true)
-                        .permitAll())
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/") // redireciona para página inicial após logout
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID"))
+    // @Bean
+    // public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    //     http
+    //             .authorizeHttpRequests(auth -> auth
+    //                     .requestMatchers("/css/**", "/js/**", "/images/**", "/", "/index.html").permitAll()
+    //                     .requestMatchers("/eventos/novo", "/eventos/salvar").hasRole("ADMIN")
+    //                     .requestMatchers("/usuarios/**").hasRole("ADMIN")
+    //                     .anyRequest().authenticated())
+    //             .formLogin(form -> form
+    //                     .loginPage("/login")
+    //                     .defaultSuccessUrl("/ingressos/anunciar", true)
+    //                     .permitAll())
+    //             .logout(logout -> logout
+    //                     .logoutUrl("/logout")
+    //                     .logoutSuccessUrl("/") // redireciona para página inicial após logout
+    //                     .invalidateHttpSession(true)
+    //                     .deleteCookies("JSESSIONID"))
 
-                .sessionManagement(sess -> sess
-                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
+    //             .sessionManagement(sess -> sess
+    //                     .sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
 
-        return http.build();
-    }
+    //     return http.build();
+    // }
 
     /**
      * PasswordEncoder simples: compara texto puro.
@@ -59,8 +59,6 @@ public class SecurityConfig {
         // BCrypt com strength padrão (10)
         return new BCryptPasswordEncoder();
     }
-
-
 
     /**
      * JDBC UserDetailsService para autenticar pelo campo "email".
@@ -82,4 +80,32 @@ public class SecurityConfig {
 
     return mgr;
     }
+
+    @Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        // --------- exigir HTTPS em rotas críticas ----------
+        .requiresChannel(channel -> channel
+            // somente por HTTPS em /usuarios/** e /ingressos/**
+            .requestMatchers("/usuarios/**", "/ingressos/**")
+            .requiresSecure()
+        )
+        // --------- regras de acesso por papel ---------------
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/css/**", "/js/**", "/images/**", "/", "/index.html").permitAll()
+            .requestMatchers("/eventos/novo", "/eventos/salvar").hasRole("ADMIN")
+            .requestMatchers("/usuarios/**").hasRole("ADMIN")
+            .anyRequest().authenticated()
+        )
+        // --------- configuração de formulário de login ------
+        .formLogin(form -> form
+            .loginPage("/login")
+            .defaultSuccessUrl("/ingressos/anunciar", true)
+            .permitAll()
+        )
+        .logout(logout -> logout.permitAll());
+    
+    return http.build();
+}
+
 }
