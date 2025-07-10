@@ -10,14 +10,14 @@
 <body>
   <main layout:fragment="main" class="px-8 py-10 ml-64 mt-20 flex-1 max-w-5xl mx-auto">
 
-          <!-- Cabeçalho -->
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-        <h1 class="text-2xl md:text-3xl font-bold">Ingressos Anunciados por Você</h1>
-        <a href="/ingressos/novo"
-          class="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 transition text-lg">
-          Anunciar Ingresso
-        </a>
-      </div>
+    <!-- Cabeçalho -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+      <h1 class="text-2xl md:text-3xl font-bold">Ingressos Anunciados por Você</h1>
+      <a href="/ingressos/novo"
+        class="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 transition text-lg">
+        Anunciar Ingresso
+      </a>
+    </div>
 
     <div class="overflow-x-auto w-full">
       <table class="w-full text-left border border-yellow-500 rounded overflow-hidden shadow">
@@ -29,6 +29,7 @@
             <th class="px-4 py-3">Local</th>
             <th class="px-4 py-3">Preço</th>
             <th class="px-4 py-3">Status</th>
+            <th class="px-4 py-3">Ações</th>
           </tr>
         </thead>
         <tbody th:if="${ingressos.size() > 0}">
@@ -43,6 +44,16 @@
               100,00
             </td>
             <td class="px-4 py-2" th:text="${ingresso.status}">DISPONÍVEL</td>
+            <td class="px-4 py-2">
+              <div th:if="${ingresso.status.name() == 'DISPONIVEL'}" class="space-x-2">
+                <a th:href="@{/ingressos/editar/{id}(id=${ingresso.id})}" class="text-blue-500 hover:underline">
+                  Editar
+                </a>
+                <a th:href="@{/ingressos/excluir/{id}(id=${ingresso.id})}" class="text-red-500 hover:underline">
+                  Excluir
+                </a>
+              </div>
+            </td>
           </tr>
         </tbody>
         <tbody th:if="${ingressos.size() == 0}">
