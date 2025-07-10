@@ -82,13 +82,11 @@ public class EventoController {
     public Evento buscarDetalhesEvento(@PathVariable Long id) {
         return eventoService.buscarPorId(id);
     }
-       //ou 
-    // @GetMapping("/detalhes/{id}")
-    // @ResponseBody
-    // public ResponseEntity<Evento> detalhes(@PathVariable Long id) {
-    //     Evento evento = eventoService.buscarPorId(id);
-    //     return ResponseEntity.ok(evento);
-    // }
 
+    @GetMapping("/publicos")
+    public String listarPublico(Model model) {
+        model.addAttribute("eventos", eventoService.listarTodos());
+        return "evento/listar-publico";
+    }
 }
 
