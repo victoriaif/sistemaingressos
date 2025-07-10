@@ -75,16 +75,12 @@ public String comprar(@PathVariable Long idIngresso, RedirectAttributes redirect
     try {
         transacaoService.comprarIngresso(idIngresso);
 
-        redirectAttributes.addFlashAttribute("sucesso", "Compra realizada com sucesso!");
-        
         //Redireciona para a página de compra concluída.
         return "redirect:/transacoes/compra-concluida"; 
 
     } catch (RuntimeException e) {
-       
         redirectAttributes.addFlashAttribute("erro", e.getMessage());
-        
-        return "redirect:/ingressos"; 
+        return "redirect:/ingressos/comprar"; 
     }
 }
     

@@ -12,14 +12,11 @@
 
     <h1 class="text-3xl font-bold mb-6">Ingressos Disponíveis para Compra</h1>
 
-    <!-- Mensagens de erro -->
-        <div th:if="${erro}" class="bg-red-100 text-red-800 px-4 py-3 rounded mb-4">
-          <p th:text="${erro}"></p>
-        </div>
+    <!-- Mensagem de erro -->
+    <div th:if="${erro != null and !#strings.isEmpty(erro)}" class="bg-red-100 text-red-800 px-4 py-3 rounded mb-4">
+      <p th:text="${erro}"></p>
+    </div>
 
-        <div th:if="${sucesso}" class="bg-green-100 text-green-800 px-4 py-3 rounded mb-4">
-          <p th:text="${sucesso}"></p>
-        </div>
 
     <div class="w-full max-w-4xl space-y-4">
 
