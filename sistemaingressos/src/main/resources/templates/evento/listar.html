@@ -1,74 +1,174 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layoutpadrao}" lang="pt-br">
-
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/layoutpadrao}"
+      lang="pt-br">
 <head>
+  <meta charset="UTF-8"/>
   <title>ShowGo | Lista de Eventos</title>
 </head>
-
 <body>
   <main layout:fragment="main" class="flex-1 ml-64 p-4 md:p-20 mt-10">
-
     <div class="border border-yellow-500 p-6 md:p-10 shadow-lg rounded-lg bg-white">
 
       <!-- Cabeçalho -->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <h1 class="text-2xl md:text-3xl font-bold">Eventos</h1>
-        <a href="/eventos/novo"
+        <!-- Apenas ADMIN vê este botão -->
+        <!-- <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/eventos/novo}"
+           class="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 transition text-lg">
+          Adicionar Evento
+        </a> -->
+      </div>
+
+      <!-- Formulário de filtros -->
+      <form th:action="@{/eventos}" th:object="${filtro}" method="get"
+            class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <input th:field="*{id}"
+               placeholder="ID"
+               class="p-2 border rounded"/>
+
+        <input th:field="*{nome}"
+               placeholder="Nome"
+               class="p-2 border rounded"/>
+
+        <input th:field="*{data}"
+               type="date"
+               class="p-2 border rounded"/>
+
+        <input th:field="*{local}"
+               placeholder="Local"
+               class="p-2 border rounded"/>
+
+<!-- linha final: aplicar filtros + adicionar evento -->
+  <div class="col-span-1 md:col-span-4 flex gap-4">
+    <!-- Botão de aplicar filtros -->
+    <button type="submit"
+            class="flex-1 bg-yellow-500 text-black font-semibold
+                   px-4 py-2 rounded-lg hover:bg-yellow-400 transition">
+      Aplicar Filtros
+    </button>
+
+    <!-- Link para adicionar evento -->
+    <!-- <a th:href="@{/eventos/novo}"
+       class="flex-1 bg-yellow-500 text-black font-semibold
+              px-4 py-2 rounded-lg hover:bg-yellow-400 transition text-center">
+      Adicionar Evento
+    </a> -->
+
+     <!-- Apenas ADMIN vê este botão -->
+        <a sec:authorize="hasRole('ADMIN')"
+           th:href="@{/eventos/novo}"
            class="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 transition text-lg">
           Adicionar Evento
         </a>
-      </div>
+  </div>
+      </form>
 
-      <!-- Tabela Responsiva -->
-      <div class="overflow-x-auto w-full">
+      <!-- Tabela de resultados -->
+      <div class="overflow-x-auto w-full mb-6">
         <table class="min-w-full text-left border border-yellow-500 rounded overflow-hidden shadow">
           <thead class="bg-yellow-500 text-black text-sm uppercase">
             <tr>
-              <th class="px-4 py-3">ID</th>
-              <th class="px-4 py-3">Nome</th>
-              <th class="px-4 py-3">Data</th>
+              <th class="px-4 py-3">
+                <a th:href="@{|/eventos?sortField=id&sortDir=${reverseDir}|}">
+                  ID <span th:if="${sortField=='id'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span>
+                </a>
+              </th>
+              <th class="px-4 py-3">
+                <a th:href="@{|/eventos?sortField=nome&sortDir=${reverseDir}|}">
+                  Nome <span th:if="${sortField=='nome'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span>
+                </a>
+              </th>
+              <th class="px-4 py-3">
+                <a th:href="@{|/eventos?sortField=data&sortDir=${reverseDir}|}">
+                  Data <span th:if="${sortField=='data'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span>
+                </a>
+              </th>
               <th class="px-4 py-3">Local</th>
               <th class="px-4 py-3">Descrição</th>
               <th class="px-4 py-3">Ações</th>
             </tr>
           </thead>
-          <tbody th:if="${eventos.size() > 0}">
-            <tr th:each="evento : ${eventos}" class="border-t border-yellow-500 hover:bg-black/10 transition">
+          <tbody th:if="${pagina.content.size() > 0}">
+            <tr th:each="evento : ${pagina.content}"
+                class="border-t border-yellow-500 hover:bg-black/10 transition">
               <td class="px-4 py-3" th:text="${evento.id}">1</td>
-              <td class="px-4 py-3" th:text="${evento.nome}">Nome</td>
-              <td class="px-4 py-3" th:text="${#temporals.format(evento.data, 'dd/MM/yyyy')}">Data</td>
+              <td class="px-4 py-3" th:text="${evento.nome}">Nome do Evento</td>
+              <td class="px-4 py-3"
+                  th:text="${#temporals.format(evento.data,'dd/MM/yyyy')}">
+                01/07/2025
+              </td>
               <td class="px-4 py-3" th:text="${evento.local}">Local</td>
               <td class="px-4 py-3" th:text="${evento.descricao}">Descrição</td>
-              <td class="px-4 py-3 space-y-2 flex flex-col whitespace-nowrap">
+              <td class="px-4 py-3 flex flex-col space-y-2 whitespace-nowrap">
+                <!-- Comprar e Vender para autenticados -->
+                <a sec:authorize="isAuthenticated()"
+                   th:href="@{'/ingressos/evento/' + ${evento.id}}"
+                   class="text-green-600 hover:underline">
+                  Comprar Ingresso
+                </a>
+                <a sec:authorize="isAuthenticated()"
+                   th:href="@{'/ingressos/novo?evento=' + ${evento.id}}"
+                   class="text-blue-500 hover:underline">
+                  Vender Ingresso
+                </a>
 
-                <a th:href="@{'/ingressos/evento/' + ${evento.id}}"
-                   class="text-green-600 hover:underline">Comprar Ingresso</a>
-
-                <a th:href="@{'/ingressos/novo?evento=' + ${evento.id}}"
-                   class="text-blue-500 hover:underline">Vender Ingresso</a>
-
-                <a th:href="@{'/eventos/editar/' + ${evento.id}}"
-                   class="text-yellow-400 hover:underline">Editar</a>
-
-                <a th:href="@{'/eventos/excluir/' + ${evento.id}}"
-                   class="text-red-500 hover:underline"
-                   onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
-
+                <!-- Editar/Excluir só para ADMIN -->
+                <div sec:authorize="hasRole('ADMIN')" class="flex flex-col space-y-1">
+                  <a th:href="@{'/eventos/editar/' + ${evento.id}}"
+                     class="text-yellow-400 hover:underline">
+                    Editar
+                  </a>
+                  <a th:href="@{'/eventos/excluir/' + ${evento.id}}"
+                     class="text-red-500 hover:underline"
+                     onclick="return confirm('Deseja realmente excluir este evento?');">
+                    Excluir
+                  </a>
+                </div>
               </td>
             </tr>
           </tbody>
-          <tbody th:if="${eventos.size() == 0}">
+          <tbody th:if="${pagina.content.isEmpty()}">
             <tr>
-              <td colspan="6" class="px-4 py-6 text-center text-gray-300">Nenhum evento cadastrado.</td>
+              <td colspan="6" class="px-4 py-6 text-center text-gray-300">
+                Nenhum evento encontrado.
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-    </div>
+       <nav class="flex justify-center mt-4">
+  <ul class="inline-flex items-center space-x-1">
 
+    <!-- First -->
+    <li th:if="${pagina.hasPrevious()}">…</li>
+    <!-- Prev  -->
+    <li th:if="${pagina.hasPrevious()}">…</li>
+
+    <!-- Números: sempre exibe pelo menos o “1” -->
+    <li th:each="i : ${pagina.pageNumbers}">
+      <a th:href="${pagina.buildPageUrl(i)}"
+         th:text="${i+1}"
+         th:classappend="${i == pagina.number} ? ' bg-yellow-500 text-white' : ''"
+         class="w-8 h-8 flex items-center justify-center
+                border border-yellow-500 hover:bg-yellow-500 hover:text-white transition">
+      </a>
+    </li>
+
+    <!-- Next -->
+    <li th:if="${pagina.hasNext()}">…</li>
+    <!-- Last -->
+    <li th:if="${pagina.hasNext()}">…</li>
+
+  </ul>
+</nav>
+
+
+    </div>
   </main>
 </body>
 </html>

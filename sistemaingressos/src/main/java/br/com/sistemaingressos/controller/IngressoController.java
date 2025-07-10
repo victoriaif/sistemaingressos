@@ -95,7 +95,7 @@ public class IngressoController {
 @GetMapping
 public String listar(
     IngressoFilter filtro,
-    @PageableDefault(size = 10)
+    @PageableDefault(size = 5)
     @SortDefault(sort = "id", direction = Sort.Direction.ASC)
     Pageable pageable,
     HttpServletRequest request,
