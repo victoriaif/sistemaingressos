@@ -53,12 +53,6 @@
               <td class="px-4 py-3" th:text="${evento.descricao}">Descrição</td>
               <td class="px-4 py-3 space-y-2 flex flex-col whitespace-nowrap">
 
-                <a th:href="@{'/ingressos/evento/' + ${evento.id}}" class="text-green-600 hover:underline">Comprar
-                  Ingresso</a>
-
-                <a th:href="@{'/ingressos/novo?evento=' + ${evento.id}}" class="text-blue-500 hover:underline">Vender
-                  Ingresso</a>
-
                 <a th:href="@{'/eventos/editar/' + ${evento.id}}" class="text-yellow-400 hover:underline">Editar</a>
 
                 <a th:href="@{'/eventos/excluir/' + ${evento.id}}" class="text-red-500 hover:underline"
