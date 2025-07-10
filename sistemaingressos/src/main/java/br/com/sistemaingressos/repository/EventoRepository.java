@@ -6,7 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface EventoRepository extends JpaRepository<Evento, Long> {
+import br.com.sistemaingressos.repository.queries.evento.EventoQueries;
+
+public interface EventoRepository extends JpaRepository<Evento, Long>, EventoQueries {
 
      boolean existsByNomeAndData(String nome, LocalDate data);
 

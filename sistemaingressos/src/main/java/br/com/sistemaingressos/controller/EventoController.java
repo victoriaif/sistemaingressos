@@ -1,15 +1,25 @@
 package br.com.sistemaingressos.controller;
 
+import br.com.sistemaingressos.filter.EventoFilter;
 import br.com.sistemaingressos.model.Evento;
+import br.com.sistemaingressos.pagination.PageWrapper;
 import br.com.sistemaingressos.repository.EventoRepository;
 import br.com.sistemaingressos.service.EventoService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
 
 @Controller
 @RequestMapping("/eventos")
@@ -18,17 +28,44 @@ public class EventoController {
     @Autowired
     private EventoService eventoService;
 
+    @Autowired
+private EventoRepository eventoRepository;
+
     //LISTAR EVENTOS COM FILTRO OPCIONAL (barra de pesquisa)
-    @GetMapping
-    public String listar(@RequestParam(name = "q", required = false) String query, Model model) {
-        List<Evento> eventos;
-        if (query != null && !query.isEmpty()) {
-            eventos = eventoService.buscarPorNome(query);
-        } else {
-            eventos = eventoService.listarTodos();
-        }
-        model.addAttribute("eventos", eventos);
-        model.addAttribute("query", query);
+    // @GetMapping
+    // public String listar(@RequestParam(name = "q", required = false) String query, Model model) {
+    //     List<Evento> eventos;
+    //     if (query != null && !query.isEmpty()) {
+    //         eventos = eventoService.buscarPorNome(query);
+    //     } else {
+    //         eventos = eventoService.listarTodos();
+    //     }
+    //     model.addAttribute("eventos", eventos);
+    //     model.addAttribute("query", query);
+    //     return "evento/listar";
+    // }
+
+   @GetMapping
+    public String listar(
+        EventoFilter filtro,
+        @PageableDefault(size = 10)
+        @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+        Pageable pageable,
+        HttpServletRequest request,
+        Model model
+    ) {
+        Page<Evento> pagina = eventoRepository.pesquisar(filtro, pageable);
+       model.addAttribute("pagina", new PageWrapper<>(pagina, request));
+        model.addAttribute("filtro", filtro);
+
+        // configura ordenação para o template
+        Sort.Order order = pageable.getSort().iterator().hasNext()
+            ? pageable.getSort().iterator().next()
+            : Sort.Order.asc("id");
+        model.addAttribute("sortField", order.getProperty());
+        model.addAttribute("sortDir",   order.isAscending() ? "asc" : "desc");
+        model.addAttribute("reverseDir", order.isAscending() ? "desc" : "asc");
+
         return "evento/listar";
     }
 

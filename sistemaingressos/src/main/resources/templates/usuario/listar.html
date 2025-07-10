@@ -15,52 +15,135 @@
       <!-- Cabeçalho -->
       <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold">Usuários</h1>
-        <a href="/usuarios/novo"
+      </div>
+
+      <!-- Filtros -->
+      <form th:action="@{/usuarios}" th:object="${filtro}" method="get"
+        class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+
+        <input th:field="*{id}" placeholder="ID" class="p-2 border rounded" />
+        <input th:field="*{nome}" placeholder="Nome" class="p-2 border rounded" />
+        <input th:field="*{cpf}" placeholder="CPF" class="p-2 border rounded" />
+        <input th:field="*{email}" placeholder="E-mail" class="p-2 border rounded" />
+        <input th:field="*{dataNascimento}" type="date" class="p-2 border rounded" />
+        <input th:field="*{papel}" placeholder="Papel" class="p-2 border rounded" />
+        <select th:field="*{ativo}" class="p-2 border rounded">
+          <option value="">Todos</option>
+          <option th:value="true">Ativo</option>
+          <option th:value="false">Inativo</option>
+        </select>
+
+        <!-- Aplicar filtros -->
+        <div class="col-span-1 md:col-span-4 flex gap-4">
+          <button type="submit" class="flex-1 bg-yellow-500 text-black font-semibold
+                         px-4 py-2 rounded-lg hover:bg-yellow-400 transition">
+            Aplicar Filtros
+          </button>
+
+           <a href="/usuarios/novo"
           class="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 transition text-lg">
           Adicionar Usuário
         </a>
-      </div>
+        </div>
+      </form>
 
       <!-- Tabela -->
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border border-yellow-500 rounded overflow-hidden shadow min-w-max">
+      <div class="overflow-x-auto w-full mb-6">
+        <table class="min-w-full text-left border border-yellow-500 rounded overflow-hidden shadow">
           <thead class="bg-yellow-500 text-black text-sm uppercase">
             <tr>
-              <th class="px-4 py-3">ID</th>
-              <th class="px-4 py-3">Nome</th>
+              <th class="px-4 py-3">
+                <a th:href="@{|/usuarios?sortField=id&sortDir=${reverseDir}|}">
+                  ID <span th:if="${sortField=='id'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span>
+                </a>
+              </th>
+              <th class="px-4 py-3">
+                <a th:href="@{|/usuarios?sortField=nome&sortDir=${reverseDir}|}">
+                  Nome <span th:if="${sortField=='nome'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span>
+                </a>
+              </th>
               <th class="px-4 py-3">CPF</th>
-              <th class="px-4 py-3">Email</th>
-              <th class="px-4 py-3">Nascimento</th>
+              <th class="px-4 py-3">E-mail</th>
+              <th class="px-4 py-3">
+                <a th:href="@{|/usuarios?sortField=dataNascimento&sortDir=${reverseDir}|}">
+                  Nascimento <span th:if="${sortField=='dataNascimento'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span>
+                </a>
+              </th>
               <th class="px-4 py-3">Papel</th>
               <th class="px-4 py-3">Ativo</th>
               <th class="px-4 py-3">Ações</th>
             </tr>
           </thead>
-          <tbody th:if="${usuarios.size() > 0}">
-            <tr th:each="usuario : ${usuarios}" class="border-t border-yellow-500 hover:bg-black/10 transition">
-              <td class="px-4 py-3" th:text="${usuario.id}">1</td>
-              <td class="px-4 py-3" th:text="${usuario.nome}">Nome</td>
-              <td class="px-4 py-3" th:text="${usuario.cpf}">CPF</td>
-              <td class="px-4 py-3" th:text="${usuario.email}">Email</td>
-              <td class="px-4 py-3" th:text="${#temporals.format(usuario.dataNascimento, 'dd/MM/yyyy')}">Data de Nascimento</td>
-              <td class="px-4 py-3" th:text="${#strings.listJoin(usuario.papeis, ', ')}">Papéis</td>
-              <td class="px-4 py-3">
-                <span th:text="${usuario.ativo} ? 'Sim' : 'Não'">Ativo</span>
+          <tbody th:if="${pagina.content.size() > 0}">
+            <tr th:each="u : ${pagina.content}" class="border-t border-yellow-500 hover:bg-black/10 transition">
+              <td class="px-4 py-3" th:text="${u.id}">1</td>
+              <td class="px-4 py-3" th:text="${u.nome}">Nome</td>
+              <td class="px-4 py-3" th:text="${u.cpf}">000.000.000-00</td>
+              <td class="px-4 py-3" th:text="${u.email}">email@ex.com</td>
+              <td class="px-4 py-3" th:text="${#temporals.format(u.dataNascimento,'dd/MM/yyyy')}">
+                10/01/2000
               </td>
-              <td class="px-4 py-3 space-x-3">
-                <a th:href="@{'/usuarios/editar/' + ${usuario.id}}" class="text-yellow-400 hover:underline">Editar</a>
-                <a th:href="@{'/usuarios/excluir/' + ${usuario.id}}" class="text-red-500 hover:underline"
-                  onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
+              <td class="px-4 py-3">
+                <span th:each="p, stat : ${u.papeis}">
+                  <span th:text="${p.nome}">ROLE_USER</span><span th:if="${!stat.last}">, </span>
+                </span>
+              </td>
+              <td class="px-4 py-3" th:text="${u.ativo} ? 'Sim' : 'Não'">
+                Sim
+              </td>
+              <td class="px-4 py-3 space-x-2 whitespace-nowrap">
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{'/usuarios/editar/' + ${u.id}}"
+                  class="text-yellow-400 hover:underline">Editar</a>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{'/usuarios/excluir/' + ${u.id}}"
+                  class="text-red-500 hover:underline" onclick="return confirm('Excluir usuário?');">Excluir</a>
               </td>
             </tr>
           </tbody>
-          <tbody th:if="${usuarios.size() == 0}">
+          <tbody th:if="${pagina.content.isEmpty()}">
             <tr>
-              <td colspan="6" class="px-4 py-6 text-center text-gray-300">Nenhum usuário cadastrado.</td>
+              <td colspan="8" class="px-4 py-6 text-center text-gray-300">
+                Nenhum usuário encontrado.
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
+
+      <!-- Paginação -->
+      <nav class="flex justify-center mt-4">
+        <ul class="inline-flex items-center space-x-1">
+          <li th:if="${pagina.hasPrevious()}">
+            <a th:href="${pagina.buildPageUrl(0)}" class="w-8 h-8 flex items-center justify-center border border-yellow-500
+                      hover:bg-yellow-500 hover:text-white transition">
+              «
+            </a>
+          </li>
+          <li th:if="${pagina.hasPrevious()}">
+            <a th:href="${pagina.buildPageUrl(pagina.number - 1)}" class="w-8 h-8 flex items-center justify-center border border-yellow-500
+                      hover:bg-yellow-500 hover:text-white transition">
+              ‹
+            </a>
+          </li>
+          <li th:each="i : ${pagina.pageNumbers}">
+            <a th:href="${pagina.buildPageUrl(i)}" th:text="${i+1}"
+              th:classappend="${i == pagina.number} ? ' bg-yellow-500 text-white' : ''" class="w-8 h-8 flex items-center justify-center border border-yellow-500
+                      hover:bg-yellow-500 hover:text-white transition">
+            </a>
+          </li>
+          <li th:if="${pagina.hasNext()}">
+            <a th:href="${pagina.buildPageUrl(pagina.number + 1)}" class="w-8 h-8 flex items-center justify-center border border-yellow-500
+                      hover:bg-yellow-500 hover:text-white transition">
+              ›
+            </a>
+          </li>
+          <li th:if="${pagina.hasNext()}">
+            <a th:href="${pagina.buildPageUrl(pagina.totalPages - 1)}" class="w-8 h-8 flex items-center justify-center border border-yellow-500
+                      hover:bg-yellow-500 hover:text-white transition">
+              »
+            </a>
+          </li>
+        </ul>
+      </nav>
 
     </div>
 

@@ -1,5 +1,6 @@
 // static/js/csrf.js
-let csrfHeader, csrfToken;
+// let csrfHeader, csrfToken;
+var csrfHeader, csrfToken;
 
 function atualizarCSRF() {
   csrfHeader = document.querySelector("input[name=_csrf_header]").value;

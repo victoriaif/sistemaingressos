@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.sistemaingressos.filter.UsuarioFilter;
 import br.com.sistemaingressos.model.Papel;
 import br.com.sistemaingressos.model.Usuario;
+import br.com.sistemaingressos.pagination.PageWrapper;
 import br.com.sistemaingressos.repository.PapelRepository;
 import br.com.sistemaingressos.repository.UsuarioRepository;
 import br.com.sistemaingressos.service.UsuarioService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Controller
 @RequestMapping("/usuarios")
@@ -34,6 +43,7 @@ public class UsuarioController {
 
     @Autowired
     private PapelRepository papelRepository;
+
 
     // Form de registro público
     @GetMapping("/registrar")
@@ -49,11 +59,35 @@ public class UsuarioController {
     }
 
     // LISTAR usuários
+    // @GetMapping
+    // public String listar(Model model) {
+    //     model.addAttribute("usuarios", usuarioService.getAllUsuarios());
+    //     return "usuario/listar";
+    // }
+
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("usuarios", usuarioService.getAllUsuarios());
+    public String listar(
+        UsuarioFilter filtro,
+        @PageableDefault(size = 10)
+        @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+        Pageable pageable,
+        HttpServletRequest request,
+        Model model
+    ) {
+        Page<Usuario> pagina = usuarioRepository.pesquisar(filtro, pageable);
+        model.addAttribute("pagina", new PageWrapper<>(pagina, request));
+        model.addAttribute("filtro", filtro);
+
+        Sort.Order order = pageable.getSort().iterator().hasNext()
+            ? pageable.getSort().iterator().next()
+            : Sort.Order.asc("id");
+        model.addAttribute("sortField", order.getProperty());
+        model.addAttribute("sortDir",   order.isAscending() ? "asc" : "desc");
+        model.addAttribute("reverseDir", order.isAscending() ? "desc" : "asc");
+
         return "usuario/listar";
     }
+
 
     // FORMULÁRIO novo usuário (ADMIN)
     @GetMapping("/novo")

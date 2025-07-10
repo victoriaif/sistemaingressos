@@ -1,15 +1,26 @@
 package br.com.sistemaingressos.controller;
 
+import br.com.sistemaingressos.pagination.PageWrapper;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import jakarta.servlet.http.HttpServletRequest;
+import br.com.sistemaingressos.filter.IngressoFilter;
+import org.springframework.data.domain.Page;
+
 import br.com.sistemaingressos.model.Evento;
 import br.com.sistemaingressos.model.Ingresso;
 import br.com.sistemaingressos.model.StatusIngresso;
 import br.com.sistemaingressos.model.Transacao;
 import br.com.sistemaingressos.model.Usuario;
+
 import br.com.sistemaingressos.repository.IngressoRepository;
 import br.com.sistemaingressos.service.IngressoService;
 import br.com.sistemaingressos.service.UsuarioService;
 import br.com.sistemaingressos.service.EventoService;
 import br.com.sistemaingressos.repository.EventoRepository;
+
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,11 +31,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import br.com.sistemaingressos.repository.TransacaoRepository;
+
+
 
 @Controller
 @RequestMapping("/ingressos")
@@ -49,12 +59,66 @@ public class IngressoController {
     @Autowired
     private TransacaoRepository transacaoRepository;
 
-    // LISTAR todos os ingressos
-    @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("ingressos", ingressoService.listarTodos());
-        return "ingresso/listar";
+    public IngressoController(IngressoRepository ingressoRepository) {
+        this.ingressoRepository = ingressoRepository;
     }
+
+    // LISTAR todos os ingressos
+    // @GetMapping
+    // public String listar(Model model) {
+    //     model.addAttribute("ingressos", ingressoService.listarTodos());
+    //     return "ingresso/listar";
+    // }
+
+//     @GetMapping
+// public String listar(
+//     IngressoFilter filtro,
+//     @PageableDefault(size = 10)
+//     @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+//     Pageable pageable,
+//     HttpServletRequest request,
+//     Model model
+// ) {
+//     // chama o custom query (ou findAll) com filtros/paginação
+//     Page<Ingresso> pagina = ingressoRepository.pesquisar(filtro, pageable);
+
+//     model.addAttribute("pagina", new PageWrapper<>(pagina, request));
+//     model.addAttribute("filtro", filtro);
+//     model.addAttribute("sortField", pageable.getSort().toString());
+//     model.addAttribute("sortDir", pageable.getSort().isSorted() ? "asc" : "desc");
+//     model.addAttribute("reverseDir", pageable.getSort().isSorted() && pageable.getSort().iterator().next().isAscending() ? "desc" : "asc");
+
+//     return "ingresso/listar";
+// }
+
+
+@GetMapping
+public String listar(
+    IngressoFilter filtro,
+    @PageableDefault(size = 5)
+    @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+    Pageable pageable,
+    HttpServletRequest request,
+    Model model
+) {
+    Page<Ingresso> pagina = ingressoRepository.pesquisar(filtro, pageable);
+
+    model.addAttribute("pagina", new PageWrapper<>(pagina, request));
+    model.addAttribute("filtro", filtro);
+
+    Sort.Order order = pageable.getSort().iterator().hasNext()
+                      ? pageable.getSort().iterator().next()
+                      : Sort.Order.asc("id");
+    String sortField = order.getProperty();
+    String sortDir   = order.isAscending() ? "asc" : "desc";
+
+    model.addAttribute("sortField", sortField);
+    model.addAttribute("sortDir",   sortDir);
+    model.addAttribute("reverseDir", sortDir.equals("asc") ? "desc" : "asc");
+
+    return "ingresso/listar";
+}
+
 
     // Página para escolher se o ingresso é compra ou venda
     @GetMapping("/anunciar")
@@ -193,4 +257,39 @@ public String listarIngressosParaCompra(
         model.addAttribute("transacoes", transacoes);
         return "ingresso/comprados";
     }
+
+/**
+ * Pesquisa ingressos com filtro, paginação e ordenação.
+ */
+// @GetMapping("/pesquisar")
+// public String pesquisar(
+//     IngressoFilter filtro,
+//     @PageableDefault(size = 10)
+//     @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+//     Pageable pageable,
+//     HttpServletRequest request,
+//     Model model
+// ) {
+//     // chama seu método customizado de pesquisa
+//     Page<Ingresso> pagina = ingressoRepository.pesquisar(filtro, pageable);
+
+//     // embrulha para a UI
+//     model.addAttribute("pagina", new PageWrapper<>(pagina, request));
+//     model.addAttribute("filtro", filtro);
+
+//     // detalhes da ordenação usados no template
+//     String sortField = pageable.getSort().iterator().hasNext()
+//         ? pageable.getSort().iterator().next().getProperty()
+//         : "id";
+//     String sortDir   = pageable.getSort().iterator().hasNext()
+//         ? (pageable.getSort().iterator().next().isAscending() ? "asc" : "desc")
+//         : "asc";
+//     model.addAttribute("sortField", sortField);
+//     model.addAttribute("sortDir",   sortDir);
+//     model.addAttribute("reverseDir", sortDir.equals("asc") ? "desc" : "asc");
+
+//     // reutilizamos a mesma view de listar
+//     return "ingresso/listar";
+
+// }
 }
