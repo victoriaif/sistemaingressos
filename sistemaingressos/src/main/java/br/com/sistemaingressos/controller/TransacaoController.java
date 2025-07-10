@@ -3,15 +3,20 @@ package br.com.sistemaingressos.controller;
 import br.com.sistemaingressos.model.Transacao;
 import br.com.sistemaingressos.service.TransacaoService;
 import br.com.sistemaingressos.repository.IngressoRepository;
+import br.com.sistemaingressos.repository.TransacaoRepository;
 import br.com.sistemaingressos.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
+import org.springframework.security.core.Authentication;
 
 @Controller
 @RequestMapping("/transacoes")
@@ -25,6 +30,9 @@ public class TransacaoController {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private TransacaoRepository transacaoRepository;
 
     public TransacaoController(TransacaoService transacaoService) {
         this.transacaoService = transacaoService;
@@ -87,5 +95,15 @@ public class TransacaoController {
     @GetMapping("/compra-concluida")
     public String compraConcluida() {
         return "transacao/compra-concluida";
+    }
+
+    @GetMapping("/minhas")
+    public String listarMinhas(Model model, Authentication auth) {
+        String email = auth.getName();
+        List<Transacao> minhas = new ArrayList<>();
+        minhas.addAll(transacaoRepository.findByCompradorEmail(email));
+        minhas.addAll(transacaoRepository.findByVendedorEmail(email));
+        model.addAttribute("transacoes", minhas);
+        return "transacao/listarminhas";
     }
 }
