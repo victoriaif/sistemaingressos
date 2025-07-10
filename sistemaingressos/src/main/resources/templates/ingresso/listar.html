@@ -11,15 +11,6 @@
   <main layout:fragment="main" class="flex-1 ml-64 p-4 md:p-20 mt-10">
 
     <div class="border border-yellow-500 p-6 md:p-10 shadow-lg rounded-lg bg-white">
-
-      <!-- Mensagens de erro -->
-        <div th:if="${erro}" class="bg-red-100 text-red-800 px-4 py-3 rounded mb-4">
-          <p th:text="${erro}"></p>
-        </div>
-
-        <div th:if="${sucesso}" class="bg-green-100 text-green-800 px-4 py-3 rounded mb-4">
-          <p th:text="${sucesso}"></p>
-        </div>
         
       <!-- Cabeçalho -->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -59,14 +50,6 @@
                 <a th:href="@{'/ingressos/editar/' + ${ingresso.id}}" class="text-yellow-400 hover:underline">Editar</a>
                 <a th:href="@{'/ingressos/excluir/' + ${ingresso.id}}" class="text-red-500 hover:underline"
                   onclick="return confirm('Tem certeza que deseja excluir este ingresso?');">Excluir</a>
-
-                <!-- Botão Comprar -->
-                <form th:action="@{/transacoes/comprar/{id}(id=${ingresso.id})}" method="post" style="display:inline;">
-                  <button type="submit"
-                    class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition text-sm ml-2">
-                    Comprar
-                  </button>
-                </form>
               </td>
             </tr>
           </tbody>

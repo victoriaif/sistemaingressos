@@ -12,6 +12,12 @@
 
     <h1 class="text-3xl font-bold mb-6">Ingressos Disponíveis para Compra</h1>
 
+    <!-- Mensagem de erro -->
+    <div th:if="${erro != null and !#strings.isEmpty(erro)}" class="bg-red-100 text-red-800 px-4 py-3 rounded mb-4">
+      <p th:text="${erro}"></p>
+    </div>
+
+
     <div class="w-full max-w-4xl space-y-4">
 
       <div th:each="ingresso : ${ingressosPage.content}"
@@ -25,10 +31,14 @@
         </div>
 
         <div>
-          <a th:href="@{/transacoes/comprar/{id}(id=${ingresso.id})}"
-            class="bg-yellow-500 text-white px-5 py-2 rounded-full hover:bg-yellow-600 transition">
-            Comprar
-          </a>
+          <form th:action="@{/transacoes/comprar/{id}(id=${ingresso.id})}" method="post" class="inline">
+
+            <button type="submit"
+              class="bg-yellow-500 text-white px-5 py-2 rounded-full hover:bg-yellow-600 transition">
+              Comprar
+            </button>
+
+          </form>
         </div>
 
       </div>
@@ -39,16 +49,15 @@
 
       <!-- Controles de paginação -->
       <div class="flex justify-center space-x-2 mt-6">
-        <a th:if="${ingressosPage.hasPrevious()}" 
-           th:href="@{/ingressos/comprar(page=${ingressosPage.number - 1}, size=${ingressosPage.size})}"
-           class="px-3 py-1 border rounded hover:bg-yellow-300">Anterior</a>
+        <a th:if="${ingressosPage.hasPrevious()}"
+          th:href="@{/ingressos/comprar(page=${ingressosPage.number - 1}, size=${ingressosPage.size})}"
+          class="px-3 py-1 border rounded hover:bg-yellow-300">Anterior</a>
 
-        <span class="px-3 py-1 border rounded bg-yellow-500 text-white" 
-              th:text="${ingressosPage.number + 1}">1</span>
+        <span class="px-3 py-1 border rounded bg-yellow-500 text-white" th:text="${ingressosPage.number + 1}">1</span>
 
-        <a th:if="${ingressosPage.hasNext()}" 
-           th:href="@{/ingressos/comprar(page=${ingressosPage.number + 1}, size=${ingressosPage.size})}"
-           class="px-3 py-1 border rounded hover:bg-yellow-300">Próximo</a>
+        <a th:if="${ingressosPage.hasNext()}"
+          th:href="@{/ingressos/comprar(page=${ingressosPage.number + 1}, size=${ingressosPage.size})}"
+          class="px-3 py-1 border rounded hover:bg-yellow-300">Próximo</a>
       </div>
 
     </div>

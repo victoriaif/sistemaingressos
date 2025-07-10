@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layoutpadrao}" lang="pt-br">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layoutpadrao}" lang="pt-br">
 
 <head>
   <title>ShowGo | Lista de Eventos</title>
@@ -15,11 +14,22 @@
       <!-- Cabeçalho -->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <h1 class="text-2xl md:text-3xl font-bold">Eventos</h1>
-        <a href="/eventos/novo"
-           class="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 transition text-lg">
-          Adicionar Evento
-        </a>
+
+        <div class="flex gap-2 items-center">
+          <a href="/eventos/novo"
+            class="bg-yellow-500 text-black font-semibold px-3 py-2 rounded-lg text-sm whitespace-nowrap">
+            Adicionar Evento
+          </a>
+
+          <a href="/relatorios/eventos"
+   class="bg-yellow-500 text-black font-semibold px-3 py-2 rounded-lg text-sm whitespace-nowrap"
+   target="_blank">
+   Relatório PDF
+</a>
+
+        </div>
       </div>
+
 
       <!-- Tabela Responsiva -->
       <div class="overflow-x-auto w-full">
@@ -43,18 +53,10 @@
               <td class="px-4 py-3" th:text="${evento.descricao}">Descrição</td>
               <td class="px-4 py-3 space-y-2 flex flex-col whitespace-nowrap">
 
-                <a th:href="@{'/ingressos/evento/' + ${evento.id}}"
-                   class="text-green-600 hover:underline">Comprar Ingresso</a>
+                <a th:href="@{'/eventos/editar/' + ${evento.id}}" class="text-yellow-400 hover:underline">Editar</a>
 
-                <a th:href="@{'/ingressos/novo?evento=' + ${evento.id}}"
-                   class="text-blue-500 hover:underline">Vender Ingresso</a>
-
-                <a th:href="@{'/eventos/editar/' + ${evento.id}}"
-                   class="text-yellow-400 hover:underline">Editar</a>
-
-                <a th:href="@{'/eventos/excluir/' + ${evento.id}}"
-                   class="text-red-500 hover:underline"
-                   onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
+                <a th:href="@{'/eventos/excluir/' + ${evento.id}}" class="text-red-500 hover:underline"
+                  onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
 
               </td>
             </tr>
@@ -71,4 +73,5 @@
 
   </main>
 </body>
+
 </html>
