@@ -70,18 +70,23 @@ public class TransacaoController {
         return "redirect:/transacoes";
     }
 
-    @PostMapping("/comprar/{idIngresso}")
-    public String comprar(@PathVariable Long idIngresso, RedirectAttributes redirectAttributes) {
-        try {
-            transacaoService.comprarIngresso(idIngresso);
-            redirectAttributes.addFlashAttribute("sucesso", "Compra realizada com sucesso!");
-        } catch (RuntimeException e) {
-            redirectAttributes.addFlashAttribute("erro", e.getMessage());
-        }
+@PostMapping("/comprar/{idIngresso}")
+public String comprar(@PathVariable Long idIngresso, RedirectAttributes redirectAttributes) {
+    try {
+        transacaoService.comprarIngresso(idIngresso);
 
-        return "redirect:/ingressos";
+        redirectAttributes.addFlashAttribute("sucesso", "Compra realizada com sucesso!");
+        
+        //Redireciona para a página de compra concluída.
+        return "redirect:/transacoes/compra-concluida"; 
+
+    } catch (RuntimeException e) {
+       
+        redirectAttributes.addFlashAttribute("erro", e.getMessage());
+        
+        return "redirect:/ingressos"; 
     }
-    
+}
     
     //Página de confirmação de compra transacao/compra-concluida.html
     @GetMapping("/compra-concluida")
