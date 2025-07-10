@@ -3,6 +3,7 @@ package br.com.sistemaingressos.controller;
 import br.com.sistemaingressos.model.Evento;
 import br.com.sistemaingressos.model.Ingresso;
 import br.com.sistemaingressos.model.StatusIngresso;
+import br.com.sistemaingressos.model.Transacao;
 import br.com.sistemaingressos.model.Usuario;
 import br.com.sistemaingressos.repository.IngressoRepository;
 import br.com.sistemaingressos.service.IngressoService;
@@ -11,6 +12,8 @@ import br.com.sistemaingressos.service.EventoService;
 import br.com.sistemaingressos.repository.EventoRepository;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import br.com.sistemaingressos.repository.TransacaoRepository;
 
 @Controller
 @RequestMapping("/ingressos")
@@ -37,6 +42,12 @@ public class IngressoController {
 
     @Autowired
     private EventoService eventoService;
+
+    @Autowired
+    private IngressoRepository ingressoRepository;
+
+    @Autowired
+    private TransacaoRepository transacaoRepository;
 
     // LISTAR todos os ingressos
     @GetMapping
@@ -111,17 +122,16 @@ public class IngressoController {
         return "redirect:/ingressos";
     }
 
-    //Comprar - LISTA DE INGRESSOS PAGINADA
+    // Comprar - LISTA DE INGRESSOS PAGINADA
     @GetMapping("/comprar")
-public String listarIngressosParaCompra(Model model,
-                                       @RequestParam(defaultValue = "0") int page,
-                                       @RequestParam(defaultValue = "10") int size) {
-    Pageable pageable = PageRequest.of(page, size);
-    Page<Ingresso> ingressosPage = ingressoService.listarPorStatusPaginado(StatusIngresso.DISPONIVEL, pageable);
-    model.addAttribute("ingressosPage", ingressosPage);
-    return "ingresso/comprar";
-}
-
+    public String listarIngressosParaCompra(Model model,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Ingresso> ingressosPage = ingressoService.listarPorStatusPaginado(StatusIngresso.DISPONIVEL, pageable);
+        model.addAttribute("ingressosPage", ingressosPage);
+        return "ingresso/comprar";
+    }
 
     // Listar ingressos do vendedor
     @GetMapping("/vender")
@@ -133,4 +143,35 @@ public String listarIngressosParaCompra(Model model,
         return "ingresso/vender";
     }
 
+    /** Ingressos que você anunciou (mesmo se não vendidos) */
+    @GetMapping("/anunciados")
+    public String listarAnunciados(Model model, Authentication auth) {
+        String email = auth.getName();
+        List<Ingresso> anunciados = ingressoRepository
+                .findByUsuarioAnuncianteEmail(email);
+        model.addAttribute("ingressos", anunciados);
+        return "ingresso/anunciados";
+    }
+
+    /** Ingressos que você comprou (filtra pelas transações) */
+    // @GetMapping("/comprados")
+    // public String listarComprados(Model model, Authentication auth) {
+    // String email = auth.getName();
+    // List<Ingresso> comprados = transacaoRepository
+    // .findByCompradorEmail(email)
+    // .stream()
+    // .map(Transacao::getIngresso)
+    // .collect(Collectors.toList());
+    // model.addAttribute("ingressos", comprados);
+    // return "ingresso/comprados";
+    // }
+
+    @GetMapping("/comprados")
+    public String listarComprados(Model model, Authentication auth) {
+        String email = auth.getName();
+        List<Transacao> transacoes = transacaoRepository
+                .findByCompradorEmail(email);
+        model.addAttribute("transacoes", transacoes);
+        return "ingresso/comprados";
+    }
 }

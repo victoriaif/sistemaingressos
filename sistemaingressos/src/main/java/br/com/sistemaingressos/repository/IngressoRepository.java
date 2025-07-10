@@ -14,4 +14,6 @@ public interface IngressoRepository extends JpaRepository<Ingresso, Long> {
     List<Ingresso> findByStatus(StatusIngresso status);
     List<Ingresso> findByUsuarioAnunciante(Usuario usuario);
     Page<Ingresso> findByStatus(StatusIngresso status, Pageable pageable);
+    // método para listar todos os ingressos que ESTE usuário (pelo email) anunciou
+    List<Ingresso> findByUsuarioAnuncianteEmail(String email);
 }

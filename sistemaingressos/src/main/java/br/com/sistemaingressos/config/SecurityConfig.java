@@ -92,7 +92,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         )
         // --------- regras de acesso por papel ---------------
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/css/**", "/js/**", "/images/**", "/", "/index.html").permitAll()
+            .requestMatchers("/error","/css/**", "/js/**", "/images/**", "/", "/index.html").permitAll()
             .requestMatchers("/eventos/novo", "/eventos/salvar").hasRole("ADMIN")
             .requestMatchers("/usuarios/**").hasRole("ADMIN")
             .anyRequest().authenticated()

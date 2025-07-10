@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layoutpadrao}"
+      lang="pt-br">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Ingressos Comprados</title>
+</head>
+<body>
+  <main layout:fragment="main"
+       class="px-8 py-10 ml-64 mt-20 flex-1 max-w-5xl mx-auto">
+
+    <div class="border border-yellow-500 p-8 shadow-lg rounded-lg">
+      <h1 class="text-3xl font-bold mb-6">Ingressos Comprados por Você</h1>
+
+      <table class="w-full text-left border border-yellow-500 rounded overflow-hidden shadow">
+        <thead class="bg-yellow-500 text-black text-md uppercase">
+          <tr>
+            <th class="px-4 py-3">ID Transação</th>
+            <th class="px-4 py-3">Data/Hora Transação</th>
+            <th class="px-4 py-3">Evento</th>
+            <th class="px-4 py-3">Data do Evento</th>
+            <th class="px-4 py-3">Local</th>
+            <th class="px-4 py-3">Tipo de Ingresso</th>
+            <th class="px-4 py-3">Valor</th>
+          </tr>
+        </thead>
+        <tbody th:if="${transacoes.size() > 0}">
+          <tr th:each="transacao : ${transacoes}" class="border-t">
+            <!-- ID da transação -->
+            <td class="px-4 py-2" th:text="${transacao.id}">1</td>
+            <!-- Data/Hora da transação -->
+            <td class="px-4 py-2"
+                th:text="${#temporals.format(transacao.dataHora, 'dd/MM/yyyy HH:mm')}">
+              01/07/2025 14:30
+            </td>
+            <!-- Nome do evento -->
+            <td class="px-4 py-2" th:text="${transacao.ingresso.evento.nome}">Show X</td>
+            <!-- Data do evento -->
+            <td class="px-4 py-2"
+                th:text="${#temporals.format(transacao.ingresso.evento.data, 'dd/MM/yyyy')}">
+              10/08/2025
+            </td>
+            <!-- Local do evento -->
+            <td class="px-4 py-2" th:text="${transacao.ingresso.evento.local}">Ginásio Y</td>
+            <!-- Tipo de ingresso -->
+            <td class="px-4 py-2" th:text="${transacao.ingresso.tipo}">VIP</td>
+            <!-- Valor da transação -->
+            <td class="px-4 py-2"
+                th:text="${#numbers.formatDecimal(transacao.valor, 2, 'COMMA', 2, 'POINT')}">
+              100,00
+            </td>
+          </tr>
+        </tbody>
+        <tbody th:if="${transacoes.isEmpty()}">
+          <tr>
+            <td colspan="7" class="px-4 py-6 text-center text-gray-300">
+              Você não comprou nenhum ingresso ainda.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</body>
+</html>
