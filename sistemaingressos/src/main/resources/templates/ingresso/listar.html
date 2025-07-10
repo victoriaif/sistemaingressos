@@ -1,89 +1,118 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/layoutpadrao}" lang="pt-br">
-
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layoutpadrao}"
+      lang="pt-br">
 <head>
+  <meta charset="UTF-8"/>
   <title>ShowGo | Lista de Ingressos</title>
 </head>
-
 <body>
-
   <main layout:fragment="main" class="flex-1 ml-64 p-4 md:p-20 mt-10">
-
     <div class="border border-yellow-500 p-6 md:p-10 shadow-lg rounded-lg bg-white">
 
-      <!-- Mensagens de erro -->
-        <div th:if="${erro}" class="bg-red-100 text-red-800 px-4 py-3 rounded mb-4">
-          <p th:text="${erro}"></p>
-        </div>
+      <!-- Filtros -->
+      <form th:action="@{/ingressos}" th:object="${filtro}" method="get"
+            class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
 
-        <div th:if="${sucesso}" class="bg-green-100 text-green-800 px-4 py-3 rounded mb-4">
-          <p th:text="${sucesso}"></p>
-        </div>
-        
-      <!-- Cabeçalho -->
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-        <h1 class="text-2xl md:text-3xl font-bold">Ingressos</h1>
-        <a href="/ingressos/novo"
-          class="bg-yellow-500 text-black font-semibold px-6 py-3 rounded-lg hover:bg-yellow-400 transition text-lg">
-          Adicionar Ingresso
-        </a>
-      </div>
+        <input th:field="*{id}"        placeholder="ID" class="p-2 border rounded"/>
+        <input th:field="*{eventoId}"  placeholder="ID Evento" class="p-2 border rounded"/>
+        <input th:field="*{eventoNome}" placeholder="Nome Evento" class="p-2 border rounded"/>
+        <input th:field="*{dataInicial}" type="date" class="p-2 border rounded"/>
+        <input th:field="*{dataFinal}"   type="date" class="p-2 border rounded"/>
+        <input th:field="*{local}"      placeholder="Local" class="p-2 border rounded"/>
+        <input th:field="*{tipo}"       placeholder="Tipo" class="p-2 border rounded"/>
+        <input th:field="*{precoMin}"   type="number" step="0.01" placeholder="Preço ≥" class="p-2 border rounded"/>
+        <input th:field="*{precoMax}"   type="number" step="0.01" placeholder="Preço ≤" class="p-2 border rounded"/>
+        <select th:field="*{status}" class="p-2 border rounded">
+          <option value="">Todos os Status</option>
+          <option th:each="s : ${T(br.com.sistemaingressos.model.StatusIngresso).values()}"
+                  th:value="${s}" th:text="${s}"></option>
+        </select>
+
+        <button type="submit"
+                class="col-span-1 md:col-span-3 bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg hover:bg-yellow-400 transition">
+          Aplicar Filtros
+        </button>
+      </form>
 
       <!-- Tabela -->
-      <div class="overflow-x-auto w-full">
+      <div class="overflow-x-auto w-full mb-6">
         <table class="min-w-full text-left border border-yellow-500 rounded overflow-hidden shadow">
           <thead class="bg-yellow-500 text-black text-sm uppercase">
             <tr>
-              <th class="px-4 py-3">ID</th>
-              <th class="px-4 py-3">Evento</th>
-              <th class="px-4 py-3">Data</th>
+              <th class="px-4 py-3">
+                <a th:href="@{|/ingressos?sortField=id&sortDir=${reverseDir}|}">
+                  ID <span th:if="${sortField=='id'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span>
+                </a>
+              </th>
+              <th class="px-4 py-3">
+                <a th:href="@{|/ingressos?sortField=evento.nome&sortDir=${reverseDir}|}">
+                  Evento <span th:if="${sortField=='evento.nome'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span>
+                </a>
+              </th>
+              <th class="px-4 py-3">
+                <a th:href="@{|/ingressos?sortField=data&sortDir=${reverseDir}|}">
+                  Data <span th:if="${sortField=='data'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span>
+                </a>
+              </th>
               <th class="px-4 py-3">Local</th>
               <th class="px-4 py-3">Tipo</th>
-              <th class="px-4 py-3">Preço</th>
+              <th class="px-4 py-3">
+                <a th:href="@{|/ingressos?sortField=preco&sortDir=${reverseDir}|}">
+                  Preço <span th:if="${sortField=='preco'}" th:text="${sortDir=='asc'?'↑':'↓'}"></span>
+                </a>
+              </th>
               <th class="px-4 py-3">Status</th>
               <th class="px-4 py-3">Ações</th>
             </tr>
           </thead>
-          <tbody th:if="${ingressos.size() > 0}">
-            <tr th:each="ingresso : ${ingressos}" class="border-t border-yellow-500 hover:bg-black/10 transition">
+          <tbody th:if="${pagina.content.size() > 0}">
+            <tr th:each="ingresso : ${pagina.content}" class="border-t border-yellow-500 hover:bg-black/10 transition">
               <td class="px-4 py-3" th:text="${ingresso.id}">1</td>
               <td class="px-4 py-3" th:text="${ingresso.evento.nome}">Show</td>
-              <td class="px-4 py-3" th:text="${#temporals.format(ingresso.data, 'dd/MM/yyyy')}">01/07/2025</td>
+              <td class="px-4 py-3" th:text="${#temporals.format(ingresso.data,'dd/MM/yyyy')}">01/07/2025</td>
               <td class="px-4 py-3" th:text="${ingresso.local}">Local</td>
               <td class="px-4 py-3" th:text="${ingresso.tipo}">VIP</td>
-              <td class="px-4 py-3" th:text="${#numbers.formatDecimal(ingresso.preco, 2, 'COMMA', 2, 'POINT')}">100,00
-              </td>
+              <td class="px-4 py-3" th:text="${#numbers.formatDecimal(ingresso.preco,2,'COMMA',2,'POINT')}">100,00</td>
               <td class="px-4 py-3" th:text="${ingresso.status}">DISPONIVEL</td>
               <td class="px-4 py-3 space-x-3 whitespace-nowrap">
-                <a th:href="@{'/ingressos/editar/' + ${ingresso.id}}" class="text-yellow-400 hover:underline">Editar</a>
-                <a th:href="@{'/ingressos/excluir/' + ${ingresso.id}}" class="text-red-500 hover:underline"
-                  onclick="return confirm('Tem certeza que deseja excluir este ingresso?');">Excluir</a>
-
-                <!-- Botão Comprar -->
+                <div th:if="${ingresso.status.name()=='DISPONIVEL'}" class="inline-flex space-x-2">
+                  <a th:href="@{'/ingressos/editar/' + ${ingresso.id}}"
+                     class="text-yellow-400 hover:underline">Editar</a>
+                  <a th:href="@{'/ingressos/excluir/' + ${ingresso.id}}"
+                     class="text-red-500 hover:underline"
+                     onclick="return confirm('Tem certeza que deseja excluir este ingresso?');">Excluir</a>
+                </div>
                 <form th:action="@{/transacoes/comprar/{id}(id=${ingresso.id})}" method="post" style="display:inline;">
                   <button type="submit"
-                    class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition text-sm ml-2">
+                          class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition text-sm ml-2">
                     Comprar
                   </button>
                 </form>
               </td>
             </tr>
           </tbody>
-          <tbody th:if="${ingressos.size() == 0}">
+          <tbody th:if="${pagina.content.isEmpty()}">
             <tr>
-              <td colspan="8" class="px-4 py-6 text-center text-gray-300">Nenhum ingresso cadastrado.</td>
+              <td colspan="8" class="px-4 py-6 text-center text-gray-300">Nenhum ingresso encontrado.</td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      <!-- Paginação -->
+      <nav class="flex justify-center">
+        <ul class="inline-flex -space-x-px">
+          <li th:each="i : ${pagina.pageNumbers}">
+            <a th:href="${pagina.buildPageUrl(i)}"
+               th:text="${i+1}"
+               class="px-3 py-1 border border-yellow-500 hover:bg-yellow-500 hover:text-white transition"></a>
+          </li>
+        </ul>
+      </nav>
+
     </div>
-
   </main>
-  <!-- script pra janela popup de "confirma / cancela" -->
-  <!-- <script src="/src/main/resources/static/js/script.js"></script> -->
-
 </body>
-
 </html>
