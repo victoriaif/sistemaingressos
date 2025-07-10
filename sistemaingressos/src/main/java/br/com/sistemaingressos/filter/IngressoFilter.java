@@ -9,12 +9,10 @@ public class IngressoFilter {
     private Long id;
     private Long eventoId;
     private String eventoNome;
-    private LocalDate dataInicial;
-    private LocalDate dataFinal;
+    private LocalDate data;           // única data
     private String local;
     private String tipo;
-    private BigDecimal precoMin;
-    private BigDecimal precoMax;
+    private BigDecimal preco;         // único preço
     private StatusIngresso status;
 
     public Long getId() { return id; }
@@ -26,11 +24,8 @@ public class IngressoFilter {
     public String getEventoNome() { return eventoNome; }
     public void setEventoNome(String eventoNome) { this.eventoNome = eventoNome; }
 
-    public LocalDate getDataInicial() { return dataInicial; }
-    public void setDataInicial(LocalDate dataInicial) { this.dataInicial = dataInicial; }
-
-    public LocalDate getDataFinal() { return dataFinal; }
-    public void setDataFinal(LocalDate dataFinal) { this.dataFinal = dataFinal; }
+    public LocalDate getData() { return data; }
+    public void setData(LocalDate data) { this.data = data; }
 
     public String getLocal() { return local; }
     public void setLocal(String local) { this.local = local; }
@@ -38,11 +33,8 @@ public class IngressoFilter {
     public String getTipo() { return tipo; }
     public void setTipo(String tipo) { this.tipo = tipo; }
 
-    public BigDecimal getPrecoMin() { return precoMin; }
-    public void setPrecoMin(BigDecimal precoMin) { this.precoMin = precoMin; }
-
-    public BigDecimal getPrecoMax() { return precoMax; }
-    public void setPrecoMax(BigDecimal precoMax) { this.precoMax = precoMax; }
+    public BigDecimal getPreco() { return preco; }
+    public void setPreco(BigDecimal preco) { this.preco = preco; }
 
     public StatusIngresso getStatus() { return status; }
     public void setStatus(StatusIngresso status) { this.status = status; }

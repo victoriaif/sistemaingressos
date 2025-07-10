@@ -1,40 +1,59 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layoutpadrao}"
-      lang="pt-br">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/layoutpadrao}" lang="pt-br">
+
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <title>ShowGo | Lista de Ingressos</title>
 </head>
+
 <body>
   <main layout:fragment="main" class="flex-1 ml-64 p-4 md:p-20 mt-10">
     <div class="border border-yellow-500 p-6 md:p-10 shadow-lg rounded-lg bg-white">
 
-      <!-- Filtros -->
+      <!-- Formulário de filtros -->
       <form th:action="@{/ingressos}" th:object="${filtro}" method="get"
-            class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
 
-        <input th:field="*{id}"        placeholder="ID" class="p-2 border rounded"/>
-        <input th:field="*{eventoId}"  placeholder="ID Evento" class="p-2 border rounded"/>
-        <input th:field="*{eventoNome}" placeholder="Nome Evento" class="p-2 border rounded"/>
-        <input th:field="*{dataInicial}" type="date" class="p-2 border rounded"/>
-        <input th:field="*{dataFinal}"   type="date" class="p-2 border rounded"/>
-        <input th:field="*{local}"      placeholder="Local" class="p-2 border rounded"/>
-        <input th:field="*{tipo}"       placeholder="Tipo" class="p-2 border rounded"/>
-        <input th:field="*{precoMin}"   type="number" step="0.01" placeholder="Preço ≥" class="p-2 border rounded"/>
-        <input th:field="*{precoMax}"   type="number" step="0.01" placeholder="Preço ≤" class="p-2 border rounded"/>
+        <input th:field="*{id}" placeholder="ID" class="p-2 border rounded" />
+
+        <input th:field="*{eventoId}" placeholder="ID Evento" class="p-2 border rounded" />
+
+        <input th:field="*{eventoNome}" placeholder="Nome Evento" class="p-2 border rounded" />
+
+        <!-- único campo de data -->
+        <input th:field="*{data}" type="date" class="p-2 border rounded" />
+
+        <input th:field="*{local}" placeholder="Local" class="p-2 border rounded" />
+
+        <input th:field="*{tipo}" placeholder="Tipo" class="p-2 border rounded" />
+
+        <!-- único campo de preço -->
+        <input th:field="*{preco}" type="number" step="0.01" placeholder="Preço" class="p-2 border rounded" />
+
         <select th:field="*{status}" class="p-2 border rounded">
           <option value="">Todos os Status</option>
-          <option th:each="s : ${T(br.com.sistemaingressos.model.StatusIngresso).values()}"
-                  th:value="${s}" th:text="${s}"></option>
+          <option th:each="s : ${T(br.com.sistemaingressos.model.StatusIngresso).values()}" th:value="${s}"
+            th:text="${s}"></option>
         </select>
 
-        <button type="submit"
-                class="col-span-1 md:col-span-3 bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg hover:bg-yellow-400 transition">
-          Aplicar Filtros
-        </button>
+        <!-- Última linha do formulário de filtros -->
+        <div class="col-span-1 md:col-span-4 flex gap-4">
+          <!-- Botão de aplicar filtros -->
+          <button type="submit" class="flex-1 bg-yellow-500 text-black font-semibold
+                 px-4 py-2 rounded-lg hover:bg-yellow-400 transition">
+            Aplicar Filtros
+          </button>
+
+          <!-- Link para anunciar ingresso -->
+          <a th:href="@{/ingressos/novo}" class="flex-1 bg-yellow-500 text-black font-semibold
+                 px-4 py-2 rounded-lg hover:bg-yellow-400 transition text-center">
+            Anunciar Ingresso
+          </a>
+        </div>
+
       </form>
+
 
       <!-- Tabela -->
       <div class="overflow-x-auto w-full mb-6">
@@ -77,20 +96,24 @@
               <td class="px-4 py-3" th:text="${#numbers.formatDecimal(ingresso.preco,2,'COMMA',2,'POINT')}">100,00</td>
               <td class="px-4 py-3" th:text="${ingresso.status}">DISPONIVEL</td>
               <td class="px-4 py-3 space-x-3 whitespace-nowrap">
-                <div th:if="${ingresso.status.name()=='DISPONIVEL'}" class="inline-flex space-x-2">
+                <div th:if="${ingresso.status.name()=='DISPONIVEL'}" class="inline-flex items-center space-x-2">
+                  <!-- Editar / Excluir (apenas ADMIN, se você já tiver sec:authorize aí) -->
                   <a th:href="@{'/ingressos/editar/' + ${ingresso.id}}"
-                     class="text-yellow-400 hover:underline">Editar</a>
-                  <a th:href="@{'/ingressos/excluir/' + ${ingresso.id}}"
-                     class="text-red-500 hover:underline"
-                     onclick="return confirm('Tem certeza que deseja excluir este ingresso?');">Excluir</a>
+                    class="text-yellow-400 hover:underline">Editar</a>
+                  <a th:href="@{'/ingressos/excluir/' + ${ingresso.id}}" class="text-red-500 hover:underline"
+                    onclick="return confirm('Tem certeza que deseja excluir este ingresso?');">Excluir</a>
+
+                  <!-- Comprar (qualquer usuário autenticado) -->
+                  <form th:action="@{/transacoes/comprar/{id}(id=${ingresso.id})}" method="post"
+                    style="display:inline;">
+                    <button type="submit"
+                      class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition text-sm">
+                      Comprar
+                    </button>
+                  </form>
                 </div>
-                <form th:action="@{/transacoes/comprar/{id}(id=${ingresso.id})}" method="post" style="display:inline;">
-                  <button type="submit"
-                          class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 transition text-sm ml-2">
-                    Comprar
-                  </button>
-                </form>
               </td>
+
             </tr>
           </tbody>
           <tbody th:if="${pagina.content.isEmpty()}">
@@ -105,9 +128,8 @@
       <nav class="flex justify-center">
         <ul class="inline-flex -space-x-px">
           <li th:each="i : ${pagina.pageNumbers}">
-            <a th:href="${pagina.buildPageUrl(i)}"
-               th:text="${i+1}"
-               class="px-3 py-1 border border-yellow-500 hover:bg-yellow-500 hover:text-white transition"></a>
+            <a th:href="${pagina.buildPageUrl(i)}" th:text="${i+1}"
+              class="px-3 py-1 border border-yellow-500 hover:bg-yellow-500 hover:text-white transition"></a>
           </li>
         </ul>
       </nav>
@@ -115,4 +137,5 @@
     </div>
   </main>
 </body>
+
 </html>
