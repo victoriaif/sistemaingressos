@@ -74,24 +74,35 @@ public class IngressoController {
 
     // SALVAR novo ingresso ou atualizar existente
     @PostMapping("/salvar")
-    public String salvar(@Valid Ingresso ingresso, BindingResult result, Model model) {
+    public String salvar(@Valid @ModelAttribute("ingresso") Ingresso ingresso, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("eventos", eventoRepository.findAll());
             return "ingresso/formulario";
         }
 
         try {
-            // Regra de negócio: SETA o usuário logado como anunciante
-            Usuario usuarioLogado = usuarioService.getUsuarioLogado();
-            ingresso.setUsuarioAnunciante(usuarioLogado);
+            //Se o ID é NULO, é um NOVO ingresso
+            if (ingresso.getId() == null) {
+                Usuario usuarioLogado = usuarioService.getUsuarioLogado();
+                ingresso.setUsuarioAnunciante(usuarioLogado);
+                ingresso.setStatus(StatusIngresso.DISPONIVEL);
+            }
+            //Se o ID EXISTE, é uma EDIÇÃO.
+            else {
+                
+                Ingresso ingressoExistente = ingressoService.buscarPorId(ingresso.getId());
+                ingresso.setUsuarioAnunciante(ingressoExistente.getUsuarioAnunciante());
+            }
 
             ingressoService.salvar(ingresso);
-        } catch (IllegalArgumentException ex) {
+
+        } catch (Exception ex) {
             model.addAttribute("erro", ex.getMessage());
             model.addAttribute("eventos", eventoRepository.findAll());
             return "ingresso/formulario";
         }
-
+        
+        //Redireciona para a lista de ingressos do usuário após salvar
         return "redirect:/ingressos/vender";
     }
 
@@ -111,17 +122,16 @@ public class IngressoController {
         return "redirect:/ingressos";
     }
 
-    //Comprar - LISTA DE INGRESSOS PAGINADA
+    // Comprar - LISTA DE INGRESSOS PAGINADA
     @GetMapping("/comprar")
-public String listarIngressosParaCompra(Model model,
-    @RequestParam(defaultValue = "0") int page,
-    @RequestParam(defaultValue = "10") int size) {
-    Pageable pageable = PageRequest.of(page, size);
-    Page<Ingresso> ingressosPage = ingressoService.listarPorStatusPaginado(StatusIngresso.DISPONIVEL, pageable);
-    model.addAttribute("ingressosPage", ingressosPage);
-    return "ingresso/comprar";
-}
-
+    public String listarIngressosParaCompra(Model model,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Ingresso> ingressosPage = ingressoService.listarPorStatusPaginado(StatusIngresso.DISPONIVEL, pageable);
+        model.addAttribute("ingressosPage", ingressosPage);
+        return "ingresso/comprar";
+    }
 
     // Listar ingressos do vendedor
     @GetMapping("/vender")
