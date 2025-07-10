@@ -114,8 +114,8 @@ public class IngressoController {
     //Comprar - LISTA DE INGRESSOS PAGINADA
     @GetMapping("/comprar")
 public String listarIngressosParaCompra(Model model,
-                                       @RequestParam(defaultValue = "0") int page,
-                                       @RequestParam(defaultValue = "10") int size) {
+    @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "10") int size) {
     Pageable pageable = PageRequest.of(page, size);
     Page<Ingresso> ingressosPage = ingressoService.listarPorStatusPaginado(StatusIngresso.DISPONIVEL, pageable);
     model.addAttribute("ingressosPage", ingressosPage);
