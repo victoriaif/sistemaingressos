@@ -1,4 +1,3 @@
-<!-- todo: TRANSAÇÕES formulario.html: tirar campo "usuario" e adicionar campos que mostram o ID do "comprador" e do "vendedor" -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -11,41 +10,52 @@
 
 <body>
 
-  <main layout:fragment="main" class="px-8 py-10 ml-64 mt-20 flex-1 max-w-5xl mx-auto">
+  <main layout:fragment="main" class="flex-1 ml-64 p-20 mt-10">
 
     <div class="border border-yellow-500 p-8 shadow-lg rounded-lg">
 
       <!-- Cabeçalho -->
       <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold">Histórico de Transações</h1>
-    
       </div>
 
       <!-- Tabela -->
       <table class="w-full text-left border border-yellow-500 rounded overflow-hidden shadow">
         <thead class="bg-yellow-500 text-black text-md uppercase">
           <tr>
-            <th class="px-4 py-3">ID</th>
-            <th class="px-4 py-3">Tipo</th>
-            <th class="px-4 py-3">Data</th>
-            <th class="px-4 py-3">Usuário</th>
+            <th class="px-4 py-3">ID Transação</th>
+            <th class="px-4 py-3">ID Evento</th>
+            <th class="px-4 py-3">Nome Evento</th>
             <th class="px-4 py-3">Ingresso</th>
+            <th class="px-4 py-3">Comprador</th>
+            <th class="px-4 py-3">Vendedor</th>
+            <th class="px-4 py-3">Data/Hora</th>
             <th class="px-4 py-3">Valor</th>
           </tr>
         </thead>
         <tbody th:if="${transacoes.size() > 0}">
-          <tr th:each="transacao : ${transacoes}" class="border-t border-yellow-500 hover:bg-black/10 transition">
-            <td class="px-4 py-3" th:text="${transacao.id}">1</td>
-            <td class="px-4 py-3" th:text="${transacao.tipo}">COMPRA</td>
-            <td class="px-4 py-3" th:text="${#temporals.format(transacao.data, 'dd/MM/yyyy HH:mm')}">01/07/2025 10:00</td>
-            <td class="px-4 py-3" th:text="${transacao.usuario.nome}">Victoria Santos</td>
-            <td class="px-4 py-3" th:text="${transacao.ingresso.evento.nome}">Show da Lady Gaga - Mayhem Ball Tour</td>
-            <td class="px-4 py-3" th:text="${#numbers.formatDecimal(transacao.valor, 2, 'COMMA', 2, 'POINT')}">2000,00</td>
+          <tr th:each="transacao : ${transacoes}" class="border-t">
+            <td class="px-4 py-2" th:text="${transacao.id}">1</td>
+            <td class="px-4 py-2" th:text="${transacao.ingresso.evento.id}">100</td>
+            <td class="px-4 py-2" th:text="${transacao.ingresso.evento.nome}">Show X</td>
+            <td class="px-4 py-2" th:text="${transacao.ingresso.id}">10</td>
+            <td class="px-4 py-2" th:text="${transacao.comprador.id}">5</td>
+            <td class="px-4 py-2" th:text="${transacao.vendedor.id}">2</td>
+            <td class="px-4 py-2"
+                th:text="${#temporals.format(transacao.dataHora, 'dd/MM/yyyy HH:mm')}">
+              01/07/2025 14:30
+            </td>
+            <td class="px-4 py-2"
+                th:text="${#numbers.formatDecimal(transacao.valor, 2, 'COMMA', 2, 'POINT')}">
+              150,00
+            </td>
           </tr>
         </tbody>
         <tbody th:if="${transacoes.size() == 0}">
           <tr>
-            <td colspan="6" class="px-4 py-6 text-center text-gray-300">Nenhuma transação registrada.</td>
+            <td colspan="10" class="px-4 py-6 text-center text-gray-300">
+              Nenhuma transação registrada.
+            </td>
           </tr>
         </tbody>
       </table>
