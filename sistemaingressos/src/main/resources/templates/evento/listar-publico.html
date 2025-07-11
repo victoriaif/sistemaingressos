@@ -28,7 +28,7 @@
               <th class="px-4 py-3">Data</th>
               <th class="px-4 py-3">Local</th>
               <th class="px-4 py-3">Descrição</th>
-              <th class="px-4 py-3">Ações</th>
+              <!-- <th class="px-4 py-3">Ações</th> -->
             </tr>
           </thead>
           <tbody th:if="${eventos.size() > 0}">
@@ -38,7 +38,7 @@
               <td class="px-4 py-3" th:text="${#temporals.format(evento.data, 'dd/MM/yyyy')}">Data</td>
               <td class="px-4 py-3" th:text="${evento.local}">Local</td>
               <td class="px-4 py-3" th:text="${evento.descricao}">Descrição</td>
-              <td class="px-4 py-3 space-y-2 flex flex-col whitespace-nowrap">
+              <!-- <td class="px-4 py-3 space-y-2 flex flex-col whitespace-nowrap">
 
                 <a th:href="@{'/ingressos/evento/' + ${evento.id}}"
                    class="text-green-600 hover:underline">Comprar Ingresso</a>
@@ -46,7 +46,7 @@
                 <a th:href="@{'/ingressos/novo?evento=' + ${evento.id}}"
                    class="text-blue-500 hover:underline">Vender Ingresso</a>
 
-              </td>
+              </td> -->
             </tr>
           </tbody>
           <tbody th:if="${eventos.size() == 0}">

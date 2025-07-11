@@ -101,14 +101,14 @@
 
                 <td class="px-4 py-3 flex flex-col space-y-2 whitespace-nowrap">
                   <!-- Comprar e Vender para autenticados -->
-                  <a sec:authorize="isAuthenticated()" th:href="@{'/ingressos/evento/' + ${evento.id}}"
+                  <!-- <a sec:authorize="isAuthenticated()" th:href="@{'/ingressos/evento/' + ${evento.id}}"
                     class="text-green-600 hover:underline">
                     Comprar Ingresso
-                  </a>
-                  <a sec:authorize="isAuthenticated()" th:href="@{'/ingressos/novo?evento=' + ${evento.id}}"
+                  </a> -->
+                  <!-- <a sec:authorize="isAuthenticated()" th:href="@{'/ingressos/novo?evento=' + ${evento.id}}"
                     class="text-blue-500 hover:underline">
                     Vender Ingresso
-                  </a>
+                  </a> -->
 
                   <!-- Editar/Excluir só para ADMIN -->
                   <div sec:authorize="hasRole('ADMIN')" class="flex flex-col space-y-1">
