@@ -45,6 +45,7 @@ private EventoRepository eventoRepository;
     //     return "evento/listar";
     // }
 
+
    @GetMapping
     public String listar(
         EventoFilter filtro,
@@ -120,10 +121,25 @@ private EventoRepository eventoRepository;
         return eventoService.buscarPorId(id);
     }
 
+    // @GetMapping("/publicos")
+    // public String listarPublico(Model model) {
+    //     model.addAttribute("eventos", eventoService.listarTodos());
+    //     return "evento/listar-publico";
+    // }
+
     @GetMapping("/publicos")
-    public String listarPublico(Model model) {
-        model.addAttribute("eventos", eventoService.listarTodos());
-        return "evento/listar-publico";
-    }
+public String listarPublico(@RequestParam(name="q", required=false) String query,
+                            Model model) {
+    List<Evento> eventos = (query != null && !query.isBlank())
+        ? eventoService.buscarPorNome(query)
+        : eventoService.listarTodos();
+    model.addAttribute("eventos", eventos);
+    model.addAttribute("query",   query);
+    return "evento/listar-publico";
+}
+
+
+
+    
 }
 

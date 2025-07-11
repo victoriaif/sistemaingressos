@@ -3,13 +3,37 @@
   <div class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
 
     <!-- Busca de eventos -->
-    <div class="relative w-1/2 max-w-md">
-      <input type="search" id="search-eventos" placeholder="Pesquisar eventos..." th:value="${query} ?: ''"
-        class="rounded-full px-3 py-2 text-black w-full border border-gray-600 bg-white" />
-      <ul id="eventos-list"
-        class="absolute z-50 left-0 right-0 bg-white border border-gray-300 rounded shadow mt-1 max-h-64 overflow-auto">
-      </ul>
-    </div>
+    <!-- <div class="relative w-1/2 max-w-md"> -->
+     <!-- Busca de eventos (ADMIN) -->
+<div sec:authorize="hasRole('ADMIN')" class="relative w-1/2 max-w-md">
+  <form th:action="@{/eventos}" method="get" class="flex">
+    <input name="q"
+           type="search"
+           placeholder="Pesquisar eventos..."
+           th:value="${query} ?: ''"
+           class="rounded-l-full px-3 py-2 text-black w-full border border-gray-600 bg-white" />
+    <button type="submit"
+            class="bg-yellow-500 text-black px-4 rounded-r-full border border-yellow-500 hover:bg-yellow-400 transition">
+      🔍
+    </button>
+  </form>
+</div>
+
+<!-- Busca de eventos (Usuário Comum) -->
+<div sec:authorize="!hasRole('ADMIN')" class="relative w-1/2 max-w-md">
+  <form th:action="@{/eventos/publicos}" method="get" class="flex">
+    <input name="q"
+           type="search"
+           placeholder="Pesquisar eventos..."
+           th:value="${query} ?: ''"
+           class="rounded-l-full px-3 py-2 text-black w-full border border-gray-600 bg-white" />
+    <button type="submit"
+            class="bg-yellow-500 text-black px-4 rounded-r-full border border-yellow-500 hover:bg-yellow-400 transition">
+      🔍
+    </button>
+  </form>
+</div>
+    <!-- </div> -->
 
     <div class="flex items-center space-x-3">
 

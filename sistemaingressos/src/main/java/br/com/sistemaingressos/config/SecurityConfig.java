@@ -113,13 +113,17 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                          "/css/**", "/js/**", "/images/**")
           .permitAll()
 
+          // Libera o autocomplete para todos os usuários (inclusive não logados)
+        .requestMatchers("/eventos/autocomplete")
+          .permitAll()
+
         // 2) transações do próprio usuário (comum ou admin)
-        .requestMatchers("/transacoes/minhas")
-          .authenticated()
+        .requestMatchers("/transacoes/minhas").authenticated()
 
         // 3) rotas administrativas (só ADMIN)
         .requestMatchers(
-            "/eventos", "/eventos/novo", "/eventos/salvar",
+            // "/eventos", 
+            "/eventos/novo", "/eventos/salvar",
             "/eventos/editar/**", "/eventos/excluir/**",
             "/ingressos", "/transacoes/**", "/usuarios/**"
         ).hasRole("ADMIN")
