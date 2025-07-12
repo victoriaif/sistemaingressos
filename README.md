@@ -42,8 +42,25 @@ O sistema utiliza autenticação baseada em papéis (roles) para controle de ace
 
 | Papel    | Permissões principais                           |
 | -------- | ---------------------------------------------- |
-| 🛠️ ADMIN   | Gerencia usuários, eventos, vendas e relatórios |
-| 🎫 USUARIO | Compra ingressos, viualiza ingressos e eventos |
+| ADMIN   | Gerencia usuários, eventos, vendas e relatórios |
+| USUARIO | Compra ingressos, viualiza ingressos e eventos |
+
+## Funcionalidades
+- Login com controle de acesso baseado em papéis
+
+- Cadastro e gerenciamento de eventos
+
+- Compra de ingressos por usuários autenticados
+
+- Visualização de eventos disponíveis
+
+- Listagem de ingressos comprados
+
+- Geração de relatórios em PDF com JasperReports
+
+- Interface dinâmica com HTMX
+
+- Layout responsivo com TailwindCSS
 
 ## Criadores
 @victoriaif @madicr
