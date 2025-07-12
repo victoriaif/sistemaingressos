@@ -7,16 +7,16 @@ Sistema web para gerenciamento de venda de ingressos para shows, com controle co
 
 ## Tecnologias Utilizadas
 
-- 🔹 Java 17  
-- 🔹 Spring Boot 3  
-- 🔹 Spring Security  
-- 🔹 Spring Data JPA  
-- 🔹 Thymeleaf  
-- 🔹 HTMX  
-- 🔹 TailwindCSS  
-- 🔹 PostgreSQL  
-- 🔹 JasperReports (relatórios PDF)  
-- 🔹 HTTPS com certificado autoassinado (ambiente local)  
+- Java 17  
+- Spring Boot 3  
+- Spring Security  
+- Spring Data JPA  
+- Thymeleaf  
+- HTMX  
+- TailwindCSS  
+- PostgreSQL  
+- JasperReports (relatórios PDF)  
+- HTTPS com certificado autoassinado (ambiente local)  
 
 ## Pré-requisitos
 
@@ -45,5 +45,7 @@ O sistema utiliza autenticação baseada em papéis (roles) para controle de ace
 | 🛠️ ADMIN   | Gerencia usuários, eventos, vendas e relatórios |
 | 🎫 USUARIO | Compra ingressos, viualiza ingressos e eventos |
 
+## Criadores
+@victoriaif @dismice
 
 
