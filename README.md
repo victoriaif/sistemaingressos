@@ -1,7 +1,7 @@
 # sistemaingressos
 
-Sistema de Ingressos: Aplicação web para compra e gerenciamento de ingressos para eventos, desenvolvida com Spring Boot, JPA, Thymeleaf, htmx e Tailwind CSS. O projeto foi criado para a disciplina de Desenvolvimento de Aplicações Web 1.
-# 🎟️ Show Go - Sistema de Venda de Ingressos
+ShowGo - Sistema de Ingressos: Aplicação web para compra e gerenciamento de ingressos para eventos, desenvolvida com Spring Boot, JPA, Thymeleaf, htmx e Tailwind CSS. O projeto foi criado para a disciplina de Desenvolvimento de Aplicações Web 1.
+# 🎟️ ShowGo - Sistema de Venda de Ingressos
 
 Sistema web para gerenciamento de venda de ingressos para shows, com controle completo de eventos, compra, relatórios e autenticação.
 
