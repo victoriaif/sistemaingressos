@@ -46,6 +46,6 @@ O sistema utiliza autenticação baseada em papéis (roles) para controle de ace
 | 🎫 USUARIO | Compra ingressos, viualiza ingressos e eventos |
 
 ## Criadores
-@victoriaif @dismice
+@victoriaif @madicr
 
 
