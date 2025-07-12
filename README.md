@@ -5,7 +5,7 @@ Sistema de Ingressos: Aplicação web para compra e gerenciamento de ingressos p
 
 Sistema web para gerenciamento de venda de ingressos para shows, com controle completo de eventos, compra, relatórios e autenticação.
 
-## ⚙️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - 🔹 Java 17  
 - 🔹 Spring Boot 3  
@@ -18,7 +18,7 @@ Sistema web para gerenciamento de venda de ingressos para shows, com controle co
 - 🔹 JasperReports (relatórios PDF)  
 - 🔹 HTTPS com certificado autoassinado (ambiente local)  
 
-## 🛠️ Pré-requisitos
+## Pré-requisitos
 
 - Java 17+  
 - Maven 3.8+  
@@ -26,24 +26,24 @@ Sistema web para gerenciamento de venda de ingressos para shows, com controle co
 - Node.js (para build do TailwindCSS)  
 - Navegador moderno (Chrome, Firefox, Edge etc.)  
 
-## 🗄️ Configuração do Banco de Dados
+## Configuração do Banco de Dados
 
 Configure o arquivo `application.properties` com suas credenciais PostgreSQL:
 
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/sistemaingressos
-spring.datasource.username=seu_usuario
-spring.datasource.password=sua_senha
-spring.jpa.hibernate.ddl-auto=update
+properties
+- spring.datasource.url=jdbc:postgresql://localhost:5432/sistemaingressos
+- spring.datasource.username=seu_usuario
+- spring.datasource.password=sua_senha
+- spring.jpa.hibernate.ddl-auto=update
 
-## 🔒 Segurança e Perfis de Usuário
+## Segurança e Perfis de Usuário
 
 O sistema utiliza autenticação baseada em papéis (roles) para controle de acesso às funcionalidades:
 
 | Papel    | Permissões principais                           |
 | -------- | ---------------------------------------------- |
 | 🛠️ ADMIN   | Gerencia usuários, eventos, vendas e relatórios |
-| 🎫 USUARIO | Compra ingressos, viualiza ingressos e eventos            |
+| 🎫 USUARIO | Compra ingressos, viualiza ingressos e eventos |
 
 
 
